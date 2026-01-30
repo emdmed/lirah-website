@@ -41,7 +41,7 @@ export default function Home() {
               Workflows
             </a>
             <a
-              href="https://github.com/yourusername/lirah"
+              href="https://github.com/emdmed/lirah"
               className="flex h-9 items-center gap-2 rounded-lg bg-[#14b8a6] px-4 text-sm font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
             >
               Get Started
@@ -87,7 +87,7 @@ export default function Home() {
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
-                    href="https://github.com/yourusername/lirah"
+                    href="https://github.com/emdmed/lirah"
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
                   >
                     View on GitHub
@@ -514,7 +514,7 @@ export default function Home() {
             </h2>
             <div className="mt-10">
               <a
-                href="https://github.com/yourusername/lirah"
+                href="https://github.com/emdmed/lirah"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-8 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
               >
                 Get Started
@@ -556,7 +556,7 @@ export default function Home() {
               </span>
               <div className="flex items-center gap-6">
                 <a
-                  href="https://github.com/yourusername/lirah"
+                  href="https://github.com/emdmed/lirah"
                   className="text-sm text-[#969696] transition-colors hover:text-white"
                 >
                   GitHub
