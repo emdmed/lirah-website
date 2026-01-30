@@ -68,45 +68,43 @@ export default function Home() {
           <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-[#14b8a6]/15 blur-[120px]" />
 
           <div className="mx-auto max-w-6xl px-6">
-            <div className="flex flex-col items-center text-center">
-              {/* Main headline */}
-              <h1 className="mb-6 text-7xl sm:text-8xl md:text-9xl">
-                <span className="font-[family-name:var(--font-grenze-gotisch)] text-white">Lirah</span>
-              </h1>
+            {/* Split layout: Title left, Description + CTA right */}
+            <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
+              {/* Left: Large title */}
+              <div className="flex items-center">
+                <h1 className="font-[family-name:var(--font-grenze-gotisch)] text-[9rem] leading-none text-white sm:text-[12rem] lg:text-[15rem]">
+                  Lirah
+                </h1>
+              </div>
 
-              {/* Subheadline */}
-              <p className="mb-4 text-xl text-[#a6a6a6] sm:text-2xl">
-                A Smarter GUI for Claude Code
-              </p>
-
-              {/* Description */}
-              <p className="mb-10 max-w-2xl text-base leading-relaxed text-[#969696]">
-                A modern desktop GUI that turns your terminal into a structured,
-                context-aware coding workspace. Keep your files, prompts, and
-                terminal perfectly in sync—so you can focus on shipping, not
-                wrangling context.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <a
-                  href="https://github.com/yourusername/lirah"
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
-                >
-                  View on GitHub
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-                <a
-                  href="#features"
-                  className="inline-flex h-12 items-center justify-center rounded-lg border border-dashed border-white/20 bg-white/5 px-6 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
-                >
-                  See Features
-                </a>
+              {/* Right: Description + CTA */}
+              <div>
+                <p className="mb-4 text-xl text-[#a6a6a6]">
+                  A native desktop app for Claude Code
+                </p>
+                <p className="mb-8 text-base leading-relaxed text-[#969696]">
+                  Keep your files, prompts, and terminal perfectly in sync—so you can focus on shipping, not wrangling context.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <a
+                    href="https://github.com/yourusername/lirah"
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
+                  >
+                    View on GitHub
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                  <a
+                    href="#features"
+                    className="inline-flex h-12 items-center justify-center rounded-lg border border-dashed border-white/20 bg-white/5 px-6 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
+                  >
+                    See Features
+                  </a>
+                </div>
               </div>
             </div>
 
             {/* Product Screenshot */}
-            <div className="mt-20">
+            <div className="mt-16">
               <div className="relative">
                 <div className="absolute -left-3 -top-3 h-6 w-6 border-l-2 border-t-2 border-dashed border-white/30" />
                 <div className="absolute -right-3 -top-3 h-6 w-6 border-r-2 border-t-2 border-dashed border-white/30" />
