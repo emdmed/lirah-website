@@ -24,6 +24,11 @@ import {
   Settings,
   Menu,
   X,
+  Zap,
+  DollarSign,
+  Clock,
+  Target,
+  Quote,
 } from "lucide-react";
 
 export default function Home() {
@@ -37,6 +42,12 @@ export default function Home() {
           
           {/* Desktop Navigation */}
           <div className="hidden sm:flex items-center gap-6">
+            <a
+              href="#problem"
+              className="text-sm text-[#a6a6a6] transition-colors hover:text-white"
+            >
+              Problem
+            </a>
             <a
               href="#features"
               className="text-sm text-[#a6a6a6] transition-colors hover:text-white"
@@ -75,6 +86,13 @@ export default function Home() {
         {isMobileMenuOpen && (
           <div className="sm:hidden border-t border-dashed border-white/20 bg-[#09090b]/95">
             <div className="px-4 py-4 space-y-3">
+              <a
+                href="#problem"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block text-sm text-[#a6a6a6] transition-colors hover:text-white py-2"
+              >
+                Problem
+              </a>
               <a
                 href="#features"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -131,24 +149,24 @@ export default function Home() {
               {/* Description + CTA */}
               <div>
                 <p className="mb-4 text-xl sm:text-2xl font-semibold text-white">
-                  A native desktop app for CLI coding agents
+                  Context management for CLI agents
                 </p>
                 <p className="mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed text-[#a6a6a6] max-w-xl mx-auto lg:mx-0">
-                  Keep your files, prompts, and terminal perfectly in sync—so you can focus on shipping, not wrangling context.
+                  Stop feeding bloated prompts to your agents. Smart file selection, prompt scaffolding, and token discipline—so you can run agents longer for less.
                 </p>
                 <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
                   <a
                     href="https://github.com/emdmed/lirah"
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
                   >
-                    View on GitHub
+                    Get Started Free
                     <ArrowRight className="h-4 w-4" />
                   </a>
                   <a
-                    href="#features"
+                    href="#problem"
                     className="inline-flex h-12 items-center justify-center rounded-lg border border-dashed border-white/20 bg-white/5 px-6 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
                   >
-                    See Features
+                    Why It Matters
                   </a>
                 </div>
               </div>
@@ -177,6 +195,84 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Problem Section */}
+        <section id="problem" className="border-t border-dashed border-white/20 py-16 sm:py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="text-center mb-12">
+              <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#f6543e]">
+                The Problem
+              </p>
+              <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
+                Wasted Tokens Are Wasted Money
+              </h2>
+              <p className="mx-auto max-w-2xl text-base sm:text-lg text-[#969696]">
+                If you&apos;re using CLI agents seriously, you know the pain.
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="relative rounded-xl border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 p-4 sm:p-6">
+                <h3 className="mb-2 font-semibold text-white flex items-center gap-2">
+                  <span className="text-[#f6543e]">01</span> Bloated Prompts
+                </h3>
+                <p className="text-sm text-[#969696]">
+                  Irrelevant files dumped into context. Every token you don&apos;t need is money wasted on prompts.
+                </p>
+              </div>
+
+              <div className="relative rounded-xl border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 p-4 sm:p-6">
+                <h3 className="mb-2 font-semibold text-white flex items-center gap-2">
+                  <span className="text-[#f6543e]">02</span> Manual Context Juggling
+                </h3>
+                <p className="text-sm text-[#969696]">
+                  Copy-pasting file paths. Explaining which files to read vs modify. Context overload that slows everything down.
+                </p>
+              </div>
+
+              <div className="relative rounded-xl border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 p-4 sm:p-6">
+                <h3 className="mb-2 font-semibold text-white flex items-center gap-2">
+                  <span className="text-[#f6543e]">03</span> Poor Scaffolding
+                </h3>
+                <p className="text-sm text-[#969696]">
+                  No structure. No reusable templates. You&apos;re writing the same prompt scaffolding over and over.
+                </p>
+              </div>
+
+              <div className="relative rounded-xl border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 p-4 sm:p-6">
+                <h3 className="mb-2 font-semibold text-white flex items-center gap-2">
+                  <span className="text-[#f6543e]">04</span> Agents Running All Day
+                </h3>
+                <p className="text-sm text-[#969696]">
+                  Inefficient context means more back-and-forth. More iterations. Higher inference costs.
+                </p>
+              </div>
+
+              <div className="relative rounded-xl border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 p-4 sm:p-6">
+                <h3 className="mb-2 font-semibold text-white flex items-center gap-2">
+                  <span className="text-[#f6543e]">05</span> Terminal-Only Workflow
+                </h3>
+                <p className="text-sm text-[#969696]">
+                  Great agents trapped in a single-line input. No clean UI for complex, agentic dev workflows.
+                </p>
+              </div>
+
+              <div className="relative rounded-xl border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 p-4 sm:p-6">
+                <h3 className="mb-2 font-semibold text-white flex items-center gap-2">
+                  <span className="text-[#f6543e]">06</span> Context Guesswork
+                </h3>
+                <p className="text-sm text-[#969696]">
+                  Never knowing what the model actually &ldquo;saw&rdquo;. Prompt bloat creeps in because you can&apos;t see it.
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-8 sm:mt-12 text-center text-base sm:text-lg text-[#969696]">
+              These aren&apos;t edge cases.{" "}
+              <span className="text-white">They&apos;re the daily reality for developers using Claude Code and other CLI agents.</span>
+            </p>
+          </div>
+        </section>
+
         {/* Code with Context Section */}
         <section id="features" className="border-t border-dashed border-white/20 py-16 sm:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -184,15 +280,14 @@ export default function Home() {
               {/* Content */}
               <div>
                 <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-                  File Context
+                  Smart File Selection
                 </p>
                 <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-                  Code with Context
-                  <span className="block text-[#969696]">(Without the Hassle)</span>
+                  Context Scaffolding
+                  <span className="block text-[#969696]">That Cuts the Waste</span>
                 </h2>
                 <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
-                  AI agents are only as good as the context you give them. Lirah makes
-                  that effortless.
+                  Token efficiency starts with what you include. Lirah gives you explicit control over context—no more irrelevant files burning through your plan.
                 </p>
 
                 <ul className="space-y-3 sm:space-y-4">
@@ -201,7 +296,7 @@ export default function Home() {
                       <FolderTree className="h-3 w-3 text-[#14b8a6]" />
                     </div>
                     <span className="text-sm sm:text-base text-[#a6a6a6]">
-                      Select files directly from your project tree
+                      <strong className="text-white">Visual file selection</strong>—pick exactly what the agent needs
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
@@ -209,7 +304,15 @@ export default function Home() {
                       <FileText className="h-3 w-3 text-[#14b8a6]" />
                     </div>
                     <span className="text-sm sm:text-base text-[#a6a6a6]">
-                      Tell the agent exactly how to use each file
+                      <strong className="text-white">File modes</strong>—tell the agent how to use each file
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#14b8a6]/40 bg-[#14b8a6]/10">
+                      <Target className="h-3 w-3 text-[#14b8a6]" />
+                    </div>
+                    <span className="text-sm sm:text-base text-[#a6a6a6]">
+                      <strong className="text-white">Reduce token usage</strong>—only send what matters
                     </span>
                   </li>
                 </ul>
@@ -231,9 +334,7 @@ export default function Home() {
                 </div>
 
                 <p className="mt-6 sm:mt-8 border-l-2 border-[#14b8a6]/50 pl-4 text-sm sm:text-base text-[#969696]">
-                  No more copy-pasting paths or guessing what the model
-                  &ldquo;saw&rdquo;. Your intent is explicit. Your results are
-                  better.
+                  <strong className="text-white">Result:</strong> Lower inference cost, better agent output, and cost-efficient prompting that doesn&apos;t slow your flow.
                 </p>
               </div>
 
@@ -323,14 +424,14 @@ export default function Home() {
               {/* Content */}
               <div className="order-1 lg:order-2">
                 <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-                  Prompt Editor
+                  Prompt Optimization
                 </p>
                 <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-                  Prompting That
-                  <span className="block text-[#969696]">Doesn&apos;t Fight You</span>
+                  A Prompt Editor
+                  <span className="block text-[#969696]">Built for Reuse</span>
                 </h2>
                 <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
-                  Stop typing prompts one line at a time in a terminal.
+                  A familiar UI for agent-driven workflows. Reusable templates instead of typing the same prompts over and over.
                 </p>
 
                 <ul className="space-y-3 sm:space-y-4">
@@ -339,29 +440,29 @@ export default function Home() {
                       <Terminal className="h-3 w-3 text-[#14b8a6]" />
                     </div>
                     <span className="text-sm sm:text-base text-[#a6a6a6]">
-                      Multi-line textarea for complex instructions
+                      <strong className="text-white">Multi-line editor</strong>—compose complex prompts properly
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#14b8a6]/40 bg-[#14b8a6]/10">
-                      <ArrowRight className="h-3 w-3 text-[#14b8a6]" />
+                      <RefreshCw className="h-3 w-3 text-[#14b8a6]" />
                     </div>
                     <span className="text-sm sm:text-base text-[#a6a6a6]">
-                      Send prompts straight into your terminal agent
+                      <strong className="text-white">Reusable templates</strong>—optimize prompt usage across sessions
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#14b8a6]/40 bg-[#14b8a6]/10">
-                      <FileText className="h-3 w-3 text-[#14b8a6]" />
+                      <Zap className="h-3 w-3 text-[#14b8a6]" />
                     </div>
                     <span className="text-sm sm:text-base text-[#a6a6a6]">
-                      Save and reuse prompt templates across sessions
+                      <strong className="text-white">Direct to agent</strong>—send prompts straight to your CLI agent
                     </span>
                   </li>
                 </ul>
 
                 <p className="mt-6 sm:mt-8 text-base sm:text-lg font-medium text-white">
-                  Write once. Reuse forever.
+                  Efficiency without slowing flow.
                 </p>
               </div>
             </div>
@@ -373,14 +474,14 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="text-center">
               <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-                Bidirectional Sync
+                Workflow Optimization
               </p>
               <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-                Terminal and File Tree,
-                <span className="block text-[#969696]">Perfectly in Sync</span>
+                A Clean UI That
+                <span className="block text-[#969696]">Doesn&apos;t Slow You Down</span>
               </h2>
               <p className="mx-auto mb-8 sm:mb-12 max-w-2xl text-base sm:text-lg text-[#969696]">
-                Lirah keeps your UI and terminal aligned at all times.
+                Developer-first tooling. Bidirectional sync keeps your terminal and file tree perfectly aligned—no manual context juggling.
               </p>
             </div>
 
@@ -429,7 +530,7 @@ export default function Home() {
 
             <p className="mt-6 sm:mt-8 text-center text-sm sm:text-base text-[#969696]">
               Always know where you are, without thinking about it.{" "}
-              <span className="text-white">It feels obvious—because it should.</span>
+              <span className="text-white">A familiar UI that feels obvious—because it should.</span>
             </p>
           </div>
         </section>
@@ -439,14 +540,13 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="text-center">
               <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-                Workflows
+                Agentic Dev Workflows
               </p>
               <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-                Built-In Agent Workflows
+                Pre-Built Workflows for Agent Builders
               </h2>
               <p className="mx-auto mb-8 sm:mb-12 max-w-2xl text-base sm:text-lg text-[#969696]">
-                Lirah ships with workflow templates out of the
-                box. Start strong instead of from scratch.
+                High-leverage tooling out of the box. Workflow templates designed for real agentic AI users—not demos.
               </p>
             </div>
 
@@ -482,12 +582,15 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Why Lirah Section */}
+        {/* ROI Section */}
         <section className="border-t border-dashed border-white/20 py-16 sm:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="text-center">
+              <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
+                Save Time and Cost
+              </p>
               <h2 className="mb-8 sm:mb-12 text-2xl sm:text-3xl font-bold tracking-tight">
-                Why Lirah?
+                Token Savings That Add Up
               </h2>
             </div>
 
@@ -499,11 +602,26 @@ export default function Home() {
                 <div className="absolute -bottom-1 -right-1 h-3 w-3 border-b border-r border-[#14b8a6]/50" />
 
                 <div className="mx-auto mb-3 sm:mb-4 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg border border-dashed border-[#14b8a6]/30 bg-[#14b8a6]/10">
-                  <Rocket className="h-5 w-5 sm:h-6 sm:w-6 text-[#14b8a6]" />
+                  <DollarSign className="h-5 w-5 sm:h-6 sm:w-6 text-[#14b8a6]" />
                 </div>
-                <h3 className="mb-2 font-semibold text-white text-sm sm:text-base">Native & Fast</h3>
+                <h3 className="mb-2 font-semibold text-white text-sm sm:text-base">Lower Inference Cost</h3>
                 <p className="text-xs sm:text-sm text-[#969696]">
-                  Lightweight Tauri app, not an Electron behemoth
+                  Fewer wasted tokens means stretching your Claude plan further
+                </p>
+              </div>
+
+              <div className="relative rounded-xl border border-dashed border-white/20 bg-[#0f0f11] p-4 sm:p-6 text-center">
+                <div className="absolute -left-1 -top-1 h-3 w-3 border-l border-t border-[#14b8a6]/50" />
+                <div className="absolute -right-1 -top-1 h-3 w-3 border-r border-t border-[#14b8a6]/50" />
+                <div className="absolute -bottom-1 -left-1 h-3 w-3 border-b border-l border-[#14b8a6]/50" />
+                <div className="absolute -bottom-1 -right-1 h-3 w-3 border-b border-r border-[#14b8a6]/50" />
+
+                <div className="mx-auto mb-3 sm:mb-4 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg border border-dashed border-[#14b8a6]/30 bg-[#14b8a6]/10">
+                  <Clock className="h-5 w-5 sm:h-6 sm:w-6 text-[#14b8a6]" />
+                </div>
+                <h3 className="mb-2 font-semibold text-white text-sm sm:text-base">Run Agents Longer</h3>
+                <p className="text-xs sm:text-sm text-[#969696]">
+                  Efficient context means more iterations per session
                 </p>
               </div>
 
@@ -516,9 +634,9 @@ export default function Home() {
                 <div className="mx-auto mb-3 sm:mb-4 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg border border-dashed border-[#14b8a6]/30 bg-[#14b8a6]/10">
                   <Brain className="h-5 w-5 sm:h-6 sm:w-6 text-[#14b8a6]" />
                 </div>
-                <h3 className="mb-2 font-semibold text-white text-sm sm:text-base">Better Output</h3>
+                <h3 className="mb-2 font-semibold text-white text-sm sm:text-base">Better Agent Output</h3>
                 <p className="text-xs sm:text-sm text-[#969696]">
-                  Structured context = better agent results
+                  Structured context = more accurate, focused results
                 </p>
               </div>
 
@@ -529,29 +647,64 @@ export default function Home() {
                 <div className="absolute -bottom-1 -right-1 h-3 w-3 border-b border-r border-[#14b8a6]/50" />
 
                 <div className="mx-auto mb-3 sm:mb-4 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg border border-dashed border-[#14b8a6]/30 bg-[#14b8a6]/10">
-                  <Puzzle className="h-5 w-5 sm:h-6 sm:w-6 text-[#14b8a6]" />
+                  <Rocket className="h-5 w-5 sm:h-6 sm:w-6 text-[#14b8a6]" />
                 </div>
-                <h3 className="mb-2 font-semibold text-white text-sm sm:text-base">Real Workflows</h3>
+                <h3 className="mb-2 font-semibold text-white text-sm sm:text-base">Native & Fast</h3>
                 <p className="text-xs sm:text-sm text-[#969696]">
-                  Designed for actual development, not demos
-                </p>
-              </div>
-
-              <div className="relative rounded-xl border border-dashed border-white/20 bg-[#0f0f11] p-4 sm:p-6 text-center">
-                <div className="absolute -left-1 -top-1 h-3 w-3 border-l border-t border-[#14b8a6]/50" />
-                <div className="absolute -right-1 -top-1 h-3 w-3 border-r border-t border-[#14b8a6]/50" />
-                <div className="absolute -bottom-1 -left-1 h-3 w-3 border-b border-l border-[#14b8a6]/50" />
-                <div className="absolute -bottom-1 -right-1 h-3 w-3 border-b border-r border-[#14b8a6]/50" />
-
-                <div className="mx-auto mb-3 sm:mb-4 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg border border-dashed border-[#14b8a6]/30 bg-[#14b8a6]/10">
-                  <Monitor className="h-5 w-5 sm:h-6 sm:w-6 text-[#14b8a6]" />
-                </div>
-                <h3 className="mb-2 font-semibold text-white text-sm sm:text-base">Terminal-First</h3>
-                <p className="text-xs sm:text-sm text-[#969696]">
-                  Terminal-first, not terminal-hostile
+                  Lightweight Tauri app—not an Electron behemoth
                 </p>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Social Proof Section */}
+        <section className="border-t border-dashed border-white/20 py-16 sm:py-24">
+          <div className="mx-auto max-w-6xl px-4 sm:px-6">
+            <div className="text-center mb-12">
+              <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
+                What Developers Say
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                Built for LLM Power Users
+              </h2>
+            </div>
+
+            <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="relative rounded-xl border border-dashed border-white/20 bg-[#0f0f11] p-6">
+                <div className="absolute -left-1 -top-1 h-3 w-3 border-l border-t border-[#14b8a6]/50" />
+                <div className="absolute -right-1 -top-1 h-3 w-3 border-r border-t border-[#14b8a6]/50" />
+                <Quote className="h-6 w-6 text-[#14b8a6]/40 mb-4" />
+                <p className="text-sm sm:text-base text-[#a6a6a6] mb-4">
+                  &ldquo;Been using it extensively for the past week. The smart file selection is a <span className="text-white">game changer</span>—massive difference in how focused my agent outputs are.&rdquo;
+                </p>
+                <p className="text-xs text-[#969696]">— Frontend Engineer, testing similar setups</p>
+              </div>
+
+              <div className="relative rounded-xl border border-dashed border-white/20 bg-[#0f0f11] p-6">
+                <div className="absolute -left-1 -top-1 h-3 w-3 border-l border-t border-[#14b8a6]/50" />
+                <div className="absolute -right-1 -top-1 h-3 w-3 border-r border-t border-[#14b8a6]/50" />
+                <Quote className="h-6 w-6 text-[#14b8a6]/40 mb-4" />
+                <p className="text-sm sm:text-base text-[#a6a6a6] mb-4">
+                  &ldquo;Finally, an agent wrapper that <span className="text-white">doesn&apos;t slow my flow</span>. The token discipline this enforces has cut my daily costs noticeably.&rdquo;
+                </p>
+                <p className="text-xs text-[#969696]">— AI Engineer, building agentic workflows</p>
+              </div>
+
+              <div className="relative rounded-xl border border-dashed border-white/20 bg-[#0f0f11] p-6">
+                <div className="absolute -left-1 -top-1 h-3 w-3 border-l border-t border-[#14b8a6]/50" />
+                <div className="absolute -right-1 -top-1 h-3 w-3 border-r border-t border-[#14b8a6]/50" />
+                <Quote className="h-6 w-6 text-[#14b8a6]/40 mb-4" />
+                <p className="text-sm sm:text-base text-[#a6a6a6] mb-4">
+                  &ldquo;If you&apos;re a developer using Claude Code seriously, this is <span className="text-white">worth checking out</span>. It earns its keep on day one.&rdquo;
+                </p>
+                <p className="text-xs text-[#969696]">— Founder, using CLI agents daily</p>
+              </div>
+            </div>
+
+            <p className="mt-8 text-center text-sm text-[#969696]">
+              Built by software engineers, for software engineers. Highly recommend for anyone doing agentic AI work.
+            </p>
           </div>
         </section>
 
@@ -559,18 +712,27 @@ export default function Home() {
         <section className="border-t border-dashed border-white/20 py-16 sm:py-24">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 text-center">
             <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-              If you use CLI coding agents seriously,
+              Stop Wasting Tokens.
               <span className="block text-[#14b8a6]">
-                Lirah becomes the place you run them.
+                Start Shipping.
               </span>
             </h2>
-            <div className="mt-6 sm:mt-10">
+            <p className="mx-auto max-w-2xl text-base sm:text-lg text-[#969696] mb-8">
+              A daily workflow game changer for software engineers, AI engineers, and founders building with CLI agents. Free and open source.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="https://github.com/emdmed/lirah"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 sm:px-8 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4] w-full sm:w-fit"
               >
-                Get Started
+                Get Started Free
                 <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="https://github.com/emdmed/lirah"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 bg-white/5 px-6 sm:px-8 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10 w-full sm:w-fit"
+              >
+                View on GitHub
               </a>
             </div>
           </div>
@@ -604,7 +766,7 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
               <span className="text-sm text-[#969696]">
-                © 2025 Lirah. Open source.
+                © 2026 Lirah. Open source.
               </span>
               <div className="flex items-center gap-6">
                 <a

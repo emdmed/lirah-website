@@ -14,9 +14,25 @@ const grenzeGotisch = Grenze_Gotisch({
 });
 
 export const metadata: Metadata = {
-  title: "Lirah - A GUI for Claude Code",
+  title: "Lirah - Context Management for CLI Agents | Token-Efficient LLM Agent UI",
   description:
-    "A native desktop GUI for Claude Code built with Tauri, React, and xterm.js. Featuring file context selection, prompt templates, and bidirectional terminal sync.",
+    "Stop wasting tokens on bloated prompts. Lirah is a developer-first LLM agent UI with smart file selection, prompt scaffolding, and context management. Run CLI agents longer for less. Built for software engineers using Claude Code and agentic AI workflows.",
+  keywords: [
+    "CLI agents",
+    "Claude Code GUI",
+    "LLM agent UI",
+    "context management",
+    "token efficiency",
+    "prompt optimization",
+    "agentic dev workflows",
+    "developer tools",
+    "AI coding assistant",
+  ],
+  openGraph: {
+    title: "Lirah - Context Management for CLI Agents",
+    description: "Stop wasting tokens on bloated prompts. Smart file selection, prompt scaffolding, and workflow optimization for LLM power users.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
