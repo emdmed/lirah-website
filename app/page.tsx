@@ -18,6 +18,7 @@ import {
   FileSearch,
   GitPullRequest,
   FileCode,
+  Settings,
 } from "lucide-react";
 
 export default function Home() {
@@ -79,10 +80,10 @@ export default function Home() {
 
               {/* Right: Description + CTA */}
               <div>
-                <p className="mb-4 text-xl text-[#a6a6a6]">
-                  A native desktop app for Claude Code
+                <p className="mb-4 text-2xl font-semibold text-white sm:text-3xl">
+                  A native desktop app for CLI coding agents
                 </p>
-                <p className="mb-8 text-base leading-relaxed text-[#969696]">
+                <p className="mb-8 text-lg leading-relaxed text-[#a6a6a6]">
                   Keep your files, prompts, and terminal perfectly in sync—so you can focus on shipping, not wrangling context.
                 </p>
                 <div className="flex flex-wrap gap-4">
@@ -112,7 +113,7 @@ export default function Home() {
                 <div className="relative max-h-[400px] overflow-hidden rounded-xl bg-[#09090b]">
                   <Image
                     src="/lirah-screenshot.png"
-                    alt="Lirah - A Smarter GUI for Claude Code"
+                    alt="Lirah - A Smarter GUI for CLI Coding Agents"
                     width={1200}
                     height={800}
                     className="w-full object-cover object-top"
@@ -140,7 +141,7 @@ export default function Home() {
                   <span className="block text-[#969696]">(Without the Hassle)</span>
                 </h2>
                 <p className="mb-8 text-lg text-[#969696]">
-                  Claude is only as good as the context you give it. Lirah makes
+                  AI agents are only as good as the context you give them. Lirah makes
                   that effortless.
                 </p>
 
@@ -158,7 +159,7 @@ export default function Home() {
                       <FileText className="h-3 w-3 text-[#14b8a6]" />
                     </div>
                     <span className="text-[#a6a6a6]">
-                      Tell Claude exactly how to use each file
+                      Tell the agent exactly how to use each file
                     </span>
                   </li>
                 </ul>
@@ -296,7 +297,7 @@ export default function Home() {
                       <ArrowRight className="h-3 w-3 text-[#14b8a6]" />
                     </div>
                     <span className="text-[#a6a6a6]">
-                      Send prompts straight into Claude Code
+                      Send prompts straight into your terminal agent
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
@@ -388,13 +389,13 @@ export default function Home() {
           <div className="mx-auto max-w-6xl px-6">
             <div className="text-center">
               <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-                claude-orchestration
+                Workflows
               </p>
               <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-                Built-In Claude Workflows
+                Built-In Agent Workflows
               </h2>
               <p className="mx-auto mb-12 max-w-2xl text-lg text-[#969696]">
-                Lirah ships with claude-orchestration integrations out of the
+                Lirah ships with workflow templates out of the
                 box. Start strong instead of from scratch.
               </p>
             </div>
@@ -409,6 +410,7 @@ export default function Home() {
                 { icon: GitPullRequest, label: "Pull Request", desc: "PR preparation" },
                 { icon: FileCode, label: "Documentation", desc: "Docs generation" },
                 { icon: Puzzle, label: "React", desc: "React-specific variants" },
+                { icon: Settings, label: "Orchestration", desc: "Enforce custom instructions on every agent prompt" },
               ].map((workflow) => (
                 <div
                   key={workflow.label}
@@ -466,7 +468,7 @@ export default function Home() {
                 </div>
                 <h3 className="mb-2 font-semibold text-white">Better Output</h3>
                 <p className="text-sm text-[#969696]">
-                  Structured context = better Claude results
+                  Structured context = better agent results
                 </p>
               </div>
 
@@ -507,9 +509,9 @@ export default function Home() {
         <section className="border-t border-dashed border-white/20 py-24">
           <div className="mx-auto max-w-6xl px-6 text-center">
             <h2 className="mb-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              If you use Claude Code seriously,
+              If you use CLI coding agents seriously,
               <span className="block text-[#14b8a6]">
-                Lirah becomes the place you run it.
+                Lirah becomes the place you run them.
               </span>
             </h2>
             <div className="mt-10">
