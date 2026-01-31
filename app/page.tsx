@@ -29,7 +29,41 @@ import {
   Clock,
   Target,
   Quote,
+  Feather,
 } from "lucide-react";
+
+// Logo: Feather in diamond
+function Logo({ size = 32 }: { size?: number }) {
+  const iconSize = size * 0.48;
+  const iconStrokeWidth = 2;
+  const borderStrokeWidth = iconStrokeWidth * 0.7;
+  const innerSize = size * 0.75;
+
+  return (
+    <div
+      className="flex items-center justify-center"
+      style={{ width: size, height: size }}
+    >
+      <div
+        className="flex items-center justify-center border-[#e4e4e7]"
+        style={{
+          width: innerSize,
+          height: innerSize,
+          borderRadius: "4px",
+          borderWidth: borderStrokeWidth,
+          borderStyle: "solid",
+          transform: "rotate(45deg)",
+        }}
+      >
+        <Feather
+          style={{ width: iconSize, height: iconSize, transform: "rotate(-90deg)" }}
+          strokeWidth={iconStrokeWidth}
+          className="text-[#e4e4e7]"
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -38,8 +72,11 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed left-0 right-0 top-0 z-50 border-b border-dashed border-white/20 bg-[#09090b]/90 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-          <span className="font-[family-name:var(--font-grenze-gotisch)] text-xl sm:text-2xl">Lirah</span>
-          
+          <div className="flex items-center gap-2">
+            <Logo size={28} />
+            <span className="font-[family-name:var(--font-grenze-gotisch)] text-xl sm:text-2xl">Lirah</span>
+          </div>
+
           {/* Desktop Navigation */}
           <div className="hidden sm:flex items-center gap-6">
             <a
@@ -765,9 +802,12 @@ export default function Home() {
         <footer className="border-t border-dashed border-white/20 py-6 sm:py-8">
           <div className="mx-auto max-w-6xl px-4 sm:px-6">
             <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-              <span className="text-sm text-[#969696]">
-                © 2026 Lirah. Open source.
-              </span>
+              <div className="flex items-center gap-2">
+                <Logo size={20} />
+                <span className="text-sm text-[#969696]">
+                  © 2026 Lirah. Open source.
+                </span>
+              </div>
               <div className="flex items-center gap-6">
                 <a
                   href="https://github.com/emdmed/lirah"
