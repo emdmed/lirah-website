@@ -56,17 +56,16 @@ export function HeroSection() {
             <div className="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 h-4 w-4 sm:h-6 sm:w-6 border-l-2 border-t-2 border-dashed border-white/30" />
             <div className="absolute -right-2 -top-2 sm:-right-3 sm:-top-3 h-4 w-4 sm:h-6 sm:w-6 border-r-2 border-t-2 border-dashed border-white/30" />
 
-            <div className="relative max-h-[300px] sm:max-h-[400px] overflow-hidden rounded-xl bg-[#09090b]">
+            <div className="relative rounded-xl bg-[#09090b]">
               <Image
                 src="/lirah-screenshot.png"
                 alt="Lirah - A Smarter GUI for CLI Coding Agents"
                 width={1200}
                 height={800}
-                className="w-full object-cover object-top"
+                className="w-full rounded-lg"
                 priority
               />
-              {/* Gradient overlay to fade bottom half */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-40% via-[#09090b]/50 via-70% to-[#09090b]" />
+
             </div>
           </div>
         </div>
