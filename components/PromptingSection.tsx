@@ -44,14 +44,14 @@ export function PromptingSection() {
           {/* Content */}
           <div className="order-1 lg:order-2">
             <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-              Prompt Optimization
+              Prompt Reuse
             </p>
             <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-              A Prompt Editor
-              <span className="block text-[#969696]">Built for Reuse</span>
+              Stop Writing
+              <span className="block text-[#969696]">The Same Prompts</span>
             </h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
-              A familiar UI for agent-driven workflows. Reusable templates instead of typing the same prompts over and over.
+              No more ad-hoc gists or note templates. A proper editor for the prompts you run every day—built for velocity, not demos.
             </p>
 
             <ul className="space-y-3 sm:space-y-4">
@@ -68,7 +68,7 @@ export function PromptingSection() {
                   <RefreshCw className="h-3 w-3 text-[#14b8a6]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
-                  <strong className="text-white">Reusable templates</strong>—optimize prompt usage across sessions
+                  <strong className="text-white">Reusable templates</strong>—ship faster with consistent patterns
                 </span>
               </li>
               <li className="flex items-start gap-3">

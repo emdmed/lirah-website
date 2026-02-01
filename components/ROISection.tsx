@@ -3,23 +3,23 @@ import { DollarSign, Clock, Brain, Rocket } from "lucide-react";
 const benefits = [
   {
     icon: DollarSign,
-    title: "Lower Inference Cost",
-    description: "Fewer wasted tokens means stretching your Claude plan further",
+    title: "Stretch Your Plan",
+    description: "Smart token discipline means more work per dollar",
   },
   {
     icon: Clock,
-    title: "Run Agents Longer",
-    description: "Efficient context means more iterations per session",
+    title: "More Iterations",
+    description: "Clean context = deeper agent sessions before limits",
   },
   {
     icon: Brain,
-    title: "Better Agent Output",
-    description: "Structured context = more accurate, focused results",
+    title: "Better Output",
+    description: "Explicit intent = fewer hallucinations, more accurate results",
   },
   {
     icon: Rocket,
-    title: "Native & Fast",
-    description: "Lightweight Tauri app—not an Electron behemoth",
+    title: "Terminal-Native",
+    description: "Fits your workflow—no ceremony, no speed trade-offs",
   },
 ];
 
@@ -29,10 +29,10 @@ export function ROISection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-            Save Time and Cost
+            Ship More, Spend Less
           </p>
           <h2 className="mb-8 sm:mb-12 text-2xl sm:text-3xl font-bold tracking-tight">
-            Token Savings That Add Up
+            Better Results, Lower Burn
           </h2>
         </div>
 

@@ -2,16 +2,8 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "Been using it extensively for the past week. The smart file selection is a <span class=\"text-white\">game changer</span>—massive difference in how focused my agent outputs are.",
-    author: "Frontend Engineer, testing similar setups",
-  },
-  {
-    quote: "Finally, an agent wrapper that <span class=\"text-white\">doesn't slow my flow</span>. The token discipline this enforces has cut my daily costs noticeably.",
-    author: "AI Engineer, building agentic workflows",
-  },
-  {
-    quote: "If you're a developer using Claude Code seriously, this is <span class=\"text-white\">worth checking out</span>. It earns its keep on day one.",
-    author: "Founder, using CLI agents daily",
+    quote: "I built Lirah with Lirah and a 20 bucks LLM plan. <span class=\"text-white\">Using it everyday now</span>.",
+    author: "Lirah's Dev",
   },
 ];
 
@@ -28,7 +20,7 @@ export function TestimonialsSection() {
           </h2>
         </div>
 
-        <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="max-w-2xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <div
               key={index}

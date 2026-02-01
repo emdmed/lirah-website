@@ -20,10 +20,10 @@ export function HeroSection() {
           {/* Description + CTA */}
           <div>
             <p className="mb-4 text-xl sm:text-2xl font-semibold text-white">
-              Context management for CLI agents
+              Context discipline for CLI agents
             </p>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed text-[#a6a6a6] max-w-xl mx-auto lg:mx-0">
-              Stop feeding bloated prompts to your agents. Smart file selection, prompt scaffolding, and token discipline—so you can run agents longer for less.
+              Stop fighting context bloat. Smart file selection, explicit intent, and token discipline—so your agents know exactly what you mean, without the babysitting.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
               <a

@@ -15,14 +15,14 @@ export function FeaturesSection() {
           {/* Content */}
           <div>
             <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-              Smart File Selection
+              Context as First-Class
             </p>
             <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-              Context Scaffolding
-              <span className="block text-[#969696]">That Cuts the Waste</span>
+              Explicit Intent,
+              <span className="block text-[#969696]">Not Implicit Noise</span>
             </h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
-              Token efficiency starts with what you include. Lirah gives you explicit control over context—no more irrelevant files burning through your plan.
+              Context as a first-class primitive. Tell agents exactly how to use each file—no more guessing, no more bloat, just signal.
             </p>
 
             <ul className="space-y-3 sm:space-y-4">
@@ -31,7 +31,7 @@ export function FeaturesSection() {
                   <FolderTree className="h-3 w-3 text-[#14b8a6]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
-                  <strong className="text-white">Visual file selection</strong>—pick exactly what the agent needs
+                  <strong className="text-white">Visual file selection</strong>—intentional context, not accidental
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -39,7 +39,7 @@ export function FeaturesSection() {
                   <FileText className="h-3 w-3 text-[#14b8a6]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
-                  <strong className="text-white">File modes</strong>—tell the agent how to use each file
+                  <strong className="text-white">Explicit file modes</strong>—modify/reference/example intent
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -47,7 +47,7 @@ export function FeaturesSection() {
                   <Target className="h-3 w-3 text-[#14b8a6]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
-                  <strong className="text-white">Reduce token usage</strong>—only send what matters
+                  <strong className="text-white">Token discipline</strong>—smart slicing vs full-file dumps
                 </span>
               </li>
             </ul>
@@ -69,7 +69,7 @@ export function FeaturesSection() {
             </div>
 
             <p className="mt-6 sm:mt-8 border-l-2 border-[#14b8a6]/50 pl-4 text-sm sm:text-base text-[#969696]">
-              <strong className="text-white">Result:</strong> Lower inference cost, better agent output, and cost-efficient prompting that doesn&apos;t slow your flow.
+              <strong className="text-white">Result:</strong> Your agent knows exactly what you mean. No babysitting, no wasted tokens, just better results.
             </p>
           </div>
 

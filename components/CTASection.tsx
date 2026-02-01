@@ -5,13 +5,13 @@ export function CTASection() {
     <section className="border-t border-dashed border-white/20 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 text-center">
         <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-          Stop Wasting Tokens.
+          Better Context,
           <span className="block text-[#14b8a6]">
-            Start Shipping.
+            Better Results.
           </span>
         </h2>
         <p className="mx-auto max-w-2xl text-base sm:text-lg text-[#969696] mb-8">
-          A daily workflow game changer for software engineers, AI engineers, and founders building with CLI agents. Free and open source.
+          Built for engineers who run agents all day. Infrastructure for your AI workflow—free, open source, and terminal-first.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
