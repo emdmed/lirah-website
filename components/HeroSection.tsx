@@ -1,0 +1,69 @@
+import Image from "next/image";
+import { ArrowRight } from "lucide-react";
+
+export function HeroSection() {
+  return (
+    <section className="relative overflow-hidden pb-16 sm:pb-24 pt-24 sm:pt-32">
+      {/* Subtle glow accent */}
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[300px] w-[500px] sm:h-[400px] sm:w-[600px] -translate-x-1/2 rounded-full bg-[#14b8a6]/10 blur-[100px]" />
+
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        {/* Mobile-first layout: Title centered, Description + CTA below */}
+        <div className="text-center lg:text-left lg:grid lg:items-center lg:gap-8 lg:grid-cols-2 lg:gap-16">
+          {/* Title */}
+          <div className="flex justify-center lg:justify-start items-center mb-8 lg:mb-0">
+            <h1 className="font-[family-name:var(--font-grenze-gotisch)] text-6xl sm:text-8xl lg:text-[9rem] xl:text-[12rem] 2xl:text-[15rem] leading-none text-white">
+              Lirah
+            </h1>
+          </div>
+
+          {/* Description + CTA */}
+          <div>
+            <p className="mb-4 text-xl sm:text-2xl font-semibold text-white">
+              Context management for CLI agents
+            </p>
+            <p className="mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed text-[#a6a6a6] max-w-xl mx-auto lg:mx-0">
+              Stop feeding bloated prompts to your agents. Smart file selection, prompt scaffolding, and token discipline—so you can run agents longer for less.
+            </p>
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
+              <a
+                href="https://github.com/emdmed/lirah"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
+              >
+                Get Started Free
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="#problem"
+                className="inline-flex h-12 items-center justify-center rounded-lg border border-dashed border-white/20 bg-white/5 px-6 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
+              >
+                Why It Matters
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Product Screenshot */}
+        <div className="mt-8 sm:mt-16">
+          <div className="relative">
+            <div className="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 h-4 w-4 sm:h-6 sm:w-6 border-l-2 border-t-2 border-dashed border-white/30" />
+            <div className="absolute -right-2 -top-2 sm:-right-3 sm:-top-3 h-4 w-4 sm:h-6 sm:w-6 border-r-2 border-t-2 border-dashed border-white/30" />
+
+            <div className="relative max-h-[300px] sm:max-h-[400px] overflow-hidden rounded-xl bg-[#09090b]">
+              <Image
+                src="/lirah-screenshot.png"
+                alt="Lirah - A Smarter GUI for CLI Coding Agents"
+                width={1200}
+                height={800}
+                className="w-full object-cover object-top"
+                priority
+              />
+              {/* Gradient overlay to fade bottom half */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent from-40% via-[#09090b]/50 via-70% to-[#09090b]" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
