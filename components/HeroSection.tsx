@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Github } from "lucide-react";
 
 export function HeroSection() {
   return (
@@ -27,10 +27,10 @@ export function HeroSection() {
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
               <a
-                href="https://github.com/emdmed/lirah"
+                href="#download"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
               >
-                Get Started Free
+                Download Free
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
@@ -38,6 +38,13 @@ export function HeroSection() {
                 className="inline-flex h-12 items-center justify-center rounded-lg border border-dashed border-white/20 bg-white/5 px-6 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
               >
                 Why It Matters
+              </a>
+              <a
+                href="https://github.com/emdmed/lirah"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 bg-white/5 px-6 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
+              >
+                <Github className="h-5 w-5" />
+                GitHub
               </a>
             </div>
           </div>

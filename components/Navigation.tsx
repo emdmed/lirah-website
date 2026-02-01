@@ -36,10 +36,10 @@ export function Navigation() {
             Workflows
           </a>
           <a
-            href="https://github.com/emdmed/lirah"
+            href="#download"
             className="flex h-9 items-center gap-2 rounded-lg bg-[#14b8a6] px-4 text-sm font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
           >
-            Get Started
+            Download
             <ArrowRight className="h-4 w-4" />
           </a>
         </div>
@@ -83,11 +83,11 @@ export function Navigation() {
               Workflows
             </a>
             <a
-              href="https://github.com/emdmed/lirah"
+              href="#download"
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center gap-2 rounded-lg bg-[#14b8a6] px-4 py-2 text-sm font-medium text-[#09090b] transition-colors hover:bg-[#5eead4] w-fit"
             >
-              Get Started
+              Download
               <ArrowRight className="h-4 w-4" />
             </a>
           </div>

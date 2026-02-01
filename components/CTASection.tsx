@@ -15,10 +15,10 @@ export function CTASection() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="https://github.com/emdmed/lirah"
+            href="#download"
             className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 sm:px-8 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4] w-full sm:w-fit"
           >
-            Get Started Free
+            Download Free
             <ArrowRight className="h-4 w-4" />
           </a>
           <a
