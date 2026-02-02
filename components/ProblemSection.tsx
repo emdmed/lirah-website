@@ -4,23 +4,23 @@ export function ProblemSection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center mb-12">
           <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#f6543e]">
-            The Problem
+            The Real Cost
           </p>
           <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-            Your Agent Is Only As Good As Its Context
+            Wasting Tokens on Irrelevant Context?
           </h2>
           <p className="mx-auto max-w-2xl text-base sm:text-lg text-[#969696]">
-            Running agents all day means you&apos;ve felt these frustrations firsthand.
+            Running agents all day means you&apos;re burning cash on tokens your AI never even uses. These frustrations are costing you time and money.
           </p>
         </div>
 
         <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
           <div className="relative rounded-xl border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 p-4 sm:p-6">
             <h3 className="mb-2 font-semibold text-white flex items-center gap-2">
-              <span className="text-[#f6543e]">01</span> Accidental Context Overload
+              <span className="text-[#f6543e]">01</span> Burning Tokens on Noise
             </h3>
             <p className="text-sm text-[#969696]">
-              Irrelevant files flooding context windows. You&apos;re paying for tokens the agent never even needs.
+              Irrelevant files flooding context windows. Every wasted token is money down the drain on files your AI never touches.
             </p>
           </div>
 
@@ -44,10 +44,10 @@ export function ProblemSection() {
 
           <div className="relative rounded-xl border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 p-4 sm:p-6">
             <h3 className="mb-2 font-semibold text-white flex items-center gap-2">
-              <span className="text-[#f6543e]">04</span> Usage Limits Hit Fast
+              <span className="text-[#f6543e]">04</span> Hitting Limits by Noon?
             </h3>
             <p className="text-sm text-[#969696]">
-              Context bloat means burning through your Claude plan. Fewer iterations per session, higher costs.
+              Context bloat burns through your Claude plan before lunch. Half the coding time, twice the cost. Sound familiar?
             </p>
           </div>
 
@@ -72,7 +72,7 @@ export function ProblemSection() {
 
         <p className="mt-8 sm:mt-12 text-center text-base sm:text-lg text-[#969696]">
           These aren&apos;t edge cases.{" "}
-          <span className="text-white">They&apos;re why you spend more time managing context than building features.</span>
+          <span className="text-white font-bold">They&apos;re costing you tokens and productivity.</span>
         </p>
       </div>
     </section>

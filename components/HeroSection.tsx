@@ -8,22 +8,15 @@ export function HeroSection() {
       <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[300px] w-[500px] sm:h-[400px] sm:w-[600px] -translate-x-1/2 rounded-full bg-[#14b8a6]/10 blur-[100px]" />
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        {/* Mobile-first layout: Title centered, Description + CTA below */}
+        {/* Mobile-first layout: Description + CTA first, then Title */}
         <div className="text-center lg:text-left lg:grid lg:items-center lg:gap-8 lg:grid-cols-2 lg:gap-16">
-          {/* Title */}
-          <div className="flex justify-center lg:justify-start items-center mb-8 lg:mb-0">
-            <h1 className="font-[family-name:var(--font-grenze-gotisch)] text-6xl sm:text-8xl lg:text-[9rem] xl:text-[12rem] 2xl:text-[15rem] leading-none text-white">
-              Lirah
-            </h1>
-          </div>
-
           {/* Description + CTA */}
           <div>
-            <p className="mb-4 text-xl sm:text-2xl font-semibold text-white">
-              Context discipline for CLI agents
+            <p className="mb-4 text-xl sm:text-2xl font-bold text-white">
+              Stop Wasting Tokens. Start Building.
             </p>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed text-[#a6a6a6] max-w-xl mx-auto lg:mx-0">
-              Stop fighting context bloat. Smart file selection, explicit intent, and token discipline—so your agents know exactly what you mean, without the babysitting.
+              Smarter context for CLI coding agents. Smart file selection, explicit intent, and token discipline—so your agents know exactly what you mean, without the babysitting.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
               <a
@@ -39,14 +32,14 @@ export function HeroSection() {
               >
                 Why It Matters
               </a>
-              <a
-                href="https://github.com/emdmed/lirah"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg border border-dashed border-white/20 bg-white/5 px-6 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
-              >
-                <Github className="h-5 w-5" />
-                GitHub
-              </a>
             </div>
+          </div>
+
+          {/* Title */}
+          <div className="flex justify-center lg:justify-start items-center">
+            <h1 className="font-[family-name:var(--font-grenze-gotisch)] text-6xl sm:text-8xl lg:text-[9rem] xl:text-[12rem] 2xl:text-[15rem] leading-none text-white">
+              Lirah
+            </h1>
           </div>
         </div>
 

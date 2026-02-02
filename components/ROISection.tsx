@@ -3,23 +3,23 @@ import { DollarSign, Clock, Brain, Rocket } from "lucide-react";
 const benefits = [
   {
     icon: DollarSign,
-    title: "Stretch Your Plan",
-    description: "Smart token discipline means more work per dollar",
+    title: "Reduce Token Waste",
+    description: "Smart token discipline stretches your plan further",
   },
   {
     icon: Clock,
     title: "More Iterations",
-    description: "Clean context = deeper agent sessions before limits",
+    description: "Clean context means more coding before hitting limits",
   },
   {
     icon: Brain,
-    title: "Better Output",
-    description: "Explicit intent = fewer hallucinations, more accurate results",
+    title: "Fewer Errors",
+    description: "Explicit intent = accurate results, less debugging",
   },
   {
     icon: Rocket,
-    title: "Terminal-Native",
-    description: "Fits your workflow—no ceremony, no speed trade-offs",
+    title: "Reclaim Your Flow",
+    description: "No more context curation—just pure coding flow",
   },
 ];
 
@@ -29,10 +29,10 @@ export function ROISection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center">
           <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
-            Ship More, Spend Less
+            Your Bottom Line
           </p>
           <h2 className="mb-8 sm:mb-12 text-2xl sm:text-3xl font-bold tracking-tight">
-            Better Results, Lower Burn
+            Less Waste. More Flow.
           </h2>
         </div>
 

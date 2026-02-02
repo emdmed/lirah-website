@@ -23,3 +23,11 @@ software engineers, frontend engineers, AI engineers, founders, agent builders, 
 - Focus on clarity of value, fast comprehension, and conversion
 - Avoid marketing fluff
 - Emphasize real workflow impact and cost savings
+
+This product is not for all Coding AI Agents users
+It’s for those who:
+
+care about token usage
+repeat workflows
+want fine-grained control
+work in large repositories

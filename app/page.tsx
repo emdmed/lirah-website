@@ -23,11 +23,11 @@ export default function Home() {
         <HeroSection />
         <DownloadSection />
         <ProblemSection />
+        <ROISection />
         <FeaturesSection />
         <PromptingSection />
         <SyncSection />
         <WorkflowsSection />
-        <ROISection />
         <TestimonialsSection />
         <CTASection />
         <TechStackSection />

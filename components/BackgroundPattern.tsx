@@ -3,7 +3,7 @@ export function BackgroundPattern() {
     <>
       {/* Layered grid pattern */}
       <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.58]"
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.46]"
         style={{
           backgroundImage: `
             radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 1px, transparent 0),
@@ -14,7 +14,7 @@ export function BackgroundPattern() {
         }}
       />
       <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.46]"
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.37]"
         style={{
           background: `repeating-linear-gradient(
             45deg,
@@ -26,7 +26,7 @@ export function BackgroundPattern() {
         }}
       />
       <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.34]"
+        className="pointer-events-none fixed inset-0 z-0 opacity-[0.27]"
         style={{
           backgroundImage: `radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px)`,
           backgroundSize: '60px 60px',
