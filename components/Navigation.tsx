@@ -37,7 +37,7 @@ export function Navigation() {
           </a>
           <a
             href="#download"
-            className="flex h-9 items-center gap-2 rounded-lg bg-[#14b8a6] px-4 text-sm font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
+            className="flex h-9 items-center gap-2 rounded-lg bg-[#7a9e98] px-4 text-sm font-medium text-[#09090b] transition-colors hover:bg-[#a0b8b3]"
           >
             Download
             <ArrowRight className="h-4 w-4" />
@@ -85,7 +85,7 @@ export function Navigation() {
             <a
               href="#download"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-2 rounded-lg bg-[#14b8a6] px-4 py-2 text-sm font-medium text-[#09090b] transition-colors hover:bg-[#5eead4] w-fit"
+              className="flex items-center gap-2 rounded-lg bg-[#7a9e98] px-4 py-2 text-sm font-medium text-[#09090b] transition-colors hover:bg-[#a0b8b3] w-fit"
             >
               Download
               <ArrowRight className="h-4 w-4" />

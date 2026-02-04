@@ -5,7 +5,7 @@ export function HeroSection() {
   return (
     <section className="relative overflow-hidden pb-16 sm:pb-24 pt-24 sm:pt-32">
       {/* Subtle glow accent */}
-      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[300px] w-[500px] sm:h-[400px] sm:w-[600px] -translate-x-1/2 rounded-full bg-[#14b8a6]/10 blur-[100px]" />
+      <div className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[300px] w-[500px] sm:h-[400px] sm:w-[600px] -translate-x-1/2 rounded-full bg-[#7a9e98]/10 blur-[100px]" />
 
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         {/* Mobile-first layout: Description + CTA first, then Title */}
@@ -16,12 +16,12 @@ export function HeroSection() {
               Stop Wasting Tokens. Start Building.
             </p>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed text-[#a6a6a6] max-w-xl mx-auto lg:mx-0">
-              Smarter context for CLI coding agents. Smart file selection, explicit intent, and token discipline—so your agents know exactly what you mean, without the babysitting.
+              Smarter context for CLI coding agents. Smart file selection, explicit intent, and project-wide context compaction—so your agents see your entire codebase without burning your context window.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
               <a
                 href="#download"
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#14b8a6] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#5eead4]"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#7a9e98] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#a0b8b3]"
               >
                 Download Free
                 <ArrowRight className="h-4 w-4" />

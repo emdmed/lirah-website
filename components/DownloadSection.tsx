@@ -70,18 +70,18 @@ export function DownloadSection() {
                   platform.comingSoon
                     ? "border-dashed border-white/10 bg-white/[0.02] opacity-60"
                     : isDetected
-                    ? "border-[#14b8a6] bg-[#14b8a6]/10 ring-1 ring-[#14b8a6]/50"
+                    ? "border-[#7a9e98] bg-[#7a9e98]/10 ring-1 ring-[#7a9e98]/50"
                     : "border-dashed border-white/20 bg-white/5"
                 }`}
               >
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#14b8a6]/10">
-                    <Icon className="h-5 w-5 text-[#14b8a6]" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#7a9e98]/10">
+                    <Icon className="h-5 w-5 text-[#7a9e98]" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">{platform.name}</h3>
                     {isDetected && (
-                      <span className="text-xs text-[#14b8a6]">Detected</span>
+                      <span className="text-xs text-[#7a9e98]">Detected</span>
                     )}
                   </div>
                 </div>
@@ -95,9 +95,9 @@ export function DownloadSection() {
                       <a
                         key={link.label}
                         href={link.url}
-                        className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-[#14b8a6]/50 hover:bg-[#14b8a6]/10"
+                        className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:border-[#7a9e98]/50 hover:bg-[#7a9e98]/10"
                       >
-                        <Download className="h-4 w-4 text-[#14b8a6]" />
+                        <Download className="h-4 w-4 text-[#7a9e98]" />
                         {link.label}
                       </a>
                     ))
@@ -118,7 +118,7 @@ export function DownloadSection() {
           </a>
           <a
             href="https://github.com/emdmed/lirah/releases"
-            className="text-sm text-[#969696] hover:text-[#14b8a6] transition-colors"
+            className="text-sm text-[#969696] hover:text-[#7a9e98] transition-colors"
           >
             View all releases →
           </a>

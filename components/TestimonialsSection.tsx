@@ -12,7 +12,7 @@ export function TestimonialsSection() {
     <section className="border-t border-dashed border-white/20 py-16 sm:py-24">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="text-center mb-12">
-          <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
+          <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#7a9e98]">
             What Developers Say
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
@@ -26,9 +26,9 @@ export function TestimonialsSection() {
               key={index}
               className="relative rounded-xl border border-dashed border-white/20 bg-[#0f0f11] p-6"
             >
-              <div className="absolute -left-1 -top-1 h-3 w-3 border-l border-t border-[#14b8a6]/50" />
-              <div className="absolute -right-1 -top-1 h-3 w-3 border-r border-t border-[#14b8a6]/50" />
-              <Quote className="h-6 w-6 text-[#14b8a6]/40 mb-4" />
+              <div className="absolute -left-1 -top-1 h-3 w-3 border-l border-t border-[#7a9e98]/50" />
+              <div className="absolute -right-1 -top-1 h-3 w-3 border-r border-t border-[#7a9e98]/50" />
+              <Quote className="h-6 w-6 text-[#7a9e98]/40 mb-4" />
               <p
                 className="text-sm sm:text-base text-[#a6a6a6] mb-4"
                 dangerouslySetInnerHTML={{ __html: `&ldquo;${testimonial.quote}&rdquo;` }}

@@ -14,7 +14,7 @@ export function FeaturesSection() {
         <div className="grid items-center gap-8 lg:gap-16 lg:grid-cols-2">
           {/* Content */}
           <div>
-            <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#14b8a6]">
+            <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#7a9e98]">
               Context as First-Class
             </p>
             <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
@@ -27,24 +27,24 @@ export function FeaturesSection() {
 
             <ul className="space-y-3 sm:space-y-4">
               <li className="flex items-start gap-3">
-                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#14b8a6]/40 bg-[#14b8a6]/10">
-                  <FolderTree className="h-3 w-3 text-[#14b8a6]" />
+                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10">
+                  <FolderTree className="h-3 w-3 text-[#7a9e98]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
                   <strong className="text-white">Visual file selection</strong>—intentional context, not accidental
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#14b8a6]/40 bg-[#14b8a6]/10">
-                  <FileText className="h-3 w-3 text-[#14b8a6]" />
+                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10">
+                  <FileText className="h-3 w-3 text-[#7a9e98]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
                   <strong className="text-white">Explicit file modes</strong>—modify/reference/example intent
                 </span>
               </li>
               <li className="flex items-start gap-3">
-                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#14b8a6]/40 bg-[#14b8a6]/10">
-                  <Target className="h-3 w-3 text-[#14b8a6]" />
+                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10">
+                  <Target className="h-3 w-3 text-[#7a9e98]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
                   <strong className="text-white">Token discipline</strong>—smart slicing vs full-file dumps
@@ -54,9 +54,9 @@ export function FeaturesSection() {
 
             {/* File modes */}
             <div className="mt-4 sm:mt-6 flex flex-wrap gap-2 sm:gap-3">
-              <div className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#14b8a6]/30 bg-[#14b8a6]/5 px-3 py-2">
-                <Pencil className="h-4 w-4 text-[#14b8a6]" />
-                <span className="text-sm text-[#14b8a6]">Modify</span>
+              <div className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#7a9e98]/30 bg-[#7a9e98]/5 px-3 py-2">
+                <Pencil className="h-4 w-4 text-[#7a9e98]" />
+                <span className="text-sm text-[#7a9e98]">Modify</span>
               </div>
               <div className="inline-flex items-center gap-2 rounded-lg border border-dashed border-[#f6543e]/30 bg-[#f6543e]/5 px-3 py-2">
                 <Ban className="h-4 w-4 text-[#f6543e]" />
@@ -68,26 +68,26 @@ export function FeaturesSection() {
               </div>
             </div>
 
-            <p className="mt-6 sm:mt-8 border-l-2 border-[#14b8a6]/50 pl-4 text-sm sm:text-base text-[#969696]">
+            <p className="mt-6 sm:mt-8 border-l-2 border-[#7a9e98]/50 pl-4 text-sm sm:text-base text-[#969696]">
               <strong className="text-white">Result:</strong> Your agent knows exactly what you mean. No babysitting, no wasted tokens, just better results.
             </p>
           </div>
 
           {/* Visual */}
           <div className="relative">
-            <div className="absolute -left-2 -top-2 h-4 w-4 border-l border-t border-[#14b8a6]/50" />
-            <div className="absolute -right-2 -top-2 h-4 w-4 border-r border-t border-[#14b8a6]/50" />
-            <div className="absolute -bottom-2 -left-2 h-4 w-4 border-b border-l border-[#14b8a6]/50" />
-            <div className="absolute -bottom-2 -right-2 h-4 w-4 border-b border-r border-[#14b8a6]/50" />
+            <div className="absolute -left-2 -top-2 h-4 w-4 border-l border-t border-[#7a9e98]/50" />
+            <div className="absolute -right-2 -top-2 h-4 w-4 border-r border-t border-[#7a9e98]/50" />
+            <div className="absolute -bottom-2 -left-2 h-4 w-4 border-b border-l border-[#7a9e98]/50" />
+            <div className="absolute -bottom-2 -right-2 h-4 w-4 border-b border-r border-[#7a9e98]/50" />
 
             <div className="rounded-xl border border-dashed border-white/20 bg-[#0f0f11] p-4 sm:p-6">
               <div className="space-y-3 font-mono text-sm">
                 <div className="flex items-center justify-between rounded-lg border border-dashed border-white/10 bg-white/5 px-3 py-2 sm:px-4 sm:py-3">
                   <div className="flex items-center gap-2 sm:gap-3">
-                    <FileText className="h-4 w-4 text-[#14b8a6]" />
+                    <FileText className="h-4 w-4 text-[#7a9e98]" />
                     <span className="text-xs sm:text-sm text-[#a6a6a6] truncate">src/components/Button.tsx</span>
                   </div>
-                  <span className="rounded border border-dashed border-[#14b8a6]/40 bg-[#14b8a6]/10 px-2 py-1 text-xs text-[#14b8a6] whitespace-nowrap">
+                  <span className="rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10 px-2 py-1 text-xs text-[#7a9e98] whitespace-nowrap">
                     MODIFY
                   </span>
                 </div>
