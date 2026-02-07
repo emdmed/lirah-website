@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ArrowRight, Github } from "lucide-react";
 
 export function HeroSection() {
@@ -50,15 +49,14 @@ export function HeroSection() {
             <div className="absolute -right-2 -top-2 sm:-right-3 sm:-top-3 h-4 w-4 sm:h-6 sm:w-6 border-r-2 border-t-2 border-dashed border-white/30" />
 
             <div className="relative rounded-xl bg-[#09090b]">
-              <Image
-                src="/lirah-screenshot.png"
-                alt="Lirah - A Smarter GUI for CLI Coding Agents"
-                width={1200}
-                height={800}
+              <video
+                src="/screenrecording-2026-02-07_16-11-20.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
                 className="w-full rounded-lg"
-                priority
               />
-
             </div>
           </div>
         </div>
