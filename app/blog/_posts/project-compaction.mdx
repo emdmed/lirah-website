@@ -1,0 +1,88 @@
+---
+title: "Project Compaction: Making Large JS/TS Codebases Usable in AI Context Windows"
+date: "2026-02-06"
+description: "How project compaction transforms entire codebases into concise, structured representations that preserve architectural intent while dramatically reducing token usage."
+---
+
+# Project Compaction: Making Large JS/TS Codebases Usable in AI Context Windows
+
+Developers working on medium to large JavaScript and TypeScript projects increasingly rely on AI coding assistants for design, refactoring, and debugging. However, these tools are constrained by limited context windows, which makes it difficult to provide sufficient project-wide information without extensive manual effort.
+
+Project compaction addresses this problem by transforming an entire codebase into a concise, structured representation that preserves architectural intent while dramatically reducing token usage.
+
+## The Context Challenge in Practice
+
+In real-world codebases (10K–100K+ lines), developers routinely encounter the following issues:
+
+- Uncertainty about which files are relevant before asking a question
+- Frequent context window overflows when sharing multiple modules
+- Incomplete or incorrect AI responses due to missing architectural context
+- Repeated manual explanations of project structure across sessions
+
+These issues limit the effectiveness of AI tools precisely in scenarios where broader codebase awareness is required.
+
+## What Project Compaction Does
+
+Rather than supplying raw source files, project compaction produces a structural overview of the entire repository. This overview captures:
+
+- Imports and exports
+- Functions, classes, and constants
+- React components and higher-order component patterns
+- Hook usage, including useEffect dependency arrays
+- TypeScript types and interfaces
+- File boundaries and line counts
+
+The result is a representation that retains semantic structure while achieving **70–90% token reduction** compared to the original source.
+
+## AST-Based Analysis for Reliability
+
+Compaction is driven by Abstract Syntax Tree (AST) analysis using Babel and TypeScript-aware parsing. This approach enables:
+
+- Accurate identification of React components and hooks
+- Differentiation between functions, components, and HOCs
+- Extraction of type information where available
+- Independence from formatting, comments, or coding style
+
+Because the output is derived from syntax rather than heuristics, it is deterministic and auditable—important for developers who prefer transparency over opaque summarization.
+
+## Skeletons Instead of Source Code
+
+Each file is reduced to a skeleton that describes what is defined and where, without including implementation details.
+
+Conceptually:
+
+```
+Components: Sidebar (memo):12, Header:48
+Hooks: useState(3), useEffect([user, token])
+Exports: default App
+Types: User, ApiResponse
+```
+
+This level of detail is sufficient for architectural reasoning, dependency analysis, and high-level refactoring discussions, while avoiding unnecessary token expenditure.
+
+## Designed for Experienced Developers
+
+Project compaction aligns with established developer workflows:
+
+- One action replaces manual file selection
+- Token savings are visible and quantifiable
+- The full project is included by default
+- Output is consistent and reviewable
+
+The intent is to reduce overhead, not introduce abstraction layers that obscure how the system works.
+
+## Impact on AI-Assisted Development
+
+With a compacted project representation, AI tools can operate with a more complete understanding of the codebase:
+
+- Architectural questions receive context-aware answers
+- Refactoring suggestions account for cross-file dependencies
+- Discussions remain consistent across sessions without repeated setup
+
+This makes AI assistance viable for broader classes of problems that were previously impractical due to context constraints.
+
+## Conclusion
+
+Project compaction reframes the interaction between developers and AI tools. By preserving architectural structure while dramatically reducing token usage, it enables full-codebase awareness without manual context curation.
+
+For developers working at scale, this shifts AI assistance from a narrow, file-level tool to a system capable of reasoning about the project as a whole.

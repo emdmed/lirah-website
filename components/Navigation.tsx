@@ -36,6 +36,12 @@ export function Navigation() {
             Workflows
           </a>
           <a
+            href="/blog"
+            className="text-sm text-[#a6a6a6] transition-colors hover:text-white"
+          >
+            Blog
+          </a>
+          <a
             href="#download"
             className="flex h-9 items-center gap-2 rounded-lg bg-[#7a9e98] px-4 text-sm font-medium text-[#09090b] transition-colors hover:bg-[#a0b8b3]"
           >
@@ -81,6 +87,13 @@ export function Navigation() {
               className="block text-sm text-[#a6a6a6] transition-colors hover:text-white py-2"
             >
               Workflows
+            </a>
+            <a
+              href="/blog"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block text-sm text-[#a6a6a6] transition-colors hover:text-white py-2"
+            >
+              Blog
             </a>
             <a
               href="#download"
