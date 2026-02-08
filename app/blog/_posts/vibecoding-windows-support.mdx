@@ -1,0 +1,93 @@
+---
+title: "Vibecoding Windows Support for Lirah — Part 1"
+date: "2026-02-08"
+description: "How short prompts started porting a Unix-centric Rust tool to Windows"
+---
+
+# Vibecoding Windows Support for Lirah — Part 1
+
+Most discussions about AI coding assistants focus on code generation. In practice, a more useful role is iterative debugging assistance: describing observed behavior, receiving hypotheses and code changes, testing them, and repeating. The model functions less as an autonomous programmer and more as an interactive troubleshooting tool.
+
+I recently began adding Windows support to Lirah — a Rust backend with a frontend developer environment — while working inside Lirah itself. This first part describes the initial session involving the Rust backend.
+
+I did not prepare a formal specification. The interaction consisted mainly of short problem descriptions and follow-up observations.
+
+Prompts used (abridged):
+
+- Implement the following plan: Add Windows Support to Rust Backend
+- is the rest of the functionality compatible with windows?
+- yes apply it
+- In navigation mode, the cd command is copied to the terminal but is not confirmed on windows powershell
+- in windows when switching to file tree mode with control + k, I get no files in the filetree, the backend terminal says something like "max files limit exceeded"
+- Still getting this message in the terminal when switching to filetree mode (agent mode) in windows: Warning: Reached max file limit of 10000
+- Its looking in the wrong path, not in the path of the project Im in (with debug output)
+- Getting compile error: no method named with_parent found for struct ProcessRefreshKind
+- Getting this error now in windows (still showing C:\Users\arsin\ as CWD, with debug output)
+- filetree view still not working (path is now correct but no files appear)
+
+The session resulted in working PowerShell integration, correct working directory detection, Windows path handling, protection against NTFS junction recursion, correct command invocation (including tsc.cmd), and file tree navigation.
+
+This article explains what actually happened technically.
+
+## Short Prompts and Debugging
+
+Short prompts were effective mainly because they reported observable behavior instead of proposed causes. Long prompts often include a developer's hypothesis, which can be wrong and can bias both humans and tools. Reporting only symptoms keeps the search space open.
+
+For example: "cd command is copied to the terminal but is not confirmed on windows powershell." This description identifies that the terminal launches, text is injected, PowerShell receives characters, but the command is not executed. That narrows the problem to how the shell interprets input rather than terminal rendering or process spawning.
+
+## What the Model Is Actually Doing
+
+The model does not inspect the running system and does not infer operating system behavior from first principles. Instead, it produces likely explanations based on patterns learned from documentation, source code, and past bug reports. The debugging loop works because the user validates each suggestion and provides new observations. The process is therefore interactive hypothesis testing, not autonomous reasoning.
+
+Providing repeated observations lets the model adjust its next guess. This resembles a guided troubleshooting session more than automatic software engineering.
+
+## Windows Porting Problems
+
+The failures were not primarily API differences. They were assumptions about environment behavior that were valid on Unix-like systems but not on Windows. Three categories appeared.
+
+### Shell Input and Command Execution
+
+Symptom: the "cd" command appeared in the terminal but the directory did not change.
+
+The program sent newline characters in a way that PowerShell did not interpret as an Enter key. Windows console input handling commonly expects CRLF line endings or proper console events. Sending only `\n` to a pseudo-terminal or pipe may not trigger command execution.
+
+The fix was to emit CRLF or otherwise correctly signal command submission to the Windows console. After this change, navigation mode worked. The issue was not specific to PowerShell syntax — it was console input handling differences.
+
+### File Tree "Max File Limit 10000"
+
+Symptom: switching to file tree mode produced a warning about exceeding a file limit.
+
+Recursive directory traversal followed NTFS reparse points (junctions), creating cycles such as:
+
+```
+C:\Documents and Settings -> C:\Users
+C:\Users\All Users -> C:\ProgramData
+```
+
+The scanner repeatedly re-entered directories and eventually reached the safety limit. This is a common Windows filesystem problem.
+
+The fix was to skip reparse points and system/hidden directories during recursion instead of increasing the file limit. After excluding junctions, file enumeration completed normally.
+
+### Incorrect Working Directory
+
+Symptom: the tool reported the working directory as `C:\Users\arsin\` instead of the project path.
+
+On Linux, a process's working directory can be read via `/proc/<pid>/cwd`. Windows does not provide an equivalent filesystem path, and shells can change directories independently of the parent process. The program therefore relied on an assumption that was only valid on Unix.
+
+The fix was to track the working directory through process information and shell synchronization rather than reading a procfs path. Using a system information library and synchronizing the terminal prompt allowed the editor and terminal to agree on the current directory.
+
+## Why This Workflow Helped
+
+The usefulness of short prompts came from the feedback loop: observe, describe, propose change, test, repeat. The model contributed candidate explanations based on common cross-platform bugs. The user verified each one. This is similar to pair debugging, except one participant is a statistical text model.
+
+## Unexpected Effect
+
+Making the software run on Windows removed implicit Unix assumptions: executable resolution differences (.cmd vs direct binaries), path separators and normalization, shell quoting rules, home directory resolution, and recursive filesystem traversal behavior. The port therefore exposed assumptions that were previously invisible.
+
+## What This Method Is Good For
+
+This approach worked best for environment differences, platform portability bugs, integration issues, and toolchain invocation problems. It was less useful for architecture design or large new features. The model did not independently design the system — it suggested fixes based on known patterns while the human validated them.
+
+The session did not demonstrate autonomous programming. It demonstrated iterative debugging assistance using a model that can propose plausible causes for observed behavior.
+
+In the next part, I'll cover what happened when the same approach was applied to the remaining components.
