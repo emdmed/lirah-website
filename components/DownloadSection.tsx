@@ -55,7 +55,7 @@ export function DownloadSection() {
             Download <span className="font-[family-name:var(--font-grenze-gotisch)]">Lirah</span>
           </h2>
           <p className="mx-auto max-w-2xl text-base sm:text-lg text-[#969696]">
-            Currently available on Linux (Ubuntu, Arch Linux). Build from source. Free and open source.
+            Free and open source. Currently available on Linux (Ubuntu, Arch Linux)—start saving tokens in minutes.
           </p>
         </div>
 

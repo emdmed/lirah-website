@@ -7,10 +7,10 @@ export function ProblemSection() {
             The Real Cost
           </p>
           <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-            Wasting Tokens on Irrelevant Context?
+            Your Agent Is Eating Tokens for Breakfast—and You&apos;re Paying the Bill
           </h2>
           <p className="mx-auto max-w-2xl text-base sm:text-lg text-[#969696]">
-            Running agents all day means you&apos;re burning cash on tokens your AI never even uses. These frustrations are costing you time and money.
+            Every file your agent reads but never uses is money you&apos;ll never get back. If any of these sound familiar, you&apos;re not alone.
           </p>
         </div>
 
@@ -71,8 +71,8 @@ export function ProblemSection() {
         </div>
 
         <p className="mt-8 sm:mt-12 text-center text-base sm:text-lg text-[#969696]">
-          These aren&apos;t edge cases.{" "}
-          <span className="text-white font-bold">They&apos;re costing you tokens and productivity.</span>
+          Sound familiar?{" "}
+          <span className="text-white font-bold">You&apos;re not bad at prompting—your tools are wasting your money.</span>
         </p>
       </div>
     </section>

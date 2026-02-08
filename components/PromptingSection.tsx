@@ -51,7 +51,7 @@ export function PromptingSection() {
               <span className="block text-[#969696]">The Same Prompts</span>
             </h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
-              No more ad-hoc gists or note templates. A proper editor for the prompts you run every day—built for velocity, not demos.
+              You write the same prompts every day. Save them once, reuse them forever. A proper editor that sends straight to your agent—so you stay in flow instead of copy-pasting from notes.
             </p>
 
             <ul className="space-y-3 sm:space-y-4">
@@ -82,7 +82,7 @@ export function PromptingSection() {
             </ul>
 
             <p className="mt-6 sm:mt-8 text-base sm:text-lg font-medium text-white">
-              Efficiency without slowing flow.
+              Write it once. Use it every day. Ship faster.
             </p>
           </div>
         </div>

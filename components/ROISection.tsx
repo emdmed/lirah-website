@@ -3,23 +3,23 @@ import { DollarSign, Clock, Brain, Rocket } from "lucide-react";
 const benefits = [
   {
     icon: DollarSign,
-    title: "Reduce Token Waste",
-    description: "Smart token discipline stretches your plan further",
+    title: "Cut Your Token Bill",
+    description: "Use up to 90% fewer tokens per session—stretch your plan for weeks, not days",
   },
   {
     icon: Clock,
-    title: "More Iterations",
-    description: "Clean context means more coding before hitting limits",
+    title: "Code Longer, Not Harder",
+    description: "Hit your rate limit at 6pm instead of noon. More iterations, more shipped features",
   },
   {
     icon: Brain,
-    title: "Fewer Errors",
-    description: "Explicit intent = accurate results, less debugging",
+    title: "Stop Debugging Hallucinations",
+    description: "When your agent sees only what matters, it stops guessing and starts getting it right",
   },
   {
     icon: Rocket,
-    title: "Reclaim Your Flow",
-    description: "No more context curation—just pure coding flow",
+    title: "Get Back to Building",
+    description: "Stop babysitting context. Open Lirah, select files, and let your agent do its job",
   },
 ];
 
@@ -32,7 +32,7 @@ export function ROISection() {
             Your Bottom Line
           </p>
           <h2 className="mb-8 sm:mb-12 text-2xl sm:text-3xl font-bold tracking-tight">
-            Less Waste. More Flow.
+            What Changes When You Stop Wasting Tokens
           </h2>
         </div>
 

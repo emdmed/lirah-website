@@ -2,8 +2,8 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "I built Lirah with Lirah and a 20 bucks LLM plan. <span class=\"text-white\">Using it everyday now</span>.",
-    author: "Lirah's Dev",
+    quote: "I built the entire Lirah app using Lirah itself—on a $20/month LLM plan. No rate limit issues, no wasted tokens. <span class=\"text-white\">It's my daily driver now</span>.",
+    author: "Lirah's Creator",
   },
 ];
 
@@ -39,7 +39,7 @@ export function TestimonialsSection() {
         </div>
 
         <p className="mt-8 text-center text-sm text-[#969696]">
-          Built by software engineers, for software engineers. Highly recommend for anyone doing agentic AI work.
+          Built by a developer who got tired of wasting tokens. If you use CLI agents daily, you&apos;ll feel the difference immediately.
         </p>
       </div>
     </section>

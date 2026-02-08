@@ -31,10 +31,10 @@ export function WorkflowsSection() {
             Agentic Dev Workflows
           </p>
           <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-            Pre-Built Workflows for Agent Builders
+            Stop Reinventing Your Workflow Every Session
           </h2>
           <p className="mx-auto mb-8 sm:mb-12 max-w-2xl text-base sm:text-lg text-[#969696]">
-            High-leverage tooling out of the box. Workflow templates designed for real agentic AI users—not demos.
+            Pick a workflow, select your files, and go. Pre-built templates for the tasks you actually do every day—so you spend less time setting up and more time shipping.
           </p>
         </div>
 

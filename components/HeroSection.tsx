@@ -12,24 +12,24 @@ export function HeroSection() {
           {/* Description + CTA */}
           <div>
             <p className="mb-4 text-xl sm:text-2xl font-bold text-white">
-              Stop Wasting Tokens. Start Building.
+              Ship More Code. Burn Fewer Tokens.
             </p>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed text-[#a6a6a6] max-w-xl mx-auto lg:mx-0">
-              Smarter context for CLI coding agents. Smart file selection, explicit intent, and project-wide context compaction—so your agents see your entire codebase without burning your context window.
+              Most of what your AI agent reads, it never uses. Lirah gives it exactly what it needs—so you get more iterations, fewer hallucinations, and stop hitting rate limits by noon.
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 justify-center lg:justify-start">
               <a
                 href="#download"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-[#7a9e98] px-6 text-base font-medium text-[#09090b] transition-colors hover:bg-[#a0b8b3]"
               >
-                Download Free
+                Get Lirah Free
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href="#problem"
                 className="inline-flex h-12 items-center justify-center rounded-lg border border-dashed border-white/20 bg-white/5 px-6 text-base font-medium text-white transition-colors hover:border-white/40 hover:bg-white/10"
               >
-                Why It Matters
+                See How It Works
               </a>
             </div>
           </div>

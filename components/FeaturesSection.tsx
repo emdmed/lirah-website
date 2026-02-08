@@ -22,7 +22,7 @@ export function FeaturesSection() {
               <span className="block text-[#969696]">Not Implicit Noise</span>
             </h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
-              Context as a first-class primitive. Tell agents exactly how to use each file—no more guessing, no more bloat, just signal.
+              Tell your agent exactly how to use each file—which ones to edit, which to reference, and which to leave alone. No more guessing, no more bloat.
             </p>
 
             <ul className="space-y-3 sm:space-y-4">

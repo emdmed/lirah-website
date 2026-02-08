@@ -15,7 +15,7 @@ export function ProjectCompactSection() {
               <span className="block text-[#969696]">A Fraction of the Tokens.</span>
             </h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
-              Stop cherry-picking files. With one shortcut, your agent sees your entire project structure—every function signature, every class definition—compressed into a token-efficient overview.
+              One keyboard shortcut gives your agent a bird&apos;s-eye view of your entire project—every function, every class—without burning through your token budget. No more cherry-picking files by hand.
             </p>
 
             <ul className="space-y-3 sm:space-y-4">
@@ -32,7 +32,7 @@ export function ProjectCompactSection() {
                   <FileCode className="h-3 w-3 text-[#7a9e98]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
-                  <strong className="text-white">AST-based extraction</strong>—signatures, not implementation noise
+                  <strong className="text-white">Just the important parts</strong>—function signatures, not thousands of lines of code
                 </span>
               </li>
               <li className="flex items-start gap-3">
