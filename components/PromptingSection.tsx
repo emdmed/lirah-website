@@ -47,8 +47,8 @@ export function PromptingSection() {
               Prompt Reuse
             </p>
             <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
-              Stop Writing
-              <span className="block text-[#969696]">The Same Prompts</span>
+              Write Once.
+              <span className="block text-[#969696]">Reuse Forever.</span>
             </h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
               You write the same prompts every day. Save them once, reuse them forever. A proper editor that sends straight to your agent—so you stay in flow instead of copy-pasting from notes.

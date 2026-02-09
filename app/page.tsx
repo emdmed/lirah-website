@@ -27,7 +27,6 @@ export default function Home() {
         <ROISection />
         <FeaturesSection />
         <PromptingSection />
-        <SyncSection />
         <WorkflowsSection />
         <DownloadSection />
         <TestimonialsSection />

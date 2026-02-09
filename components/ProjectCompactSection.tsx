@@ -15,7 +15,7 @@ export function ProjectCompactSection() {
               <span className="block text-[#969696]">A Fraction of the Tokens.</span>
             </h2>
             <p className="mb-6 sm:mb-8 text-base sm:text-lg text-[#969696]">
-              One keyboard shortcut gives your agent a bird&apos;s-eye view of your entire project—every function, every class—without burning through your token budget. No more cherry-picking files by hand.
+              One shortcut parses your entire project into a structural skeleton—function signatures, class hierarchies, module exports—so your agent sees your full architecture without burning your context window.
             </p>
 
             <ul className="space-y-3 sm:space-y-4">
@@ -24,7 +24,7 @@ export function ProjectCompactSection() {
                   <Layers className="h-3 w-3 text-[#7a9e98]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
-                  <strong className="text-white">70-90% smaller</strong>—full codebase in minimal tokens
+                  <strong className="text-white">70-90% compression</strong>—50K lines fit in ~5K tokens
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -32,7 +32,7 @@ export function ProjectCompactSection() {
                   <FileCode className="h-3 w-3 text-[#7a9e98]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
-                  <strong className="text-white">Just the important parts</strong>—function signatures, not thousands of lines of code
+                  <strong className="text-white">No more cherry-picking</strong>—share everything automatically
                 </span>
               </li>
               <li className="flex items-start gap-3">
@@ -40,13 +40,13 @@ export function ProjectCompactSection() {
                   <Zap className="h-3 w-3 text-[#7a9e98]" />
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
-                  <strong className="text-white">One shortcut</strong>—Ctrl+Shift+P to inject full context
+                  <strong className="text-white">Ctrl+Shift+P</strong>—full project context, one keystroke
                 </span>
               </li>
             </ul>
 
             <p className="mt-6 sm:mt-8 border-l-2 border-[#7a9e98]/50 pl-4 text-sm sm:text-base text-[#969696]">
-              <strong className="text-white">Result:</strong> 50,000 lines → ~5K tokens. Your agent finally sees your whole project.
+              Your agent navigates accurately, understands your dependency graph, avoids hallucinating function names, and plans changes with real awareness of ripple effects.
             </p>
           </div>
 
@@ -58,20 +58,20 @@ export function ProjectCompactSection() {
             <div className="absolute -bottom-2 -right-2 h-4 w-4 border-b border-r border-[#7a9e98]/50" />
 
             <div className="rounded-xl border border-dashed border-white/20 bg-[#0f0f11] p-4 sm:p-6">
-              {/* Before */}
+              {/* Without */}
               <div className="mb-4">
                 <div className="mb-2 flex items-center gap-2">
                   <span className="rounded border border-dashed border-[#f6543e]/40 bg-[#f6543e]/10 px-2 py-0.5 text-xs text-[#f6543e]">
-                    BEFORE
+                    WITHOUT
                   </span>
-                  <span className="text-xs text-[#969696]">Raw files</span>
+                  <span className="text-xs text-[#969696]">Manual file selection</span>
                 </div>
                 <div className="rounded-lg border border-dashed border-[#f6543e]/20 bg-[#f6543e]/5 p-3 font-mono text-xs">
                   <div className="text-[#969696]">
                     <span className="text-[#f6543e]">127,000</span> tokens
                   </div>
-                  <div className="mt-1 text-[#666]">
-                    src/*.ts, components/*.tsx, utils/*.ts...
+                  <div className="mt-1 text-[#666] italic text-[#f6543e]/60">
+                    &quot;Which files should I share?&quot;
                   </div>
                 </div>
               </div>
@@ -83,11 +83,11 @@ export function ProjectCompactSection() {
                 </div>
               </div>
 
-              {/* After */}
+              {/* With */}
               <div>
                 <div className="mb-2 flex items-center gap-2">
                   <span className="rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10 px-2 py-0.5 text-xs text-[#7a9e98]">
-                    AFTER
+                    WITH
                   </span>
                   <span className="text-xs text-[#969696]">Project Compact</span>
                 </div>
