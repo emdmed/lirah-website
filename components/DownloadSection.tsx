@@ -18,8 +18,14 @@ const downloads = {
   windows: {
     name: "Windows",
     icon: Monitor,
-    comingSoon: true,
-    links: [],
+    comingSoon: false,
+    beta: true,
+    links: [
+      {
+        label: "Build from source",
+        url: "https://github.com/emdmed/lirah#building-from-source",
+      },
+    ],
   },
   macos: {
     name: "macOS",
@@ -55,7 +61,7 @@ export function DownloadSection() {
             Download <span className="font-[family-name:var(--font-grenze-gotisch)]">Lirah</span>
           </h2>
           <p className="mx-auto max-w-2xl text-base sm:text-lg text-[#969696]">
-            Free and open source. Currently available on Linux (Ubuntu, Arch Linux)—start saving tokens in minutes.
+            Free and open source. Available on Linux and Windows (beta)—start saving tokens in minutes.
           </p>
         </div>
 
@@ -79,7 +85,14 @@ export function DownloadSection() {
                     <Icon className="h-5 w-5 text-[#7a9e98]" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">{platform.name}</h3>
+                    <h3 className="text-lg font-semibold">
+                      {platform.name}
+                      {"beta" in platform && platform.beta && (
+                        <span className="ml-2 rounded-full border border-yellow-500/40 bg-yellow-500/10 px-2 py-0.5 text-xs font-medium text-yellow-400">
+                          Beta
+                        </span>
+                      )}
+                    </h3>
                     {isDetected && (
                       <span className="text-xs text-[#7a9e98]">Detected</span>
                     )}
