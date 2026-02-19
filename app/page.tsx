@@ -5,6 +5,8 @@ import { DownloadSection } from "@/components/DownloadSection";
 import { ProblemSection } from "@/components/ProblemSection";
 import { FeaturesSection } from "@/components/FeaturesSection";
 import { ProjectCompactSection } from "@/components/ProjectCompactSection";
+import { AutomationSection } from "@/components/AutomationSection";
+import { TerminalSection } from "@/components/TerminalSection";
 import { PromptingSection } from "@/components/PromptingSection";
 import { SyncSection } from "@/components/SyncSection";
 import { WorkflowsSection } from "@/components/WorkflowsSection";
@@ -24,8 +26,10 @@ export default function Home() {
         <HeroSection />
         <ProblemSection />
         <ProjectCompactSection />
+        <AutomationSection />
         <ROISection />
         <FeaturesSection />
+        <TerminalSection />
         <PromptingSection />
         <WorkflowsSection />
         <DownloadSection />

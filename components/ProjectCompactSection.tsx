@@ -1,4 +1,4 @@
-import { Layers, FileCode, Zap, Eye, ArrowRight } from "lucide-react";
+import { Layers, FileCode, Zap, Eye, ArrowRight, Braces, Component } from "lucide-react";
 
 export function ProjectCompactSection() {
   return (
@@ -8,7 +8,7 @@ export function ProjectCompactSection() {
           {/* Content */}
           <div>
             <p className="mb-4 text-sm font-medium uppercase tracking-wider text-[#7a9e98]">
-              Project Compact
+              Enhanced Project Compact
             </p>
             <h2 className="mb-4 text-2xl sm:text-3xl font-bold tracking-tight">
               Your Entire Codebase.
@@ -25,6 +25,22 @@ export function ProjectCompactSection() {
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
                   <strong className="text-white">70-90% compression</strong>—50K lines fit in ~5K tokens
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10">
+                  <Braces className="h-3 w-3 text-[#7a9e98]" />
+                </div>
+                <span className="text-sm sm:text-base text-[#a6a6a6]">
+                  <strong className="text-white">Python + JS/TS support</strong>—enhanced parsing for multiple languages
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10">
+                  <Component className="h-3 w-3 text-[#7a9e98]" />
+                </div>
+                <span className="text-sm sm:text-base text-[#a6a6a6]">
+                  <strong className="text-white">useEffect hook detection</strong>—React-specific symbol extraction
                 </span>
               </li>
               <li className="flex items-start gap-3">

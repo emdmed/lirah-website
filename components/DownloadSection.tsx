@@ -19,7 +19,6 @@ const downloads = {
     name: "Windows",
     icon: Monitor,
     comingSoon: false,
-    beta: true,
     links: [
       {
         label: "Build from source",
@@ -30,8 +29,13 @@ const downloads = {
   macos: {
     name: "macOS",
     icon: Apple,
-    comingSoon: true,
-    links: [],
+    comingSoon: false,
+    links: [
+      {
+        label: "Build from source",
+        url: "https://github.com/emdmed/lirah#building-from-source",
+      },
+    ],
   },
   linux: {
     name: "Linux",
@@ -87,11 +91,6 @@ export function DownloadSection() {
                   <div>
                     <h3 className="text-lg font-semibold">
                       {platform.name}
-                      {"beta" in platform && platform.beta && (
-                        <span className="ml-2 rounded-full border border-yellow-500/40 bg-yellow-500/10 px-2 py-0.5 text-xs font-medium text-yellow-400">
-                          Beta
-                        </span>
-                      )}
                     </h3>
                     {isDetected && (
                       <span className="text-xs text-[#7a9e98]">Detected</span>

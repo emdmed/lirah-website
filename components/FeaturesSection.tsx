@@ -5,6 +5,8 @@ import {
   Pencil,
   Ban,
   BookOpen,
+  MousePointerClick,
+  Bookmark,
 } from "lucide-react";
 
 export function FeaturesSection() {
@@ -32,6 +34,22 @@ export function FeaturesSection() {
                 </div>
                 <span className="text-sm sm:text-base text-[#a6a6a6]">
                   <strong className="text-white">Visual file selection</strong>—intentional context, not accidental
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10">
+                  <MousePointerClick className="h-3 w-3 text-[#7a9e98]" />
+                </div>
+                <span className="text-sm sm:text-base text-[#a6a6a6]">
+                  <strong className="text-white">Element Picker</strong>—select functions, components, classes, hooks instead of entire files
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded border border-dashed border-[#7a9e98]/40 bg-[#7a9e98]/10">
+                  <Bookmark className="h-3 w-3 text-[#7a9e98]" />
+                </div>
+                <span className="text-sm sm:text-base text-[#a6a6a6]">
+                  <strong className="text-white">File Groups</strong>—save and restore frequently used file selections
                 </span>
               </li>
               <li className="flex items-start gap-3">

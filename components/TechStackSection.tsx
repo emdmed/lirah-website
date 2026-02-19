@@ -1,4 +1,4 @@
-const techStack = ["Tauri 2", "React 19", "xterm.js", "TypeScript"];
+const techStack = ["Tauri 2", "React 19", "xterm.js", "TypeScript", "Sandboxing"];
 
 export function TechStackSection() {
   return (
@@ -17,6 +17,9 @@ export function TechStackSection() {
             </span>
           ))}
         </div>
+        <p className="mt-4 sm:mt-6 text-xs text-[#666]">
+          Optional sandboxing with filesystem and process isolation
+        </p>
       </div>
     </section>
   );
