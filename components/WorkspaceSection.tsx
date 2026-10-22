@@ -34,7 +34,7 @@ export function WorkspaceSection() {
   const tokensOf = (name: string) => (name === DEMO_TAB ? ledger.tokens : (TAB_TOKENS[name] ?? 0));
   return (
     <section aria-labelledby="workspace-title" className="scroll-mt-20 pt-28 sm:pt-36" id="workspace">
-      <SectionHead id="workspace-title" title="Up to eight agents, one window.">
+      <SectionHead id="workspace-title" label="workspace" title="Up to eight agents, one window.">
         <p>
           Each project tab has its own terminal, agent and sandbox. Hook plugins for Claude Code and opencode report
           when an agent is working, needs permission, is waiting on you or is done, and the tab row lights to match.

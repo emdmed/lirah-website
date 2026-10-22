@@ -4,6 +4,7 @@ import { Pane } from "./instrument/Pane";
 import { Lamp } from "./instrument/Lamp";
 import { formatTokens } from "./instrument/Meter";
 import { useLedger } from "./ledger/LedgerProvider";
+import { SectionLabel } from "./SectionHead";
 
 const MOUNTS: { path: string; access: "ro" | "rw" | "private" | "isolated" }[] = [
   { path: "/", access: "ro" },
@@ -34,6 +35,7 @@ export function SandboxSection() {
     <section aria-labelledby="sandbox-title" className="scroll-mt-20 pt-28 sm:pt-36" id="sandbox">
       <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
         <div className="space-y-4 lg:pr-10">
+          <SectionLabel>sandbox</SectionLabel>
           <h2 id="sandbox-title" className="text-[clamp(24px,2.4vw,30px)] leading-[1.18] tracking-[-0.01em]">
             Let the agent run, inside a sandbox.
           </h2>

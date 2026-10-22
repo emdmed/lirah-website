@@ -48,7 +48,7 @@ const TOOLS: { keys: string[][]; title: string; body: string }[] = [
 export function GitSection() {
   return (
     <section aria-labelledby="git-title" className="scroll-mt-20 pt-28 sm:pt-36" id="git">
-      <SectionHead id="git-title" title="Commit messages drafted for you, merges shown before they run.">
+      <SectionHead id="git-title" label="git" title="Commits drafted. Merges shown first.">
         <p>
           When a change is ready, an agent reads the staged diff and drafts a conventional commit message for you to
           edit, with a counter for the subject line. Merging the branch back lists every git command before any of

@@ -27,15 +27,11 @@ export function JobsSection() {
   const jobTokens = selectionTokens(ledger.selection, ledger.compact);
   return (
     <section aria-labelledby="jobs-title" className="scroll-mt-20 pt-28 sm:pt-36" id="jobs">
-      <SectionHead id="jobs-title" title="Hand work to agents in the background. Review it before it lands.">
+      <SectionHead id="jobs-title" label="jobs" title="Background agents. Nothing lands unreviewed.">
         <p>
           Start headless runs of Claude Code, opencode, Codex, Gemini, Cursor or Amp from a template and a set of context
           files, each in its own git worktree if you want. Race several agents on one task and compare what they wrote,
           side by side.
-        </p>
-        <p className="text-muted-foreground">
-          Read the diff, send notes back, then apply. Applying waits for the TypeScript check to pass and asks before
-          touching a dirty tree.
         </p>
       </SectionHead>
 
@@ -94,44 +90,13 @@ export function JobsSection() {
           </div>
         </Pane>
 
-        {/* PLANS */}
-        <Pane title="workspace · plans" className="pt-5" trailing={<span className="ins-legend">auth-hardening</span>}>
-          <div className="space-y-3 px-4 pb-4 text-[13px]">
-            <p className="flex items-center gap-3 text-muted-foreground">
-              <Lamp state="ok" label="implemented" />
-              1–3 implemented <span className="text-faint">·</span> 3 commits
-            </p>
-            <div className="ins-well p-3">
-              <p className="flex items-center gap-3">
-                <Lamp state="on" blink label="implementing" />
-                <span className="text-strong">4 · rotate refresh tokens on use</span>
-              </p>
-              <p className="mt-2 pl-[19px] text-[12px] text-muted-foreground">
-                implementing in acme-api <span className="text-faint">·</span> commit trailer Plan-Chunk: 4
-              </p>
-            </div>
-            <ul className="space-y-1.5 pl-[19px] text-faint">
-              <li>5 · revoke sessions on password change</li>
-              <li>6 · add api key scopes</li>
-              <li>7 · audit log for auth events</li>
-            </ul>
-            <p className="flex items-center gap-3 border-t border-edge pt-3">
-              <Lamp state="on" label="autopilot on" />
-              <span className="text-foreground">:autopilot</span>
-              <span className="text-muted-foreground">chains the remaining chunks</span>
-            </p>
-          </div>
-        </Pane>
-      </div>
-
-      <div className="mt-10 max-w-[760px] space-y-3">
-        <h3 className="text-[19px] leading-snug">Plans, one commit per chunk.</h3>
-        <p className="max-w-[64ch] text-[15px] leading-[1.7] text-muted-foreground">
-          Paste a plan or import a <span className="text-foreground">*_plan.md</span> file and an agent splits it into
-          chunks. Lirah implements each one in the tab&apos;s live agent and commits it. Check, review, roll back, skip or
-          reorder any chunk. With <span className="text-foreground">:autopilot</span> it runs the rest unattended and stops
-          when the agent asks a question, needs permission or forgets to commit.
-        </p>
+        {/* Review sits beside the live work it applies to. */}
+        <div className="space-y-3 text-[15px] leading-[1.7] text-muted-foreground lg:pt-5">
+          <p className="text-strong">Read the diff, send notes back, then apply.</p>
+          <p className="max-w-[52ch]">
+            Applying waits for the TypeScript check to pass and asks before touching a dirty tree.
+          </p>
+        </div>
       </div>
     </section>
   );

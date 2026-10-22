@@ -43,7 +43,7 @@ const GROUPS: { title: string; rows: { keys: string[][]; action: string; note?: 
 export function KeysSection() {
   return (
     <section aria-labelledby="keys-title" className="scroll-mt-20 pt-28 sm:pt-36" id="keys">
-      <SectionHead id="keys-title" title="A real terminal, and everything else on a key.">
+      <SectionHead id="keys-title" label="keys" title="A real terminal, and everything else on a key.">
         <p>
           The agent runs in xterm.js on a real login-shell PTY, so it behaves exactly as it does in your own terminal.
           Commits, merges, diffs, a second terminal and the token dashboard are a shortcut away.

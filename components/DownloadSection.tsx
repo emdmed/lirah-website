@@ -1,5 +1,6 @@
 import { Pane } from "./instrument/Pane";
 import { DownloadKey } from "./DownloadKey";
+import { SectionLabel } from "./SectionHead";
 import { InstallerTable } from "./InstallerTable";
 import { RELEASES_URL, REPO_URL, SOURCE_URL, type Release } from "@/lib/releases";
 
@@ -8,9 +9,12 @@ export function DownloadSection({ release }: { release: Release | null }) {
     <section aria-labelledby="download-title" className="scroll-mt-20 pt-28 sm:pt-36" id="download">
       <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
         <div className="space-y-6">
-          <h2 id="download-title" className="text-[clamp(24px,2.4vw,30px)] leading-[1.18] tracking-[-0.01em]">
-            Download Lirah.
-          </h2>
+          <div>
+            <SectionLabel>download</SectionLabel>
+            <h2 id="download-title" className="text-[clamp(24px,2.4vw,30px)] leading-[1.18] tracking-[-0.01em]">
+              Lirah is a workspace for the coding agents you already use.
+            </h2>
+          </div>
           <p className="max-w-[52ch] text-[15px] leading-[1.7]">
             Free and open source under the MIT license. No account. Bring your own agent: Claude Code and opencode run
             interactively; Codex, Gemini, Cursor and Amp run as background jobs.

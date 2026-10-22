@@ -29,6 +29,15 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
     ),
   },
   {
+    q: "What happens if I stop using Lirah?",
+    a: (
+      <p>
+        Nothing to migrate. The agents are the same CLIs you would run in any terminal, with their own config, and the
+        commits and merges Lirah makes are ordinary local git. Your repos look the same with or without it.
+      </p>
+    ),
+  },
+  {
     q: "Is it free?",
     a: (
       <p>
@@ -74,7 +83,7 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
 export function FaqSection() {
   return (
     <section aria-labelledby="faq-title" className="scroll-mt-20 pt-28 sm:pt-36" id="faq">
-      <SectionHead id="faq-title" title="Questions before you install.">
+      <SectionHead id="faq-title" label="faq" title="Questions before you install.">
         <p className="text-muted-foreground">Short answers, checked against what the app does today.</p>
       </SectionHead>
 

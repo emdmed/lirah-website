@@ -6,10 +6,13 @@ import { ContextSection } from "@/components/ContextSection";
 import { TokensSection } from "@/components/TokensSection";
 import { WorkspaceSection } from "@/components/WorkspaceSection";
 import { JobsSection } from "@/components/JobsSection";
+import { PlansSection } from "@/components/PlansSection";
 import { GitSection } from "@/components/GitSection";
 import { KeysSection } from "@/components/KeysSection";
 import { SandboxSection } from "@/components/SandboxSection";
 import { FaqSection } from "@/components/FaqSection";
+import { ProblemSection } from "@/components/ProblemSection";
+import { ProofStrip } from "@/components/ProofStrip";
 import { DownloadSection } from "@/components/DownloadSection";
 import { Footer } from "@/components/Footer";
 import { getLatestRelease } from "@/lib/releases";
@@ -27,13 +30,16 @@ export default async function Home() {
         {/* Below the replica the page is a sheet: panes are rules, not boxes. */}
         <div data-sheet>
           <AgentsBand />
+          <ProblemSection />
           <ContextSection />
           <TokensSection />
           <WorkspaceSection />
           <JobsSection />
+          <PlansSection />
           <GitSection />
           <KeysSection />
           <SandboxSection />
+          <ProofStrip />
           <FaqSection />
           <DownloadSection release={release} />
         </div>

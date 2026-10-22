@@ -49,7 +49,7 @@ const CONTROLS: { term: React.ReactNode; title: string; body: string }[] = [
 export function ContextSection() {
   return (
     <section aria-labelledby="context-title" className="scroll-mt-20 pt-28 sm:pt-36" id="context">
-      <SectionHead id="context-title" title="Context you choose, at the detail you choose.">
+      <SectionHead id="context-title" label="context" title="You pick what the agent sees.">
         <p>
           Click a file to attach it to the prompt. Mark it EDIT, READ or COPY so the agent knows what to change and what
           to leave alone. Send a large file as signatures or a skeleton instead of every line.

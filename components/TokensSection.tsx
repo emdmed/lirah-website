@@ -34,7 +34,7 @@ const BUDGETS: { project: string; used: number; limit: number }[] = [
 export function TokensSection() {
   return (
     <section aria-labelledby="tokens-title" className="scroll-mt-20 pt-28 sm:pt-36" id="tokens">
-      <SectionHead id="tokens-title" title="See how full the context is, and what the week has cost.">
+      <SectionHead id="tokens-title" label="tokens" title="Know the cost before you send.">
         <p>
           The status bar reads the context window of the tab&apos;s own Claude session, subagents included, and draws it
           as a meter that turns warn at 80% and fault at 95%. Each tab row carries the same reading as a moon. Hover the

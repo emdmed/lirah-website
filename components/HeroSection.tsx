@@ -65,7 +65,7 @@ export function HeroSection({ release }: { release: Release | null }) {
             </p>
             <p>
               <span className="text-foreground">Claude Code</span> or <span className="text-foreground">opencode</span>{" "}
-              runs in a real terminal. Around it, you pick what the agent sees and how it uses each file.
+              runs unchanged in a real terminal. Around it, you pick what the agent sees and how it uses each file.
             </p>
             <p>
               Send each file as <DetailChip mode="edit">full text</DetailChip>,{" "}
