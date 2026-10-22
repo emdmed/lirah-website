@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Films: plain browser scripts rendered by video/render.mjs, not part of the site.
+    "video/**",
   ]),
 ]);
 
