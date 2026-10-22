@@ -1,43 +1,44 @@
-import { Navigation } from "@/components/Navigation";
-import { BackgroundPattern } from "@/components/BackgroundPattern";
+import { StatusBar } from "@/components/StatusBar";
+import { LedgerProvider } from "@/components/ledger/LedgerProvider";
 import { HeroSection } from "@/components/HeroSection";
+import { AgentsBand } from "@/components/AgentsBand";
+import { ContextSection } from "@/components/ContextSection";
+import { TokensSection } from "@/components/TokensSection";
+import { WorkspaceSection } from "@/components/WorkspaceSection";
+import { JobsSection } from "@/components/JobsSection";
+import { GitSection } from "@/components/GitSection";
+import { KeysSection } from "@/components/KeysSection";
+import { SandboxSection } from "@/components/SandboxSection";
+import { FaqSection } from "@/components/FaqSection";
 import { DownloadSection } from "@/components/DownloadSection";
-import { ProblemSection } from "@/components/ProblemSection";
-import { FeaturesSection } from "@/components/FeaturesSection";
-import { ProjectCompactSection } from "@/components/ProjectCompactSection";
-import { AutomationSection } from "@/components/AutomationSection";
-import { TerminalSection } from "@/components/TerminalSection";
-import { PromptingSection } from "@/components/PromptingSection";
-import { SyncSection } from "@/components/SyncSection";
-import { WorkflowsSection } from "@/components/WorkflowsSection";
-import { ROISection } from "@/components/ROISection";
-import { TestimonialsSection } from "@/components/TestimonialsSection";
-import { CTASection } from "@/components/CTASection";
-import { TechStackSection } from "@/components/TechStackSection";
 import { Footer } from "@/components/Footer";
+import { getLatestRelease } from "@/lib/releases";
 
-export default function Home() {
+export const revalidate = 3600;
+
+export default async function Home() {
+  const release = await getLatestRelease();
+
   return (
-    <div className="min-h-screen bg-[#09090b] text-white antialiased">
-      <Navigation />
-      <BackgroundPattern />
-
-      <main className="relative z-10">
-        <HeroSection />
-        <ProblemSection />
-        <ProjectCompactSection />
-        <AutomationSection />
-        <ROISection />
-        <FeaturesSection />
-        <TerminalSection />
-        <PromptingSection />
-        <WorkflowsSection />
-        <DownloadSection />
-        <TestimonialsSection />
-        <CTASection />
-        <TechStackSection />
-        <Footer />
+    <LedgerProvider>
+      <StatusBar />
+      <main className="mx-auto max-w-[1320px] px-3 sm:px-4">
+        <HeroSection release={release} />
+        {/* Below the replica the page is a sheet: panes are rules, not boxes. */}
+        <div data-sheet>
+          <AgentsBand />
+          <ContextSection />
+          <TokensSection />
+          <WorkspaceSection />
+          <JobsSection />
+          <GitSection />
+          <KeysSection />
+          <SandboxSection />
+          <FaqSection />
+          <DownloadSection release={release} />
+        </div>
       </main>
-    </div>
+      <Footer />
+    </LedgerProvider>
   );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Navigation } from "@/components/Navigation";
+import { StatusBar } from "@/components/StatusBar";
 import { Footer } from "@/components/Footer";
 import { getAllPosts } from "@/lib/blog";
 
@@ -12,26 +12,26 @@ export default function BlogIndex() {
   const posts = getAllPosts();
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-white antialiased">
-      <Navigation />
+    <>
+      <StatusBar />
 
-      <main className="relative z-10 mx-auto max-w-3xl px-4 pt-32 pb-20 sm:px-6">
-        <h1 className="mb-2 text-3xl font-bold sm:text-4xl">Blog</h1>
-        <p className="mb-12 text-[#a6a6a6]">
+      <main className="mx-auto max-w-3xl px-4 pt-16 sm:px-6">
+        <h1 className="mb-2 text-[clamp(30px,3.6vw,44px)] leading-tight">Blog</h1>
+        <p className="mb-12 text-muted-foreground">
           Technical posts about developing Lirah.
         </p>
 
-        <div className="space-y-8">
+        <div className="space-y-5">
           {posts.map((post) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="block rounded-lg border border-dashed border-white/20 p-6 transition-colors hover:border-[#7a9e98]/60 hover:bg-white/[0.02]"
+              className="pane block px-5 pb-5 pt-4"
             >
-              <time className="text-xs text-[#a6a6a6]">{post.date}</time>
-              <h2 className="mt-1 text-lg font-semibold">{post.title}</h2>
+              <time className="ins-legend">{post.date}</time>
+              <h2 className="mt-2 text-[19px] leading-snug">{post.title}</h2>
               {post.description && (
-                <p className="mt-2 text-sm text-[#a6a6a6]">{post.description}</p>
+                <p className="mt-2 text-[14px] text-muted-foreground">{post.description}</p>
               )}
             </Link>
           ))}
@@ -39,6 +39,6 @@ export default function BlogIndex() {
       </main>
 
       <Footer />
-    </div>
+    </>
   );
 }
