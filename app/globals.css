@@ -351,6 +351,23 @@
     font-size: 15px;
   }
 
+  /* The hero's key: the one place the lamp colour fills a key instead of framing it. */
+  .ins-key-xl {
+    height: 56px;
+    padding: 0 26px;
+    font-size: 17px;
+    border-color: var(--ins-lamp);
+    background: var(--ins-lamp);
+    color: var(--background);
+  }
+
+  .ins-key-xl:hover {
+    border-color: var(--fg-strong);
+    background: var(--fg-strong);
+    color: var(--background);
+  }
+
+  .ins-key-xl:focus-visible { outline-offset: 3px; }
   /* A dotted underline that clears on hover. */
   .ins-link {
     color: var(--foreground);
@@ -644,8 +661,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ins-lamp[data-blink] { animation: none; }
-  .ins-scan > i { animation: none; background: color-mix(in srgb, var(--ins-lamp) 45%, var(--ins-lamp-off)); }
+  .ins-lamp[data-blink] { animation: none; }  .ins-scan > i { animation: none; background: color-mix(in srgb, var(--ins-lamp) 45%, var(--ins-lamp-off)); }
   .ins-meter-fill, .ins-meter-needle { transition-duration: 0ms; }
 }
 
