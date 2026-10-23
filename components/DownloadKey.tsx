@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { OS_NAME, RELEASES_URL, formatSize, primaryInstaller, type Release } from "@/lib/releases";
-import { useDetectedOS } from "./useDetectedOS";
+import { InstallCommand } from "./InstallCommand";
+import { useDetectedOS, useIsPhone } from "./useDetectedOS";
 
-// The primary key: the latest installer for the visitor's OS.
+// The primary action: the install script on Linux, the latest installer on macOS and Windows.
 const SIZE_CLASS = {
   xl: "ins-key-xl",
   lg: "ins-key-lg",
@@ -12,7 +14,28 @@ const SIZE_CLASS = {
 
 export function DownloadKey({ release, size = "lg" }: { release: Release | null; size?: "xl" | "lg" | "panel" }) {
   const os = useDetectedOS();
+  const phone = useIsPhone();
   const inst = primaryInstaller(release, os);
+  if (phone) return <SendToDesktopKey size={size} />;
+  if (os === "linux") {
+    return (
+      <div className={`flex flex-col ${size === "xl" ? "gap-3" : "gap-2"}`}>
+        <InstallCommand size={size} />
+        <p className="text-[12px] text-muted-foreground">
+          {release && (
+            <>
+              {release.version} <span className="text-faint">·</span>{" "}
+            </>
+          )}
+          picks .deb, .rpm or AppImage for your distro <span className="text-faint">·</span> builds from source on Arch{" "}
+          <span className="text-faint">·</span>{" "}
+          <a href="#download" className="ins-link">
+            other formats
+          </a>
+        </p>
+      </div>
+    );
+  }
   return (
     <div className={`flex flex-col ${size === "xl" ? "gap-3" : "gap-2"}`}>
       <a
@@ -39,6 +62,50 @@ export function DownloadKey({ release, size = "lg" }: { release: Release | null;
             </a>
           </>
         )}
+      </p>
+    </div>
+  );
+}
+
+// On a phone there is nothing to install. The key hands the link to the share
+// sheet (or the clipboard) so the visitor can open it on the machine that runs
+// their agent.
+function SendToDesktopKey({ size }: { size: "xl" | "lg" | "panel" }) {
+  const [copied, setCopied] = useState(false);
+
+  async function send() {
+    const url = `${location.origin}/#download`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Lirah", text: "Lirah: a workspace for CLI coding agents", url });
+        return;
+      } catch (e) {
+        if ((e as DOMException).name === "AbortError") return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2400);
+    } catch {
+      location.hash = "download";
+    }
+  }
+
+  return (
+    <div className={`flex flex-col ${size === "xl" ? "gap-3" : "gap-2"}`}>
+      <button
+        type="button"
+        onClick={send}
+        className={`ins-key ins-key-primary ${SIZE_CLASS[size]} self-start max-sm:self-stretch`}
+      >
+        {copied ? "Link copied" : "Send to my desktop"}
+      </button>
+      <p className="text-[12px] text-muted-foreground" aria-live="polite">
+        Desktop app for Linux, macOS and Windows <span className="text-faint">·</span>{" "}
+        <a href="#download" className="ins-link">
+          installers
+        </a>
       </p>
     </div>
   );

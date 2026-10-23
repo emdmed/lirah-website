@@ -682,6 +682,22 @@
 [data-sheet] .pane::after { border-width: 1px 0 0; border-color: var(--ins-edge); }
 [data-sheet] .pane:is(:hover, :focus-within, [data-live])::after { border-color: var(--ins-edge-focus); }
 
+/*
+  Touch: the app's 24px keys are sized for a pointer. On a finger they grow to
+  the 40px floor and inline links get a taller hit area; the printed look stays.
+  Replica illustrations ([data-static]) keep their desktop size.
+*/
+@media (pointer: coarse) {
+  .ins-key-panel:not([data-static], .pane-legend *) { min-height: 40px; }
+  /* Vertical padding on an inline box widens the hit area without moving the line. */
+  .ins-link { padding-block: 10px; }
+  .ins-key { -webkit-tap-highlight-color: transparent; }
+  .ins-key:hover:not(:active) { background: transparent; }
+  .ins-key:is([data-latched], [aria-pressed="true"], [aria-current="true"]):hover { background: color-mix(in srgb, var(--foreground) 9%, transparent); }
+  .ins-key-primary:hover:not(:active) { background: transparent; }
+  .ins-key-xl:hover:not(:active) { border-color: var(--ins-lamp); background: var(--ins-lamp); }
+}
+
 /* FAQ: native details as a TUI list, a printed [+] / [-] for state. */
 .faq-item > summary {
   list-style: none;

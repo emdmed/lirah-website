@@ -55,9 +55,10 @@ export function WorkspaceSection() {
           </span>
         }
       >
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse text-left text-[13px]">
-            <thead>
+        {/* Below md each row folds into a stacked entry, like the app's narrow tab list, instead of scrolling sideways. */}
+        <div className="md:overflow-x-auto">
+          <table className="w-full border-collapse text-left text-[13px] max-md:block md:min-w-[720px]">
+            <thead className="max-md:sr-only">
               <tr className="ins-legend">
                 <th scope="col" className="w-10 py-2 pl-4 font-normal"><span className="sr-only">Context</span></th>
                 <th scope="col" className="py-2 font-normal">tab</th>
@@ -67,19 +68,19 @@ export function WorkspaceSection() {
                 <th scope="col" className="py-2 pr-4 font-normal">plan</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="max-md:block">
               {TABS.map((t) => {
                 const active = ledger.tab === t.name;
                 return (
                   <tr
                     key={t.name}
-                    className={`border-t border-edge ${active ? "bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)]" : ""}`}
+                    className={`border-t border-edge max-md:grid max-md:grid-cols-[40px_minmax(0,1fr)_auto] max-md:items-center max-md:gap-x-2 max-md:py-2.5 max-md:pr-4 ${active ? "bg-[color-mix(in_srgb,var(--foreground)_6%,transparent)]" : ""}`}
                     aria-current={active || undefined}
                   >
-                    <td className="py-3 pl-4">
+                    <td className="py-3 pl-4 max-md:row-span-2 max-md:self-start max-md:py-2.5">
                       <ContextMoon ratio={tokensOf(t.name) / CONTEXT_MAX} size={16} />
                     </td>
-                    <td className="py-3">
+                    <td className="py-3 max-md:py-0">
                       <button
                         type="button"
                         className="ins-key ins-key-panel -ml-2"
@@ -92,7 +93,7 @@ export function WorkspaceSection() {
                       {t.role && <span className="ml-1 text-[11px] text-muted-foreground">{t.role}</span>}
                       {t.shares && <div className="text-[11.5px] text-warn">{t.shares}</div>}
                     </td>
-                    <td className="py-3">
+                    <td className="py-3 max-md:py-0 max-md:justify-self-end">
                       <span className="flex items-center gap-2.5">
                         <Lamp state={t.lamp} blink={t.blink} />
                         <span className={t.lamp === "warn" ? "text-warn" : t.lamp === "off" ? "text-muted-foreground" : "text-foreground"}>
@@ -100,9 +101,13 @@ export function WorkspaceSection() {
                         </span>
                       </span>
                     </td>
-                    <td className="py-3 text-muted-foreground">{t.branch}</td>
-                    <td className="py-3 text-foreground">{t.trail || <span className="text-faint">·</span>}</td>
-                    <td className="py-3 pr-4 text-muted-foreground">{t.plan ?? <span className="text-faint">·</span>}</td>
+                    <td className="py-3 text-muted-foreground max-md:col-start-2 max-md:py-0 max-md:text-[12px]">{t.branch}</td>
+                    <td className="py-3 text-foreground max-md:col-start-3 max-md:row-start-2 max-md:justify-self-end max-md:py-0 max-md:text-[12px]">
+                      {t.trail || <span className="text-faint">·</span>}
+                    </td>
+                    <td className={`py-3 pr-4 text-muted-foreground max-md:col-span-2 max-md:col-start-2 max-md:py-0 max-md:pr-0 max-md:text-[12px] ${t.plan ? "" : "max-md:hidden"}`}>
+                      {t.plan ?? <span className="text-faint">·</span>}
+                    </td>
                   </tr>
                 );
               })}

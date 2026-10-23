@@ -23,7 +23,8 @@ export function InstallerTable({ release }: { release: Release }) {
       <tbody>
         {release.installers.map((i) => {
           const mine = i.os === os;
-          const first = i.name === primary?.name;
+          // On Linux the install script is the recommendation, so no row is lit.
+          const first = os !== "linux" && i.name === primary?.name;
           return (
             <tr key={i.name} className="border-t border-edge">
               <td className="py-2 pl-4">{first && <Lamp state="on" label="recommended for your system" />}</td>

@@ -22,6 +22,10 @@ export const REPO_URL = "https://github.com/emdmed/lirah";
 export const RELEASES_URL = `${REPO_URL}/releases/latest`;
 export const SOURCE_URL = `${REPO_URL}#building-from-source`;
 
+// Linux installs through the repo's script (nevo-terminal scripts/install.sh):
+// .deb or .rpm by distro family, a source build on Arch, the AppImage otherwise.
+export const INSTALL_COMMAND = "curl -fsSL https://raw.githubusercontent.com/emdmed/lirah/main/scripts/install.sh | bash";
+
 function classify(name: string): Omit<Installer, "name" | "url" | "size"> | null {
   const arch = /aarch64|arm64/.test(name) ? "arm64" : "x64";
   if (name.endsWith(".AppImage")) return { os: "linux", format: "AppImage", arch };
