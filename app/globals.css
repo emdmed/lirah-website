@@ -59,7 +59,7 @@
   --ins-lamp-off: color-mix(in srgb, var(--foreground) 18%, var(--background));
   --ins-faint: color-mix(in srgb, var(--foreground) 40%, var(--background));
   --ins-ok: #b8d6a0;
-  --ins-warn: #e4b56e;
+  --ins-warn: #ee9550;
   --ins-fault: #dc6f5c;
   --ins-glow: 6px;
 
@@ -707,3 +707,12 @@
 .faq-item > summary .faq-mark::before { content: "[+]"; }
 .faq-item[open] > summary .faq-mark::before { content: "[-]"; }
 .faq-item > summary:hover .faq-q { color: var(--fg-strong); }
+
+/*
+  Below the replica, a key drawn for illustration must not pass for a live one:
+  it sets back to the muted ink and the primary loses its gold frame. Live
+  demos carry a "try it" tag instead.
+*/
+[data-sheet] .ins-key[data-static] { color: var(--muted-foreground); }
+[data-sheet] .ins-key[data-static][data-latched] { color: var(--foreground); }
+[data-sheet] .ins-key-primary[data-static] { border-color: var(--ins-edge-strong); }

@@ -26,9 +26,6 @@ export function AgentsBand() {
           <span className="ins-legend">headless jobs</span>
           <Names names={HEADLESS} />
         </span>
-        <p className="text-muted-foreground xl:ml-auto">
-          Each agent runs as its own CLI in a real PTY. Lirah doesn&apos;t wrap it.
-        </p>
       </div>
     </section>
   );

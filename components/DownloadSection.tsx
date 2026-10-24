@@ -12,27 +12,30 @@ export function DownloadSection({ release }: { release: Release | null }) {
           <div>
             <SectionLabel>download</SectionLabel>
             <h2 id="download-title" className="text-[clamp(24px,2.4vw,30px)] leading-[1.18] tracking-[-0.01em]">
-              Lirah is a workspace for the coding agents you already use.
+              Give your agents less to read and more to do.
             </h2>
           </div>
           <p className="max-w-[52ch] text-[15px] leading-[1.7]">
-            Free and open source under the MIT license. No account, no telemetry, and it never pushes, pulls or fetches
-            your repos. Bring your own agent.
+            Lirah is a free, open-source workspace for the coding agents you already use. MIT licensed, no account, no
+            telemetry.
           </p>
-          <DownloadKey release={release} />
+          <DownloadKey release={release} formatsLink={false} />
           <p className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[14px]">
             <a href={REPO_URL} className="ins-link">source on GitHub</a>
             <span className="ins-sep-star" aria-hidden="true" />
             <a href={SOURCE_URL} className="ins-link">build from source</a>
-            <span className="ins-sep-star" aria-hidden="true" />
-            <a href={RELEASES_URL} className="ins-link">all releases</a>
           </p>
         </div>
 
         <Pane
           title={release ? `release ${release.version}` : "releases"}
-          className="pt-5"
-          trailing={<span className="ins-legend">github</span>}
+          id="installers"
+          className="scroll-mt-20 pt-5"
+          trailing={
+            <a href={RELEASES_URL} className="ins-legend hover:text-strong">
+              all releases
+            </a>
+          }
         >
           {release ? (
             <InstallerTable release={release} />

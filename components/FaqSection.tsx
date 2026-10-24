@@ -84,7 +84,13 @@ export function FaqSection() {
   return (
     <section aria-labelledby="faq-title" className="scroll-mt-20 pt-28 sm:pt-36" id="faq">
       <SectionHead id="faq-title" label="faq" title="Questions before you install.">
-        <p className="text-muted-foreground">Short answers, checked against what the app does today.</p>
+        <p className="text-muted-foreground">
+          Something not covered here?{" "}
+          <a href={`${REPO_URL}/issues`} className="ins-link">
+            Open an issue on GitHub
+          </a>
+          .
+        </p>
       </SectionHead>
 
       <Pane title="faq" className="mt-12 max-w-[920px] pt-3">

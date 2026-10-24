@@ -29,7 +29,7 @@ export function JobsSection() {
     <FeatureSection
       id="jobs"
       label="jobs and plans"
-      title="Work you don't have to watch. Nothing lands unreviewed."
+      title="Work you don't have to watch. You choose what lands."
       intro={
         <>
           <p>
@@ -118,7 +118,7 @@ export function JobsSection() {
                 implementing in acme-api <span className="text-faint">·</span> commit trailer Plan-Chunk: 4
               </p>
             </div>
-            <ul className="space-y-1.5 pl-[19px] text-faint">
+            <ul className="space-y-1.5 pl-[19px] text-muted-foreground">
               <li>5 · revoke sessions on password change</li>
               <li>6 · add api key scopes</li>
               <li>7 · audit log for auth events</li>

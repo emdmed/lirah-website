@@ -47,15 +47,16 @@ export function TokensSection() {
     <FeatureSection
       id="tokens"
       label="tokens"
-      title="Then see where the week went."
+      title="Budgets that catch a runaway session."
       intro={
         <>
           <p>
             Give a project a daily or weekly budget. Lirah warns you at 80% and again at 95%, so a runaway session gets
-            caught before it burns through the rest.
+            caught before it burns through the rest of the week.
           </p>
           <p className="text-muted-foreground">
-            Totals per day and per project over a day, a week or a month, with CSV and JSON export.
+            Usage is read from Claude Code&apos;s session files: totals per day and per project over a day, a week or a
+            month, with CSV and JSON export.
           </p>
         </>
       }
@@ -67,7 +68,7 @@ export function TokensSection() {
           className="pt-5"
           trailing={
             <span className="flex items-center gap-3">
-              <span className="text-[11px] text-faint">demo data</span>
+              <span className="text-[11px] text-muted-foreground">demo data</span>
               <KeyChord keys={["^", "⇧", "D"]} size="sm" />
             </span>
           }
@@ -118,7 +119,7 @@ export function TokensSection() {
                 const total = d.k.reduce((a, b) => a + b, 0);
                 return (
                   <div key={d.day} className="flex h-full flex-col justify-end gap-1">
-                    <span className={`text-center text-[10px] tabular-nums ${d.day === "today" ? "text-strong" : "text-faint"}`}>
+                    <span className={`text-center text-[10px] tabular-nums ${d.day === "today" ? "text-strong" : "text-muted-foreground"}`}>
                       {formatTokens(total * 1000)}
                     </span>
                     <div className="flex flex-col-reverse gap-px" style={{ height: `${(total / WEEK_MAX) * 72}px` }}>
@@ -132,7 +133,7 @@ export function TokensSection() {
             </div>
             <div className="mt-1.5 grid grid-cols-7 gap-2 text-center text-[11px]" aria-hidden="true">
               {WEEK.map((d) => (
-                <span key={d.day} className={d.day === "today" ? "text-foreground" : "text-faint"}>
+                <span key={d.day} className={d.day === "today" ? "text-strong" : "text-muted-foreground"}>
                   {d.day}
                 </span>
               ))}
@@ -183,15 +184,15 @@ export function TokensSection() {
           <ul className="space-y-1.5 border-t border-edge px-4 py-3 text-[13px] tabular-nums">
             <li className="flex items-center gap-3">
               <Lamp state="fault" label="over 95%" />
-              <span className="text-foreground">acme-db</span>
+              <span className="whitespace-nowrap text-foreground">acme-db</span>
               <span className="text-muted-foreground">97% of daily budget</span>
-              <span className="ml-auto text-faint">14:02</span>
+              <span className="ml-auto text-muted-foreground">14:02</span>
             </li>
             <li className="flex items-center gap-3">
               <Lamp state="warn" label="over 80%" />
-              <span className="text-foreground">acme-api</span>
+              <span className="whitespace-nowrap text-foreground">acme-api</span>
               <span className="text-muted-foreground">82% of daily budget</span>
-              <span className="ml-auto text-faint">11:47</span>
+              <span className="ml-auto text-muted-foreground">11:47</span>
             </li>
           </ul>
         </Pane>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Pane } from "./instrument/Pane";
-import { PaneNote } from "./FeatureLayout";
+import { PaneNote, TryIt } from "./FeatureLayout";
 import { formatTokens } from "./instrument/Meter";
 import { useLedger } from "./ledger/LedgerProvider";
 import { DETAIL_LABEL, fileByPath, type Detail } from "./ledger/demoSession";
@@ -60,7 +60,13 @@ export function DetailLevelDemo() {
   const current: Detail = ledger.scene === "explicit" ? (ledger.selection[PATH]?.detail ?? "sig") : "full";
 
   return (
-    <Pane title="detail level" className="pt-5 lg:sticky lg:top-20" trailing={<span className="ins-legend normal-case">{PATH}</span>}>
+    <Pane title="detail level" className="pt-5 lg:sticky lg:top-20" trailing={
+        <span className="flex items-center gap-3">
+          <TryIt />
+          <span className="ins-legend normal-case max-sm:hidden">{PATH}</span>
+        </span>
+      }
+    >
       <div className="flex flex-wrap gap-1 px-4 pb-3" role="group" aria-label={`Detail level for ${PATH}`}>
         {(["full", "sig", "skel"] as Detail[]).map((d) => (
           <button
@@ -71,14 +77,16 @@ export function DetailLevelDemo() {
             onClick={() => ledger.setDetail(PATH, d)}
           >
             [{DETAIL_LABEL[d]}]
-            <span className="tabular-nums text-muted-foreground">{formatTokens(file.tokens[d])}</span>
+            {/* On a phone the three keys keep one row; the bar below carries the count. */}
+            <span className="tabular-nums text-muted-foreground max-sm:hidden">{formatTokens(file.tokens[d])}</span>
             {current === d && d !== "full" && (
-              <span className="tabular-nums text-lamp">−{saving(d)}%</span>
+              <span className="tabular-nums text-lamp max-sm:hidden">−{saving(d)}%</span>
             )}
           </button>
         ))}
       </div>
-      <pre className="ins-glass mx-4 mb-3 overflow-x-auto px-4 py-3 text-[12.5px] leading-[21px] text-foreground">
+      {/* On a phone the long lines scroll; the right edge fades so they read as cut, not missing. */}
+      <pre className="ins-glass mx-4 mb-3 overflow-x-auto px-4 py-3 text-[12.5px] leading-[21px] text-foreground max-sm:[mask-image:linear-gradient(to_right,#000_80%,transparent)]">
         {PREVIEW[current].map((line, i) => (
           <div key={`${current}-${i}`} className="ins-line-enter" style={{ animationDelay: `${i * 18}ms` }}>
             {line || " "}

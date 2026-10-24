@@ -8,12 +8,16 @@ import { Meter } from "./instrument/Meter";
 import { CONTEXT_MAX } from "./ledger/demoSession";
 import { REPO_URL } from "@/lib/releases";
 
-const NAV = [
+// `wide` links join the inline nav only from 2xl; below that the bar has no
+// room beside the meter, and they live in the menu.
+const NAV: { href: string; label: string; wide?: boolean }[] = [
   { href: "/#context", label: "context" },
+  { href: "/#tokens", label: "tokens", wide: true },
   { href: "/#workspace", label: "workspace" },
   { href: "/#jobs", label: "jobs" },
   { href: "/#git", label: "git" },
   { href: "/#sandbox", label: "sandbox" },
+  { href: "/#faq", label: "faq", wide: true },
   { href: "/blog", label: "blog" },
 ];
 
@@ -52,7 +56,11 @@ export function StatusBar() {
 
         <nav aria-label="Main" className="hidden items-center gap-0.5 xl:flex">
           {NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="ins-key ins-key-panel">
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`ins-key ins-key-panel ${item.wide ? "hidden 2xl:inline-flex" : ""}`}
+            >
               [{item.label}]
             </Link>
           ))}
@@ -66,7 +74,7 @@ export function StatusBar() {
               max={CONTEXT_MAX}
               label={`Context window, ${ledger.tab}, demo session`}
               size="lg"
-              className="max-sm:[--meter-w:84px] max-sm:[--meter-fill-h:6px] max-sm:[&_.ins-meter-readout]:text-[15px] sm:[--meter-w:clamp(150px,18vw,300px)]"
+              className="max-sm:[--meter-w:84px] max-sm:[--meter-fill-h:6px] max-sm:[&_.ins-meter-readout]:text-[15px] sm:[--meter-w:clamp(150px,18vw,300px)] 2xl:[--meter-w:160px]"
             />
           </div>
         )}

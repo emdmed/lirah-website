@@ -1,8 +1,7 @@
 import { Pane } from "./instrument/Pane";
-import { Lamp } from "./instrument/Lamp";
 import { DiffBar } from "./instrument/DiffBar";
 import { KeyChord } from "./instrument/Keycap";
-import { FeatureList, FeatureSection, FeatureSplit } from "./FeatureLayout";
+import { FeatureSection, FeatureSplit } from "./FeatureLayout";
 
 // The app's subject-line limit (AutoCommitDialog SUBJECT_MAX).
 const SUBJECT_MAX = 72;
@@ -22,19 +21,6 @@ const MERGE_COMMANDS = [
   `git merge --no-ff -m "Merge branch '${FEATURE}' into ${BASE}" ${FEATURE}`,
 ];
 
-const TOOLS: { keys: string[][]; title: string; body: string }[] = [
-  {
-    keys: [["alt", "M"]],
-    title: "Auto merge",
-    body: "Fast-forward or --no-ff into a base branch. It shows the commands first, aborts on a conflict so the repo is left as it was, and knows when either branch is checked out in another worktree.",
-  },
-  {
-    keys: [["^", "["], ["^", "]"]],
-    title: "Diff viewer",
-    body: "Side by side, word level, with unchanged regions folded. Step file to file and leave review notes as you read.",
-  },
-];
-
 export function GitSection() {
   return (
     <FeatureSection
@@ -47,7 +33,7 @@ export function GitSection() {
             When a change is ready, an agent reads the staged diff and drafts a conventional commit message for you to
             edit. Merging the branch back lists every git command before any of them runs.
           </p>
-          <p className="text-muted-foreground">All of it is local git. Lirah never pushes, pulls or fetches for you.</p>
+          <p className="text-muted-foreground">All of it is local git, run on your machine.</p>
         </>
       }
     >
@@ -81,17 +67,22 @@ export function GitSection() {
             </div>
           </div>
 
-          <div className="space-y-3 border-t border-edge px-4 py-4 text-[13px]">
-            <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1">
-              <span className="text-foreground">
-                auto merge <span className="text-muted-foreground">{FEATURE} → {BASE}</span>
-              </span>
-              <KeyChord keys={["alt", "M"]} size="sm" />
-            </div>
+        </Pane>
+
+        <Pane
+          title="auto merge · acme-api"
+          className="pt-5"
+          trailing={<KeyChord keys={["alt", "M"]} size="sm" />}
+        >
+          <div className="space-y-3 px-4 pb-4 text-[13px]">
+            <p className="text-foreground">
+              {FEATURE} <span className="text-muted-foreground">→</span> {BASE}{" "}
+              <span className="text-muted-foreground">· --no-ff</span>
+            </p>
             <ol className="ins-glass space-y-1 p-3 text-[12.5px]" aria-label="Commands auto merge will run">
               {MERGE_COMMANDS.map((c) => (
                 <li key={c} className="text-foreground [overflow-wrap:anywhere]">
-                  <span className="text-faint" aria-hidden="true">$ </span>
+                  <span className="text-muted-foreground" aria-hidden="true">$ </span>
                   {c}
                 </li>
               ))}
@@ -99,24 +90,28 @@ export function GitSection() {
             <p className="text-[12px] text-muted-foreground">
               on conflict: <span className="text-foreground">git merge --abort</span>, nothing changed
             </p>
-            <p className="flex items-center gap-3 border-t border-edge pt-3 text-muted-foreground">
-              <Lamp state="ok" label="done" />
-              CHANGELOG.md updated by a headless agent
-              <span className="ins-key ins-key-panel ml-auto" data-static>
-                [undo]
+            <p className="text-[12px] text-muted-foreground">
+              Fast-forward or --no-ff. It knows when either branch is checked out in another worktree.
+            </p>
+            <div className="flex justify-end">
+              <span className="ins-key ins-key-primary ins-key-panel" data-static>
+                merge
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-4 border-t border-edge px-4 py-4 text-[13px]">
+            <span className="flex shrink-0 gap-1.5 pt-0.5">
+              <KeyChord keys={["^", "["]} size="sm" />
+              <KeyChord keys={["^", "]"]} size="sm" />
+            </span>
+            <p>
+              <span className="text-strong">Diff viewer.</span>{" "}
+              <span className="text-muted-foreground">
+                Side by side, word level, unchanged regions folded. Step file to file and leave review notes as you read.
               </span>
             </p>
           </div>
-        </Pane>
-
-        <Pane title="merge and review" className="pt-5">
-          <FeatureList
-            items={TOOLS.map((t) => ({
-              term: t.keys.map((k, i) => <KeyChord key={i} keys={k} />),
-              title: t.title,
-              body: t.body,
-            }))}
-          />
         </Pane>
       </FeatureSplit>
     </FeatureSection>

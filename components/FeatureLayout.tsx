@@ -43,7 +43,8 @@ export function FeatureList({ items }: { items: { term: React.ReactNode; title: 
   return (
     <dl className="divide-y divide-edge">
       {items.map((c) => (
-        <div key={c.title} className="grid gap-x-5 gap-y-1.5 px-4 py-3.5 sm:grid-cols-[132px_minmax(0,1fr)]">
+        // Side by side only while the pane is full width; in the lg split the key sits above its text.
+        <div key={c.title} className="grid gap-x-5 gap-y-1.5 px-4 py-3.5 sm:grid-cols-[132px_minmax(0,1fr)] lg:grid-cols-1">
           <dt className="flex flex-wrap items-start gap-1.5 pt-0.5">{c.term}</dt>
           <dd>
             <span className="text-strong">{c.title}.</span>{" "}
@@ -81,6 +82,12 @@ export function KeyStrip({ keys }: { keys: { keys: string[][]; action: string }[
       ))}
     </ul>
   );
+}
+
+// Set in a pane's legend when its controls really work, so they read apart
+// from keys drawn for illustration.
+export function TryIt() {
+  return <span className="ins-legend text-lamp">try it</span>;
 }
 
 // The note under a demo: what it's wired to, or that the data is made up.

@@ -12,7 +12,17 @@ const SIZE_CLASS = {
   panel: "ins-key-panel h-9 px-4",
 };
 
-export function DownloadKey({ release, size = "lg" }: { release: Release | null; size?: "xl" | "lg" | "panel" }) {
+// `formatsLink` points at the installer table; the download section turns it
+// off, since the table sits right beside the key there.
+export function DownloadKey({
+  release,
+  size = "lg",
+  formatsLink = true,
+}: {
+  release: Release | null;
+  size?: "xl" | "lg" | "panel";
+  formatsLink?: boolean;
+}) {
   const os = useDetectedOS();
   const phone = useIsPhone();
   const inst = primaryInstaller(release, os);
@@ -28,11 +38,16 @@ export function DownloadKey({ release, size = "lg" }: { release: Release | null;
               {release.version} <span className="text-faint">·</span>{" "}
             </>
           )}
-          picks .deb, .rpm or AppImage for your distro <span className="text-faint">·</span> builds from source on Arch{" "}
-          <span className="text-faint">·</span>{" "}
-          <a href="#download" className="ins-link">
-            other formats
-          </a>
+          picks .deb, .rpm or AppImage for your distro <span className="text-faint">·</span> builds from source on Arch
+          {formatsLink && (
+            <>
+              {" "}
+              <span className="text-faint">·</span>{" "}
+              <a href="#installers" className="ins-link">
+                other formats
+              </a>
+            </>
+          )}
         </p>
       </div>
     );
@@ -49,16 +64,21 @@ export function DownloadKey({ release, size = "lg" }: { release: Release | null;
         {inst ? (
           <>
             {release!.version} <span className="text-faint">·</span> {inst.format}
-            {inst.os === "macos" ? `, ${inst.arch}` : ""} <span className="text-faint">·</span> {formatSize(inst.size)}{" "}
-            <span className="text-faint">·</span>{" "}
-            <a href="#download" className="ins-link">
-              other formats
-            </a>
+            {inst.os === "macos" ? `, ${inst.arch}` : ""} <span className="text-faint">·</span> {formatSize(inst.size)}
+            {formatsLink && (
+              <>
+                {" "}
+                <span className="text-faint">·</span>{" "}
+                <a href="#installers" className="ins-link">
+                  other formats
+                </a>
+              </>
+            )}
           </>
         ) : (
           <>
             Free and open source <span className="text-faint">·</span>{" "}
-            <a href="#download" className="ins-link">
+            <a href="#installers" className="ins-link">
               all platforms
             </a>
           </>
@@ -104,7 +124,7 @@ function SendToDesktopKey({ size }: { size: "xl" | "lg" | "panel" }) {
       </button>
       <p className="text-[12px] text-muted-foreground" aria-live="polite">
         Desktop app for Linux, macOS and Windows <span className="text-faint">·</span>{" "}
-        <a href="#download" className="ins-link">
+        <a href="#installers" className="ins-link">
           installers
         </a>
       </p>
