@@ -4,10 +4,11 @@ import { useEffect, useRef } from "react";
 
 // Rivendell drawn the way a terminal draws an image: five ridges in
 // atmospheric perspective, mist in the folds, a waterfall in the cleft and a
-// thin moon above. Each cell is sampled in six regions and matched to the
+// gold crescent moon above. Each cell is sampled in six regions and matched to the
 // glyph whose shape fits best, so edges read as / \ | _ rather than a smear.
 
-const GLYPHS = " .,:;'\"-_~=+*^!|/\\()<>[]{}#%@";
+// Calm strokes only. Quotes, brackets, ! ^ * repeat into dashed rules and rain along a ridge.
+const GLYPHS = " .,:;-_~=+|/\\#%@";
 const FONT_PX = 12;
 
 type Ridge = { base: number; amp: number; f: number; sp: number; tone: number; fog: number; rim: number };
@@ -19,6 +20,9 @@ const SKY = 0.36;
 const RELIEF = 1.3;
 // Where the waterfall drops, right of the copy column so it never sits behind text.
 const WATERFALL_X = 0.7;
+// Peaks gather toward the moon and settle at the edges, so the mass never jams against the viewport.
+const PEAK_X = 0.68;
+const envelope = (u: number) => 0.55 + 0.45 * Math.exp(-(((u - PEAK_X) / 0.35) ** 2));
 
 const RIDGES: Ridge[] = [
   { base: 0.42, amp: 0.36, f: 0.0042, sp: 2, tone: 0.07, fog: 0.5, rim: 0.5 },
@@ -142,7 +146,6 @@ type Scene = {
   glyphs: GlyphSet;
   ridges: Float32Array[];
   ink: string;
-  strong: string;
   lamp: string;
 };
 
@@ -175,7 +178,6 @@ function setup(canvas: HTMLCanvasElement): Scene | null {
     glyphs: glyphSet(font, cw, ch),
     ridges: RIDGES.map(() => new Float32Array(cols * 2)),
     ink: root.getPropertyValue("--foreground").trim() || "#e7e1cf",
-    strong: root.getPropertyValue("--fg-strong").trim() || "#f1ebda",
     lamp: root.getPropertyValue("--ins-lamp").trim() || "#dcb662",
   };
 }
@@ -238,7 +240,7 @@ function draw(s: Scene, t: number) {
       const u = x * stretch * L.f + t * L.sp * 0.01;
       const swell = noise1(u * 0.55 + i * 4.3);
       const rough = fbm1(u + i * 9.7) - 0.5;
-      let y = L.base + L.amp * 0.3 - L.amp * RELIEF * (1.3 * swell + 0.6 * rough);
+      let y = L.base + L.amp * 0.3 - L.amp * RELIEF * envelope(x / w) * (1.3 * swell + 0.6 * rough);
       y = h * (SKY + (1 - SKY) * Math.max(y, 0));
       if (i === 2) {
         const dx = (x - w * WATERFALL_X) / (w * 0.05);
@@ -268,15 +270,30 @@ function draw(s: Scene, t: number) {
         }
       const avg = sum / 6;
       if (avg < 0.025) continue;
-      ctx.fillStyle = water ? s.lamp : moon ? s.strong : s.ink;
+      ctx.fillStyle = water || moon ? s.lamp : s.ink;
       ctx.globalAlpha = clamp(0.15 + avg * 1.05, 0, 0.92);
       let mn = 1;
       for (let i = 0; i < 6; i++) if (v[i] < mn) mn = v[i];
-      if (!moon && !water && mx - mn < 0.04) {
+      // Soft cells (mist, slopes) stipple with dots; only real edges get shaped glyphs.
+      if (!moon && !water && mx - mn < 0.12) {
         const grain = hash(r * 131.7 + c * 17.3);
         if (grain < 0.35) continue;
         ctx.fillText(grain > 0.85 && avg > 0.14 ? ":" : ".", c * cw + cw / 2, r * ch + ch / 2);
         continue;
+      }
+      // A horizontal edge (brightness changes top to bottom, not side to side) is a ridge line:
+      // draw it as a stroke at the bright row, or matching picks thin top-heavy glyphs that read as rain.
+      if (!moon && !water) {
+        const top = v[0] + v[1];
+        const mid = v[2] + v[3];
+        const bot = v[4] + v[5];
+        const side = Math.abs(v[0] + v[2] + v[4] - v[1] - v[3] - v[5]);
+        const rise = Math.max(top, mid, bot) - Math.min(top, mid, bot);
+        if (rise > side * 1.5) {
+          const stroke = avg > 0.4 ? "=" : bot > top && bot >= mid ? "_" : hash(r * 7.3 + c * 3.1) > 0.7 ? "~" : "-";
+          ctx.fillText(stroke, c * cw + cw / 2, r * ch + ch / 2);
+          continue;
+        }
       }
       // Sharpen contrast inside the cell so edges pick directional glyphs.
       for (let i = 0; i < 6; i++) v[i] = Math.pow(v[i] / mx, 1.6) * mx;

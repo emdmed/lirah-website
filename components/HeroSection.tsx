@@ -21,12 +21,12 @@ function DetailChip({ level, children }: { level: keyof typeof DETAIL_CHIP; chil
 export function HeroSection({ release }: { release: Release | null }) {
   return (
     <section aria-labelledby="hero-title">
-      <div className="relative pb-[clamp(110px,13vw,220px)] pt-12 sm:pt-16">
+      <div className="relative pb-[clamp(72px,7vw,120px)] pt-12 sm:pt-16">
         {/* Rivendell fills the hero behind the copy and bleeds to both viewport edges; body clips the overflow.
             The mask dims it under the text column and fades it out before the demo. */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 opacity-60 [mask-image:radial-gradient(ellipse_75%_65%_at_24%_58%,rgb(0_0_0/0.25)_45%,#000_85%),linear-gradient(to_bottom,transparent,#000_12%,#000_80%,transparent)] [mask-composite:intersect] sm:opacity-90"
+          className="pointer-events-none absolute inset-y-0 left-1/2 w-screen -translate-x-1/2 opacity-60 [mask-image:radial-gradient(ellipse_75%_75%_at_24%_50%,rgb(0_0_0/0.22)_48%,#000_88%),linear-gradient(to_bottom,transparent,#000_12%,#000_80%,transparent)] [mask-composite:intersect] sm:opacity-90"
         >
           <RivendellRidges className="block h-full w-full" />
         </div>
