@@ -1,0 +1,57 @@
+{
+  "title": "Choose the page structure",
+  "question": "The world is fixed: the app's Instrument TUI. Pick how the landing page is composed inside it.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "The Shortcut Sheet",
+      "kicker": "THE ROLL",
+      "lineage": "Lirah's own Ctrl+H shortcut sheet and htop's hint bar",
+      "thesis": "A marketing page you drive with the keyboard, the way you drive the app.",
+      "palette": ["#16161e", "#1a1b26", "#c0caf5", "#e0af68", "#9ece6a"],
+      "materials": ["hairline panes", "raised keycaps", "star lamps", "Departure Mono legends"],
+      "viewport": "Wordmark and one-line offer on the left, the [Download for Linux] key below. On the right, a live replica of the four panes (Files, Terminal, Prompt, Workspace). A keycap bank along the bottom edge: Alt+1–4 focuses replica panes, : opens a command line (:download, :jobs), and holding Ctrl shows the hint bar.",
+      "risk": "Keyboard play can hide the offer if the download key isn't the loudest thing on screen.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "title bar · mark · [download]", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "offer + install key", "x": 0, "y": 1, "w": 4, "h": 5, "accent": true},
+        {"label": "live replica: 4 panes", "x": 4, "y": 1, "w": 8, "h": 7},
+        {"label": "keycap bank / hint bar", "x": 0, "y": 8, "w": 12, "h": 2}
+      ]}
+    },
+    {
+      "id": "ledger",
+      "label": "The Context Ledger",
+      "lineage": "the app's status-bar context meter and budget gauge",
+      "thesis": "The whole page is one context window, and every section changes what's in it.",
+      "palette": ["#16161e", "#1a1b26", "#c0caf5", "#e0af68", "#f7768e"],
+      "materials": ["meter with ticks and red zone", "context chips EDIT/READ/COPY", "hairline panes"],
+      "viewport": "A sticky status bar holds a large meter at 127k of 200k. In the replica the visitor flips file chips to READ or signatures and runs Compact Project, and the meter drops to 8.5k. The offer and the download key sit above the replica.",
+      "risk": "Centres the token story, so jobs, plans and the sandbox read as secondary.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "status bar · big meter", "x": 0, "y": 0, "w": 12, "h": 1, "accent": true},
+        {"label": "offer + download", "x": 0, "y": 1, "w": 12, "h": 2},
+        {"label": "replica: files + chips", "x": 0, "y": 3, "w": 4, "h": 7},
+        {"label": "replica: terminal + prompt", "x": 4, "y": 3, "w": 8, "h": 7}
+      ]}
+    },
+    {
+      "id": "manpage",
+      "label": "LIRAH(1)",
+      "lineage": "Unix manual pages",
+      "thesis": "The product explained the way terminal people read about a tool: as its man page.",
+      "palette": ["#1a1b26", "#c0caf5", "#a9b1d6", "#e0af68"],
+      "materials": ["man-page section heads", "flag tables", "replica as FIGURE 1"],
+      "viewport": "Header line LIRAH(1) · User Commands · LIRAH(1). Under NAME: 'lirah, a workspace for CLI coding agents'. Under SYNOPSIS: 'lirah [dir]' and the install key. The live replica is FIGURE 1, full width. Below it, DESCRIPTION, FEATURES as flag-style entries, FILES, SEE ALSO.",
+      "risk": "Dry for newcomers; the offer depends on the replica doing the persuading.",
+      "wireframe": {"cols": 12, "rows": 10, "regions": [
+        {"label": "LIRAH(1) header", "x": 0, "y": 0, "w": 12, "h": 1},
+        {"label": "NAME / SYNOPSIS + install", "x": 0, "y": 1, "w": 6, "h": 3, "accent": true},
+        {"label": "FIGURE 1: live replica", "x": 0, "y": 4, "w": 12, "h": 6}
+      ]}
+    }
+  ],
+  "reroll": true,
+  "buildPath": {"value": "code", "toggle": false},
+  "steer": true
+}

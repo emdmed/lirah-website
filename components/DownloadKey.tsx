@@ -22,6 +22,7 @@ export function DownloadKey({ release, size = "lg" }: { release: Release | null;
       <div className={`flex flex-col ${size === "xl" ? "gap-3" : "gap-2"}`}>
         <InstallCommand size={size} />
         <p className="text-[12px] text-muted-foreground">
+          Linux <span className="text-faint">·</span>{" "}
           {release && (
             <>
               {release.version} <span className="text-faint">·</span>{" "}

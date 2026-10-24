@@ -4,7 +4,7 @@ import { Pane } from "./instrument/Pane";
 import { Lamp } from "./instrument/Lamp";
 import { DiffBar } from "./instrument/DiffBar";
 import { formatTokens } from "./instrument/Meter";
-import { SectionHead } from "./SectionHead";
+import { FeatureSection, FeatureSplit, PaneNote } from "./FeatureLayout";
 import { useLedger } from "./ledger/LedgerProvider";
 import { selectionTokens } from "./ledger/demoSession";
 
@@ -26,18 +26,26 @@ export function JobsSection() {
   const files = Object.keys(ledger.selection).length;
   const jobTokens = selectionTokens(ledger.selection, ledger.compact);
   return (
-    <section aria-labelledby="jobs-title" className="scroll-mt-20 pt-28 sm:pt-36" id="jobs">
-      <SectionHead id="jobs-title" label="jobs" title="Background agents. Nothing lands unreviewed.">
-        <p>
-          Start headless runs of Claude Code, opencode, Codex, Gemini, Cursor or Amp from a template and a set of context
-          files, each in its own git worktree if you want. Race several agents on one task and compare what they wrote,
-          side by side.
-        </p>
-      </SectionHead>
-
-      <div className="mt-12 grid gap-x-10 gap-y-12 lg:grid-cols-2">
+    <FeatureSection
+      id="jobs"
+      label="jobs and plans"
+      title="Work you don't have to watch. Nothing lands unreviewed."
+      intro={
+        <>
+          <p>
+            Start headless runs of any supported agent from a template and your context files, each in its own git
+            worktree if you want. Race several agents on one task, compare what they wrote, and apply the one you want.
+          </p>
+          <p className="text-muted-foreground">
+            For longer work, import a <span className="text-foreground">*_plan.md</span>: Lirah implements it chunk by
+            chunk in the tab&apos;s agent and commits each one.
+          </p>
+        </>
+      }
+    >
+      <FeatureSplit>
         {/* JOBS: live work is a box, settled work is a line. */}
-        <Pane title="workspace · jobs" className="pt-5">
+        <Pane title="jobs" className="pt-5" trailing={<span className="ins-legend normal-case">acme-api</span>}>
           <div className="space-y-4 px-4 pb-4">
             <div className="ins-well p-3">
               <div className="flex items-center justify-between gap-3 text-[13px]">
@@ -88,16 +96,45 @@ export function JobsSection() {
               </li>
             </ul>
           </div>
+          <PaneNote>
+            Read the diff and send notes back first. Applying waits for the TypeScript check to pass and asks before
+            touching a dirty tree.
+          </PaneNote>
         </Pane>
 
-        {/* Review sits beside the live work it applies to. */}
-        <div className="space-y-3 text-[15px] leading-[1.7] text-muted-foreground lg:pt-5">
-          <p className="text-strong">Read the diff, send notes back, then apply.</p>
-          <p className="max-w-[52ch]">
-            Applying waits for the TypeScript check to pass and asks before touching a dirty tree.
-          </p>
-        </div>
-      </div>
-    </section>
+        {/* Sequential work beside the parallel work: one plan, one commit per chunk. */}
+        <Pane title="plan" className="pt-5" trailing={<span className="ins-legend normal-case">auth-hardening</span>}>
+          <div className="space-y-3 px-4 pb-4 text-[13px]">
+            <p className="flex items-center gap-3 text-muted-foreground">
+              <Lamp state="ok" label="implemented" />
+              1–3 implemented <span className="text-faint">·</span> 3 commits
+            </p>
+            <div className="ins-well p-3">
+              <p className="flex items-center gap-3">
+                <Lamp state="on" blink label="implementing" />
+                <span className="text-strong">4 · rotate refresh tokens on use</span>
+              </p>
+              <p className="mt-2 pl-[19px] text-[12px] text-muted-foreground">
+                implementing in acme-api <span className="text-faint">·</span> commit trailer Plan-Chunk: 4
+              </p>
+            </div>
+            <ul className="space-y-1.5 pl-[19px] text-faint">
+              <li>5 · revoke sessions on password change</li>
+              <li>6 · add api key scopes</li>
+              <li>7 · audit log for auth events</li>
+            </ul>
+            <p className="flex items-center gap-3 border-t border-edge pt-3">
+              <Lamp state="on" label="autopilot on" />
+              <span className="text-foreground">:autopilot</span>
+              <span className="text-muted-foreground">chains the remaining chunks</span>
+            </p>
+          </div>
+          <PaneNote>
+            Check, review, roll back, skip or reorder any chunk. Autopilot stops when the agent asks a question, needs
+            permission or forgets to commit.
+          </PaneNote>
+        </Pane>
+      </FeatureSplit>
+    </FeatureSection>
   );
 }

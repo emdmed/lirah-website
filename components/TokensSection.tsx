@@ -1,81 +1,77 @@
 import { Pane } from "./instrument/Pane";
 import { Lamp } from "./instrument/Lamp";
 import { KeyChord } from "./instrument/Keycap";
-import { ContextMoon } from "./instrument/ContextMoon";
 import { Meter, formatTokens } from "./instrument/Meter";
-import { SectionHead } from "./SectionHead";
+import { FeatureSection, FeatureSplit } from "./FeatureLayout";
 
-// Demo data throughout: a plausible week across the demo workspace's repos.
-const CONTEXT_MAX = 200_000;
-const CONTEXT_USED = 164_000;
-
-const PHASES = [
-  { ratio: 0.31, label: "31%", note: "ok" },
-  { ratio: 0.84, label: "84%", note: "warn" },
-  { ratio: 0.97, label: "97%", note: "fault" },
-];
+// Demo data throughout: a plausible week across the demo workspace's repos,
+// ending in a heavy day that trips two budget alerts.
 
 const DASH_TABS = ["overview", "projects", "history", "insights"];
 const RANGES = ["day", "week", "month"];
 
-const OVERVIEW = [
-  { label: "tokens", value: "2.41M" },
-  { label: "sessions", value: "63" },
-  { label: "projects", value: "4" },
+const PROJECTS = ["acme-api", "acme-web", "acme-db", "infra"] as const;
+
+// Each project gets a step of the foreground, so warn and fault stay the only colours.
+const PROJECT_TONE = [
+  "bg-foreground",
+  "bg-foreground/60",
+  "bg-foreground/35",
+  "bg-foreground/18",
+] as const;
+
+// Tokens per day in thousands, one value per project in PROJECTS order. The last day is today.
+const WEEK: { day: string; k: number[] }[] = [
+  { day: "mon", k: [120, 75, 50, 15] },
+  { day: "tue", k: [105, 70, 40, 15] },
+  { day: "wed", k: [140, 85, 65, 20] },
+  { day: "thu", k: [150, 80, 90, 20] },
+  { day: "fri", k: [125, 75, 62, 18] },
+  { day: "sat", k: [60, 40, 35, 12] },
+  { day: "today", k: [412, 118, 291, 22] },
 ];
 
-const BUDGETS: { project: string; used: number; limit: number }[] = [
-  { project: "acme-api", used: 412_000, limit: 500_000 },
-  { project: "acme-web", used: 118_000, limit: 400_000 },
-  { project: "acme-db", used: 291_000, limit: 300_000 },
-  { project: "infra", used: 22_000, limit: 150_000 },
-];
+const WEEK_TOTAL = WEEK.reduce((sum, d) => sum + d.k.reduce((a, b) => a + b, 0), 0) * 1000;
+const WEEK_MAX = Math.max(...WEEK.map((d) => d.k.reduce((a, b) => a + b, 0)));
+const TODAY = WEEK[WEEK.length - 1].k;
+
+const LIMITS = [500_000, 400_000, 300_000, 150_000];
+const BUDGETS = PROJECTS.map((project, i) => ({ project, used: TODAY[i] * 1000, limit: LIMITS[i] }));
+
+function formatTotal(n: number) {
+  return n >= 1_000_000 ? `${+(n / 1_000_000).toFixed(2)}M` : formatTokens(n);
+}
 
 export function TokensSection() {
   return (
-    <section aria-labelledby="tokens-title" className="scroll-mt-20 pt-28 sm:pt-36" id="tokens">
-      <SectionHead id="tokens-title" label="tokens" title="Know the cost before you send.">
-        <p>
-          The status bar reads the context window of the tab&apos;s own Claude session, subagents included, and draws it
-          as a meter that turns warn at 80% and fault at 95%. Each tab row carries the same reading as a moon. Hover the
-          meter for billable tokens and the cache hit rate.
-        </p>
-        <p className="text-muted-foreground">
-          The token dashboard has overview, projects, history and insights views over a day, a week or a month, and
-          exports to CSV or JSON. Give a project a daily or weekly budget and Lirah shows an alert at 80% and again at
-          95%.
-        </p>
-      </SectionHead>
-
-      <div className="mt-12 grid gap-x-10 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)] lg:items-start">
-        <Pane title="status bar · context" className="pt-5" trailing={<span className="ins-legend">demo</span>}>
-          <div className="space-y-5 px-4 pb-4">
-            <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-              <ContextMoon ratio={CONTEXT_USED / CONTEXT_MAX} size={22} />
-              <Meter value={CONTEXT_USED} max={CONTEXT_MAX} label="Context window, acme-api" size="lg" />
-            </div>
-            <dl className="ins-well grid grid-cols-[auto_1fr] gap-x-6 gap-y-1 p-3 text-[13px] tabular-nums">
-              <dt className="text-muted-foreground">context</dt>
-              <dd className="text-foreground">
-                {formatTokens(CONTEXT_USED)} of {formatTokens(CONTEXT_MAX)}
-              </dd>
-              <dt className="text-muted-foreground">billable</dt>
-              <dd className="text-foreground">38.6k</dd>
-              <dt className="text-muted-foreground">cache hits</dt>
-              <dd className="text-foreground">89%</dd>
-            </dl>
-            <ul className="flex flex-wrap gap-x-6 gap-y-2 border-t border-edge pt-3 text-[12px] text-muted-foreground">
-              {PHASES.map((p) => (
-                <li key={p.note} className="flex items-center gap-2 tabular-nums">
-                  <ContextMoon ratio={p.ratio} size={14} />
-                  {p.label} <span className="text-faint">{p.note}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Pane>
-
-        <Pane title="token dashboard" className="pt-5" trailing={<KeyChord keys={["^", "⇧", "D"]} size="sm" />}>
+    <FeatureSection
+      id="tokens"
+      label="tokens"
+      title="Then see where the week went."
+      intro={
+        <>
+          <p>
+            Give a project a daily or weekly budget. Lirah warns you at 80% and again at 95%, so a runaway session gets
+            caught before it burns through the rest.
+          </p>
+          <p className="text-muted-foreground">
+            Totals per day and per project over a day, a week or a month, with CSV and JSON export.
+          </p>
+        </>
+      }
+    >
+      {/* The status-bar meter covers one session; this covers the week. */}
+      <FeatureSplit>
+        <Pane
+          title="token dashboard"
+          className="pt-5"
+          trailing={
+            <span className="flex items-center gap-3">
+              <span className="text-[11px] text-faint">demo data</span>
+              <KeyChord keys={["^", "⇧", "D"]} size="sm" />
+            </span>
+          }
+        >
           <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 border-b border-edge px-2 pb-2">
             <span className="flex flex-wrap">
               {DASH_TABS.map((t) => (
@@ -93,54 +89,113 @@ export function TokensSection() {
             </span>
           </div>
 
-          <dl className="grid grid-cols-3 gap-x-4 px-4 py-3 tabular-nums">
-            {OVERVIEW.map((o) => (
-              <div key={o.label}>
-                <dt className="ins-legend">{o.label}</dt>
-                <dd className="mt-1.5 text-[17px] text-strong">{o.value}</dd>
-              </div>
-            ))}
+          <dl className="flex flex-wrap items-end gap-x-10 gap-y-3 px-4 pb-4 pt-4 tabular-nums">
+            <div className="mr-auto">
+              <dt className="ins-legend">tokens this week</dt>
+              <dd className="mt-2 flex items-baseline gap-3">
+                <span className="text-[clamp(26px,2.6vw,32px)] leading-none text-strong">{formatTotal(WEEK_TOTAL)}</span>
+                <span className="text-[12px] text-muted-foreground">+18% vs last week</span>
+              </dd>
+            </div>
+            <div>
+              <dt className="ins-legend">sessions</dt>
+              <dd className="mt-1.5 text-[17px] text-strong">63</dd>
+            </div>
+            <div>
+              <dt className="ins-legend">projects</dt>
+              <dd className="mt-1.5 text-[17px] text-strong">{PROJECTS.length}</dd>
+            </div>
           </dl>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-edge px-2 py-2 text-[12px]">
-            <span className="flex">
-              <span className="ins-key ins-key-panel" data-static>[export csv]</span>
-              <span className="ins-key ins-key-panel" data-static>[export json]</span>
-            </span>
-            <span className="ml-auto pr-2 text-faint">demo data</span>
-          </div>
+          {/* Where the week went: one stacked bar per day, a project per step of the foreground. */}
+          <figure className="border-t border-edge px-4 pb-3 pt-4">
+            <figcaption className="sr-only">
+              Tokens per day this week by project, demo data. Today is the heaviest day at{" "}
+              {formatTokens(TODAY.reduce((a, b) => a + b, 0) * 1000)}.
+            </figcaption>
+            <div className="grid h-[96px] grid-cols-7 items-end gap-2" aria-hidden="true">
+              {WEEK.map((d) => {
+                const total = d.k.reduce((a, b) => a + b, 0);
+                return (
+                  <div key={d.day} className="flex h-full flex-col justify-end gap-1">
+                    <span className={`text-center text-[10px] tabular-nums ${d.day === "today" ? "text-strong" : "text-faint"}`}>
+                      {formatTokens(total * 1000)}
+                    </span>
+                    <div className="flex flex-col-reverse gap-px" style={{ height: `${(total / WEEK_MAX) * 72}px` }}>
+                      {d.k.map((v, i) => (
+                        <span key={PROJECTS[i]} className={PROJECT_TONE[i]} style={{ flexGrow: v }} />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-1.5 grid grid-cols-7 gap-2 text-center text-[11px]" aria-hidden="true">
+              {WEEK.map((d) => (
+                <span key={d.day} className={d.day === "today" ? "text-foreground" : "text-faint"}>
+                  {d.day}
+                </span>
+              ))}
+            </div>
+            <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground" aria-hidden="true">
+              {PROJECTS.map((p, i) => (
+                <li key={p} className="flex items-center gap-1.5">
+                  <span className={`size-2 ${PROJECT_TONE[i]}`} />
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </figure>
 
-          <div className="flex items-center justify-between gap-3 border-t border-edge px-4 pb-1 pt-3">
-            <span className="ins-legend">budgets · daily</span>
-            <KeyChord keys={["^", "⇧", "B"]} size="sm" />
-          </div>
+        </Pane>
+
+        <Pane title="budgets · daily" className="pt-5">
           <table className="w-full border-collapse text-[13px]">
             <caption className="sr-only">Tokens used today against each project&apos;s daily budget, demo data</caption>
             <tbody>
-              {BUDGETS.map((b) => (
-                <tr key={b.project}>
-                  <th scope="row" className="py-2 pl-4 pr-3 text-left font-normal text-foreground">
-                    {b.project}
-                  </th>
-                  <td className="py-2 pr-4">
-                    <Meter value={b.used} max={b.limit} label={`${b.project}, tokens today against its daily budget`} />
-                  </td>
-                </tr>
-              ))}
+              {BUDGETS.map((b) => {
+                const pct = Math.round((b.used / b.limit) * 100);
+                return (
+                  <tr key={b.project}>
+                    <th scope="row" className="w-[1%] whitespace-nowrap py-2 pl-4 pr-6 text-left font-normal text-foreground">
+                      {b.project}
+                    </th>
+                    <td className="py-2 pr-3">
+                      <Meter
+                        value={b.used}
+                        max={b.limit}
+                        label={`${b.project}, tokens today against its daily budget`}
+                        className="flex w-full [&_.ins-meter-readout]:min-w-[9ch] [&_.ins-meter-readout]:text-right [&_.ins-meter-scale]:w-auto [&_.ins-meter-scale]:flex-1"
+                      />
+                    </td>
+                    <td
+                      className={`w-[1%] py-2 pr-4 text-right tabular-nums ${
+                        pct >= 95 ? "text-fault" : pct >= 80 ? "text-warn" : "text-muted-foreground"
+                      }`}
+                    >
+                      {pct}%
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
-          <ul className="space-y-1.5 border-t border-edge px-4 py-3 text-[13px]">
+          <ul className="space-y-1.5 border-t border-edge px-4 py-3 text-[13px] tabular-nums">
             <li className="flex items-center gap-3">
               <Lamp state="fault" label="over 95%" />
-              <span className="text-foreground">acme-db has used 97% of its daily budget</span>
+              <span className="text-foreground">acme-db</span>
+              <span className="text-muted-foreground">97% of daily budget</span>
+              <span className="ml-auto text-faint">14:02</span>
             </li>
             <li className="flex items-center gap-3">
               <Lamp state="warn" label="over 80%" />
-              <span className="text-foreground">acme-api has used 82% of its daily budget</span>
+              <span className="text-foreground">acme-api</span>
+              <span className="text-muted-foreground">82% of daily budget</span>
+              <span className="ml-auto text-faint">11:47</span>
             </li>
           </ul>
         </Pane>
-      </div>
-    </section>
+      </FeatureSplit>
+    </FeatureSection>
   );
 }

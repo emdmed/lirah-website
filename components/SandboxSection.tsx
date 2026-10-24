@@ -4,7 +4,7 @@ import { Pane } from "./instrument/Pane";
 import { Lamp } from "./instrument/Lamp";
 import { formatTokens } from "./instrument/Meter";
 import { useLedger } from "./ledger/LedgerProvider";
-import { SectionLabel } from "./SectionHead";
+import { FeatureList, FeatureSection, FeatureSplit, PaneNote, TermChip } from "./FeatureLayout";
 
 const MOUNTS: { path: string; access: "ro" | "rw" | "private" | "isolated" }[] = [
   { path: "/", access: "ro" },
@@ -26,31 +26,47 @@ const ACCESS_CLASS = {
   isolated: "text-mode-edit",
 };
 
+const OPTIONS = [
+  {
+    term: <TermChip>network</TermChip>,
+    title: "Network isolation",
+    body: "One more switch cuts the tab off from the network.",
+  },
+  {
+    term: <TermChip>apparmor</TermChip>,
+    title: "Set up for you",
+    body: "On Ubuntu 24.04 and later Lirah installs the AppArmor profile bubblewrap needs.",
+  },
+  {
+    term: <TermChip>retry</TermChip>,
+    title: "Never a dead end",
+    body: "If the sandbox can't start, Lirah offers to retry the tab without it.",
+  },
+];
+
 // The switch is real and the meter is meant not to move: the sandbox limits
 // what the agent can touch, not what it is given to read.
 export function SandboxSection() {
   const ledger = useLedger()!;
   const on = ledger.sandbox;
   return (
-    <section aria-labelledby="sandbox-title" className="scroll-mt-20 pt-28 sm:pt-36" id="sandbox">
-      <div className="grid gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
-        <div className="space-y-4 lg:pr-10">
-          <SectionLabel>sandbox</SectionLabel>
-          <h2 id="sandbox-title" className="text-[clamp(24px,2.4vw,30px)] leading-[1.18] tracking-[-0.01em]">
-            Let the agent run, inside a sandbox.
-          </h2>
-          <p className="max-w-[56ch] text-[15px] leading-[1.65]">
+    <FeatureSection
+      id="sandbox"
+      label="sandbox"
+      title="Let the agent run, inside a sandbox."
+      intro={
+        <>
+          <p>
             On Linux, each tab can run in a bubblewrap sandbox. The root filesystem is read-only. Your home and the
             project stay writable, while keys, shell rc files and your git config stay read-only. /tmp is private to the
             tab.
           </p>
-          <p className="max-w-[56ch] text-[15px] leading-[1.65] text-muted-foreground">
-            Turn on network isolation with one more switch. On Ubuntu 24.04 and later Lirah installs the AppArmor profile
-            it needs. macOS and Windows builds run without the sandbox.
-          </p>
-        </div>
-
-        <Pane title="sandbox · bwrap" className="ins-glass pt-5" trailing={<span className="ins-legend">acme-api</span>}>
+          <p className="text-muted-foreground">macOS and Windows builds run without the sandbox.</p>
+        </>
+      }
+    >
+      <FeatureSplit>
+        <Pane title="sandbox · bwrap" className="pt-5" trailing={<span className="ins-legend normal-case">acme-api</span>}>
           <div className="flex flex-wrap gap-x-6 gap-y-2 border-b border-edge px-4 pb-3 text-[13px]">
             <button
               type="button"
@@ -80,12 +96,16 @@ export function SandboxSection() {
               ))}
             </tbody>
           </table>
-          <p className="mt-2 border-t border-edge px-4 py-3 text-[12px] text-muted-foreground">
-            Context: {formatTokens(ledger.tokens)} with the sandbox {on ? "on" : "off"}. It limits what the agent can
-            touch, not what it reads. If the sandbox can&apos;t start, Lirah offers to retry without it.
-          </p>
+          <PaneNote>
+            Flip it and the meter at the top stays at {formatTokens(ledger.tokens)}. The sandbox limits what the agent
+            can touch, not what it reads.
+          </PaneNote>
         </Pane>
-      </div>
-    </section>
+
+        <Pane title="sandbox options" className="pt-5">
+          <FeatureList items={OPTIONS} />
+        </Pane>
+      </FeatureSplit>
+    </FeatureSection>
   );
 }

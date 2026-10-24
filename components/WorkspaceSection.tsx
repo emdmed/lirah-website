@@ -4,7 +4,7 @@ import { Pane } from "./instrument/Pane";
 import { Lamp, type LampState } from "./instrument/Lamp";
 import { ContextMoon } from "./instrument/ContextMoon";
 import { KeyChord } from "./instrument/Keycap";
-import { SectionHead } from "./SectionHead";
+import { FeatureSection, KeyStrip, PaneNote } from "./FeatureLayout";
 import { useLedger } from "./ledger/LedgerProvider";
 import { CONTEXT_MAX, DEMO_TAB, TAB_TOKENS } from "./ledger/demoSession";
 
@@ -27,28 +27,41 @@ const TABS: {
   { name: "docs", lamp: "off", state: "idle", branch: "main", trail: "" },
 ];
 
+const TERMINAL_KEYS: { keys: string[][]; action: string }[] = [
+  { keys: [["^", "K"]], action: "launch the tab's agent" },
+  { keys: [["^", "`"]], action: "second terminal" },
+  { keys: [["alt", "N"], ["alt", "L"]], action: "nvim, lazygit" },
+  { keys: [["^", "⇧", "F"]], action: "search scrollback" },
+  { keys: [[":"]], action: "command line" },
+  { keys: [["^", "H"]], action: "every shortcut" },
+];
+
 // Picking a row points the status-bar meter at that tab, as switching tabs
 // does in the app. acme-api is the demo session from the hero.
 export function WorkspaceSection() {
   const ledger = useLedger()!;
   const tokensOf = (name: string) => (name === DEMO_TAB ? ledger.tokens : (TAB_TOKENS[name] ?? 0));
   return (
-    <section aria-labelledby="workspace-title" className="scroll-mt-20 pt-28 sm:pt-36" id="workspace">
-      <SectionHead id="workspace-title" label="workspace" title="Up to eight agents, one window.">
-        <p>
-          Each project tab has its own terminal, agent and sandbox. Hook plugins for Claude Code and opencode report
-          when an agent is working, needs permission, is waiting on you or is done, and the tab row lights to match.
-        </p>
-        <p className="text-muted-foreground">
-          Rows show how full each agent&apos;s context is, its branch and the files it edited last turn. Attach those files
-          to another tab&apos;s prompt, or link that tab&apos;s repo. Terminals survive a reload and pick up where they were.
-        </p>
-      </SectionHead>
-
+    <FeatureSection
+      id="workspace"
+      label="workspace"
+      title="Up to eight agents, one window."
+      intro={
+        <>
+          <p>
+            Each project tab has its own terminal, agent and sandbox. Hook plugins for Claude Code and opencode report
+            when an agent is working, needs permission, is waiting on you or is done, and the tab row lights to match.
+          </p>
+          <p className="text-muted-foreground">
+            The agent runs in xterm.js on a login-shell PTY, so it behaves as it does in your own terminal. Terminals
+            survive a reload.
+          </p>
+        </>
+      }
+    >
       <Pane
         title="workspace · tabs"
-        index="4"
-        className="mt-12 pt-5"
+        className="pt-5"
         trailing={
           <span className="flex items-center gap-2 text-[11px] text-muted-foreground">
             next waiting <KeyChord keys={["alt", "A"]} size="sm" />
@@ -91,7 +104,7 @@ export function WorkspaceSection() {
                         {t.name}
                       </button>
                       {t.role && <span className="ml-1 text-[11px] text-muted-foreground">{t.role}</span>}
-                      {t.shares && <div className="text-[11.5px] text-warn">{t.shares}</div>}
+                      {t.shares && <div className="text-[12px] text-warn">{t.shares}</div>}
                     </td>
                     <td className="py-3 max-md:py-0 max-md:justify-self-end">
                       <span className="flex items-center gap-2.5">
@@ -114,12 +127,13 @@ export function WorkspaceSection() {
             </tbody>
           </table>
         </div>
-        <p className="border-t border-edge px-4 py-3 text-[12px] text-muted-foreground">
-          Pick a tab to read its context on the meter above <span className="text-faint">·</span> [2 waiting]{" "}
-          <span className="text-faint">·</span> desktop notifications when an agent stops for you{" "}
-          <span className="text-faint">·</span> demo data
-        </p>
+        <PaneNote>
+          Pick a tab and the meter at the top switches to it <span className="text-faint">·</span> attach a tab&apos;s
+          last-turn files to another tab&apos;s prompt <span className="text-faint">·</span> desktop notifications when
+          an agent stops for you <span className="text-faint">·</span> demo data
+        </PaneNote>
+        <KeyStrip keys={TERMINAL_KEYS} />
       </Pane>
-    </section>
+    </FeatureSection>
   );
 }

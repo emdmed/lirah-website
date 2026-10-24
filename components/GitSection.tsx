@@ -2,7 +2,7 @@ import { Pane } from "./instrument/Pane";
 import { Lamp } from "./instrument/Lamp";
 import { DiffBar } from "./instrument/DiffBar";
 import { KeyChord } from "./instrument/Keycap";
-import { SectionHead } from "./SectionHead";
+import { FeatureList, FeatureSection, FeatureSplit } from "./FeatureLayout";
 
 // The app's subject-line limit (AutoCommitDialog SUBJECT_MAX).
 const SUBJECT_MAX = 72;
@@ -24,19 +24,9 @@ const MERGE_COMMANDS = [
 
 const TOOLS: { keys: string[][]; title: string; body: string }[] = [
   {
-    keys: [["^", "⇧", "space"]],
-    title: "Auto commit",
-    body: "Stages your changes and has an agent draft a conventional commit message from the diff. You edit it before anything is committed. The CLI it uses and any extra instructions are set in Settings.",
-  },
-  {
     keys: [["alt", "M"]],
     title: "Auto merge",
-    body: "Merges the feature branch into a base, fast-forward or --no-ff. It lists the git commands before it runs them, and aborts the merge on a conflict or a merge that doesn't complete, so the repo is left as it was. It knows when either branch is checked out in another worktree.",
-  },
-  {
-    keys: [],
-    title: "Auto changelog",
-    body: "After a commit or merge, a headless agent updates CHANGELOG.md. The toast that reports it has an Undo.",
+    body: "Fast-forward or --no-ff into a base branch. It shows the commands first, aborts on a conflict so the repo is left as it was, and knows when either branch is checked out in another worktree.",
   },
   {
     keys: [["^", "["], ["^", "]"]],
@@ -47,19 +37,21 @@ const TOOLS: { keys: string[][]; title: string; body: string }[] = [
 
 export function GitSection() {
   return (
-    <section aria-labelledby="git-title" className="scroll-mt-20 pt-28 sm:pt-36" id="git">
-      <SectionHead id="git-title" label="git" title="Commits drafted. Merges shown first.">
-        <p>
-          When a change is ready, an agent reads the staged diff and drafts a conventional commit message for you to
-          edit, with a counter for the subject line. Merging the branch back lists every git command before any of
-          them runs.
-        </p>
-        <p className="text-muted-foreground">
-          All of it is local git. Lirah never pushes, pulls or fetches for you.
-        </p>
-      </SectionHead>
-
-      <div className="mt-12 grid gap-x-10 gap-y-12 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)] lg:items-start">
+    <FeatureSection
+      id="git"
+      label="git"
+      title="Commits drafted. Merges shown first."
+      intro={
+        <>
+          <p>
+            When a change is ready, an agent reads the staged diff and drafts a conventional commit message for you to
+            edit. Merging the branch back lists every git command before any of them runs.
+          </p>
+          <p className="text-muted-foreground">All of it is local git. Lirah never pushes, pulls or fetches for you.</p>
+        </>
+      }
+    >
+      <FeatureSplit>
         <Pane title="auto commit · acme-api" className="pt-5" trailing={<KeyChord keys={["^", "⇧", "space"]} size="sm" />}>
           <div className="space-y-4 px-4 pb-4">
             <ul className="space-y-1.5 text-[13px]">
@@ -117,24 +109,16 @@ export function GitSection() {
           </div>
         </Pane>
 
-        <Pane title="git" className="pt-5">
-          <dl className="divide-y divide-edge">
-            {TOOLS.map((t) => (
-              <div key={t.title} className="space-y-1.5 px-4 py-3.5">
-                <dt className="flex flex-wrap items-center gap-2">
-                  <span className="mr-1 text-strong">{t.title}</span>
-                  {t.keys.length ? (
-                    t.keys.map((k, i) => <KeyChord key={i} keys={k} size="sm" />)
-                  ) : (
-                    <span className="text-[12px] text-muted-foreground">after commit or merge</span>
-                  )}
-                </dt>
-                <dd className="text-[14px] text-muted-foreground">{t.body}</dd>
-              </div>
-            ))}
-          </dl>
+        <Pane title="merge and review" className="pt-5">
+          <FeatureList
+            items={TOOLS.map((t) => ({
+              term: t.keys.map((k, i) => <KeyChord key={i} keys={k} />),
+              title: t.title,
+              body: t.body,
+            }))}
+          />
         </Pane>
-      </div>
-    </section>
+      </FeatureSplit>
+    </FeatureSection>
   );
 }

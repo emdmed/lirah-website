@@ -1,7 +1,9 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { INSTALL_COMMAND } from "@/lib/releases";
+
+const COMMAND_PARTS = INSTALL_COMMAND.split("/");
 
 // The Linux primary action: the install script as a prompt line in a well, with
 // the copy key set into its right edge. On the hero the key is the filled one.
@@ -26,15 +28,27 @@ export function InstallCommand({ size }: { size: "xl" | "lg" | "panel" }) {
 
   const xl = size === "xl";
   return (
-    <div className={`ins-well flex w-full max-w-[min(100%,820px)] items-stretch ${xl ? "min-h-14" : "min-h-11"}`}>
+    <div className={`ins-well flex w-full items-stretch ${xl ? "max-w-[min(100%,1000px)] min-h-14" : "max-w-[min(100%,820px)] min-h-11"}`}>
       <code
         ref={codeRef}
-        className={`flex min-w-0 flex-1 items-center overflow-x-auto whitespace-nowrap px-4 text-foreground ${xl ? "text-[14px] sm:text-[15px]" : "text-[13px]"}`}
+        className={`block min-w-0 flex-1 self-center px-4 py-2.5 leading-[1.55] text-foreground [overflow-wrap:anywhere] ${xl ? "text-[14px] lg:whitespace-nowrap" : "text-[13px]"}`}
       >
-        <span aria-hidden="true" className="mr-3 select-none text-lamp">
+        {/* Wraps instead of scrolling, so the `| bash` at the end is always in view. On a wide hero it fits one line. */}
+        <span aria-hidden="true" className="mr-3 select-none text-muted-foreground">
           $
         </span>
-        {INSTALL_COMMAND}
+        {/* A break opportunity after each slash, so the URL wraps at path segments. */}
+        {COMMAND_PARTS.map((part, i) => (
+          <Fragment key={i}>
+            {part}
+            {i < COMMAND_PARTS.length - 1 && (
+              <>
+                {/* Chrome breaks at <wbr> even under nowrap, so the hero hides them once the line fits. */}
+                /<wbr className={xl ? "lg:hidden" : undefined} />
+              </>
+            )}
+          </Fragment>
+        ))}
       </code>
       <button
         type="button"

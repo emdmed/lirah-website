@@ -68,13 +68,13 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
     ),
   },
   {
-    q: "What is the sandbox, and can I turn it off?",
+    q: "Why not tmux and my editor?",
     a: (
       <p>
-        On Linux, a tab can run its shell and agent inside bubblewrap. The root filesystem is read-only, your home and
-        the project are writable, keys, shell rc files and your git config stay read-only, /tmp is private, and network
-        isolation is a second switch. It is off until you turn it on, per tab or as a default in Settings. If it
-        can&apos;t start, Lirah offers to run the tab without it.
+        Keep them. The agent runs in a real login-shell PTY, and the second terminal opens nvim and lazygit beside it.
+        What Lirah adds is what a multiplexer can&apos;t see: which files the agent is given and at what detail, how full
+        each tab&apos;s context is and whether its agent is waiting on you, background jobs in their own worktrees, and
+        plans that commit chunk by chunk.
       </p>
     ),
   },

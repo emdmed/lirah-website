@@ -4,18 +4,23 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { LirahMark } from "./instrument/LirahMark";
 import { useLedger } from "./ledger/LedgerProvider";
+import { Meter } from "./instrument/Meter";
+import { CONTEXT_MAX } from "./ledger/demoSession";
 import { REPO_URL } from "@/lib/releases";
 
 const NAV = [
   { href: "/#context", label: "context" },
   { href: "/#workspace", label: "workspace" },
   { href: "/#jobs", label: "jobs" },
+  { href: "/#git", label: "git" },
   { href: "/#sandbox", label: "sandbox" },
   { href: "/blog", label: "blog" },
 ];
 
 // The page's top rail, built like the app's status bar: the mark (lit while the
-// demo session runs, like the app's session lamp) and the nav as printed keys.
+// demo session runs, like the app's session lamp), the nav as printed keys, and
+// the context meter of the tab the page is showing. Blog pages have no demo
+// session, so they get no meter.
 export function StatusBar() {
   const ledger = useLedger();
   const [open, setOpen] = useState(false);
@@ -37,15 +42,15 @@ export function StatusBar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-edge bg-gutter/95 backdrop-blur-[6px]">
-      <div className="mx-auto flex h-14 max-w-[1320px] items-center gap-3 px-3 sm:gap-5 sm:px-4">
+      <div className="mx-auto flex h-14 max-w-[1320px] items-center gap-3 px-4 sm:gap-5">
         <Link href="/" className="flex shrink-0 items-center gap-2 text-strong" aria-label="Lirah home">
           <LirahMark size={24} lit={Boolean(ledger)} />
           <span className="font-wordmark text-[26px] leading-none">Lirah</span>
         </Link>
 
-        <span className="ins-sep-star hidden lg:inline-block" aria-hidden="true" />
+        <span className="ins-sep-star hidden xl:inline-block" aria-hidden="true" />
 
-        <nav aria-label="Main" className="hidden items-center gap-0.5 lg:flex">
+        <nav aria-label="Main" className="hidden items-center gap-0.5 xl:flex">
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className="ins-key ins-key-panel">
               [{item.label}]
@@ -53,7 +58,20 @@ export function StatusBar() {
           ))}
         </nav>
 
-        <div className="ml-auto flex min-w-0 items-center gap-3 sm:gap-5">
+        {ledger && (
+          <div className="ml-auto flex min-w-0 items-center gap-3">
+            <span className="ins-legend hidden md:inline">{ledger.tab}</span>
+            <Meter
+              value={ledger.meterTokens}
+              max={CONTEXT_MAX}
+              label={`Context window, ${ledger.tab}, demo session`}
+              size="lg"
+              className="max-sm:[--meter-w:84px] max-sm:[--meter-fill-h:6px] max-sm:[&_.ins-meter-readout]:text-[15px] sm:[--meter-w:clamp(150px,18vw,300px)]"
+            />
+          </div>
+        )}
+
+        <div className={`flex min-w-0 items-center gap-3 sm:gap-5 ${ledger ? "" : "ml-auto"}`}>
           <a href={REPO_URL} className="ins-key ins-key-panel hidden sm:inline-flex">
             [github]
           </a>
@@ -62,7 +80,7 @@ export function StatusBar() {
             download
           </Link>
 
-          <div ref={menuRef} className="relative lg:hidden">
+          <div ref={menuRef} className="relative xl:hidden">
             <button
               type="button"
               className="ins-key ins-key-panel h-8"

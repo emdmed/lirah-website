@@ -8,17 +8,24 @@ import { useEffect, useRef } from "react";
 // glyph whose shape fits best, so edges read as / \ | _ rather than a smear.
 
 const GLYPHS = " .,:;'\"-_~=+*^!|/\\()<>[]{}#%@";
-const FONT_PX = 9;
+const FONT_PX = 12;
 
 type Ridge = { base: number; amp: number; f: number; sp: number; tone: number; fog: number; rim: number };
 
 // Far to near. Far layers sit higher, carry more mist and a dimmer rim.
+// Top share of the canvas kept as open sky for the moon; ridges are laid out below it.
+const SKY = 0.36;
+// The band is far wider than tall, so peaks are lifted to read as mountains, not a strip.
+const RELIEF = 1.3;
+// Where the waterfall drops, right of the copy column so it never sits behind text.
+const WATERFALL_X = 0.7;
+
 const RIDGES: Ridge[] = [
-  { base: 0.46, amp: 0.26, f: 0.0042, sp: 2, tone: 0.07, fog: 0.5, rim: 0.5 },
-  { base: 0.57, amp: 0.27, f: 0.0052, sp: 4, tone: 0.03, fog: 0.42, rim: 0.55 },
-  { base: 0.66, amp: 0.26, f: 0.0064, sp: 7, tone: 0, fog: 0.34, rim: 0.6 },
-  { base: 0.78, amp: 0.22, f: 0.008, sp: 11, tone: 0, fog: 0.26, rim: 0.65 },
-  { base: 0.92, amp: 0.18, f: 0.01, sp: 16, tone: 0, fog: 0.18, rim: 0.7 },
+  { base: 0.42, amp: 0.36, f: 0.0042, sp: 2, tone: 0.07, fog: 0.5, rim: 0.5 },
+  { base: 0.58, amp: 0.26, f: 0.0052, sp: 4, tone: 0.03, fog: 0.42, rim: 0.55 },
+  { base: 0.7, amp: 0.2, f: 0.0064, sp: 7, tone: 0, fog: 0.34, rim: 0.6 },
+  { base: 0.82, amp: 0.14, f: 0.008, sp: 11, tone: 0.11, fog: 0.26, rim: 0.65 },
+  { base: 0.93, amp: 0.09, f: 0.01, sp: 16, tone: 0.17, fog: 0.18, rim: 0.7 },
 ];
 
 const clamp = (v: number, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
@@ -136,6 +143,7 @@ type Scene = {
   ridges: Float32Array[];
   ink: string;
   strong: string;
+  lamp: string;
 };
 
 function setup(canvas: HTMLCanvasElement): Scene | null {
@@ -168,16 +176,27 @@ function setup(canvas: HTMLCanvasElement): Scene | null {
     ridges: RIDGES.map(() => new Float32Array(cols * 2)),
     ink: root.getPropertyValue("--foreground").trim() || "#e7e1cf",
     strong: root.getPropertyValue("--fg-strong").trim() || "#f1ebda",
+    lamp: root.getPropertyValue("--ins-lamp").trim() || "#dcb662",
   };
 }
 
+// What the last field() sample landed on, so draw() can colour it.
+const PLAIN = 0;
+const MOON = 1;
+const WATER = 2;
+let hitKind = PLAIN;
+
 function field(s: Scene, x: number, y: number, ix: number, t: number) {
   const { w, h } = s;
-  // A thin crescent, high on the right. On phones it would sit behind the headline.
-  const mx = w * 0.7;
-  const my = h * 0.14;
-  const mr = h * 0.07;
-  if (w >= 520 && Math.hypot(x - mx, y - my) < mr && Math.hypot(x - mx - mr * 0.42, y - my + mr * 0.12) > mr * 0.92) return 0.8;
+  hitKind = PLAIN;
+  // A crescent in the open sky right of the headline. Skipped on phones, where it would sit behind text.
+  const mx = w * 0.8;
+  const my = h * 0.3;
+  const mr = Math.min(Math.max(h * 0.06, 32), 56);
+  if (w >= 520 && Math.hypot(x - mx, y - my) < mr && Math.hypot(x - mx - mr * 0.52, y - my + mr * 0.16) > mr * 0.86) {
+    hitKind = MOON;
+    return 0.5;
+  }
 
   // Near to far: the first ridge above this point is the visible one.
   for (let i = RIDGES.length - 1; i >= 0; i--) {
@@ -187,15 +206,18 @@ function field(s: Scene, x: number, y: number, ix: number, t: number) {
     const dy = y - top;
     let v =
       L.tone +
-      L.rim * Math.exp(-dy / (h * 0.005)) +
+      L.rim * Math.exp(-dy / Math.max(h * 0.005, s.ch * 0.4)) +
       L.fog * Math.exp(-dy / (h * 0.035)) * smooth(0.35, 0.75, noise2(x * 0.005 + t * 0.03 * (i + 1), i * 3.1 + y * 0.004));
     if (i === 2) {
-      const dx = Math.abs(x - w * 0.47);
-      if (dx < w * 0.012 && dy < h * 0.2)
-        v += (0.45 + 0.5 * noise2(dx * 0.4, y * 0.09 - t * 2.4)) * (1 - dy / (h * 0.2)) * (1 - dx / (w * 0.012));
+      const dx = Math.abs(x - w * WATERFALL_X);
+      if (dx < w * 0.022 && dy < h * 0.2) {
+        const fall = (0.45 + 0.5 * noise2(dx * 0.4, y * 0.09 - t * 2.4)) * (1 - dy / (h * 0.2)) * (1 - dx / (w * 0.022));
+        if (fall > 0.15) hitKind = WATER;
+        v += fall;
+      }
     }
     if (i === 3) {
-      const dx = (x - w * 0.47) / (w * 0.05);
+      const dx = (x - w * WATERFALL_X) / (w * 0.05);
       v += 0.4 * Math.exp(-dx * dx) * Math.exp(-dy / (h * 0.03)) * (0.6 + 0.4 * noise2(x * 0.05, y * 0.05 - t * 0.8));
     }
     return v;
@@ -208,11 +230,18 @@ function draw(s: Scene, t: number) {
   for (let i = 0; i < RIDGES.length; i++) {
     const L = RIDGES[i];
     const R = s.ridges[i];
+    // On a wide band, stretch the noise so the skyline keeps a few broad peaks.
+    const stretch = Math.min(1, 1200 / w);
     for (let ix = 0; ix < cols * 2; ix++) {
       const x = ((ix + 0.5) * cw) / 2;
-      let y = h * L.base - h * L.amp * (fbm1(x * L.f + i * 9.7 + t * L.sp * 0.01) * 1.6 - 0.3);
+      // A broad single-octave swell sets the peaks; fbm only roughens them (alone it stays near its mean and reads flat).
+      const u = x * stretch * L.f + t * L.sp * 0.01;
+      const swell = noise1(u * 0.55 + i * 4.3);
+      const rough = fbm1(u + i * 9.7) - 0.5;
+      let y = L.base + L.amp * 0.3 - L.amp * RELIEF * (1.3 * swell + 0.6 * rough);
+      y = h * (SKY + (1 - SKY) * Math.max(y, 0));
       if (i === 2) {
-        const dx = (x - w * 0.47) / (w * 0.05);
+        const dx = (x - w * WATERFALL_X) / (w * 0.05);
         y += h * 0.05 * Math.exp(-dx * dx); // the cleft the waterfall drops through
       }
       R[ix] = y;
@@ -226,23 +255,33 @@ function draw(s: Scene, t: number) {
       let sum = 0;
       let mx = 0;
       let moon = false;
+      let water = false;
       for (let rr = 0; rr < 3; rr++)
         for (let qq = 0; qq < 2; qq++) {
           const ix = c * 2 + qq;
           const val = clamp(field(s, ((ix + 0.5) * cw) / 2, ((r * 3 + rr + 0.5) * ch) / 3, ix, t));
-          if (val === 0.8) moon = true;
+          if (hitKind === MOON) moon = true;
+          else if (hitKind === WATER) water = true;
           v[rr * 2 + qq] = val;
           sum += val;
           if (val > mx) mx = val;
         }
       const avg = sum / 6;
       if (avg < 0.025) continue;
+      ctx.fillStyle = water ? s.lamp : moon ? s.strong : s.ink;
+      ctx.globalAlpha = clamp(0.15 + avg * 1.05, 0, 0.92);
+      let mn = 1;
+      for (let i = 0; i < 6; i++) if (v[i] < mn) mn = v[i];
+      if (!moon && !water && mx - mn < 0.04) {
+        const grain = hash(r * 131.7 + c * 17.3);
+        if (grain < 0.35) continue;
+        ctx.fillText(grain > 0.85 && avg > 0.14 ? ":" : ".", c * cw + cw / 2, r * ch + ch / 2);
+        continue;
+      }
       // Sharpen contrast inside the cell so edges pick directional glyphs.
       for (let i = 0; i < 6; i++) v[i] = Math.pow(v[i] / mx, 1.6) * mx;
       const glyph = GLYPHS[nearest(glyphs, v)];
       if (glyph === " ") continue;
-      ctx.fillStyle = moon ? s.strong : s.ink;
-      ctx.globalAlpha = clamp(0.15 + avg * 1.05, 0, 0.92);
       ctx.fillText(glyph, c * cw + cw / 2, r * ch + ch / 2);
     }
   ctx.globalAlpha = 1;
