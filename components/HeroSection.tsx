@@ -1,5 +1,6 @@
 import type { Release } from "@/lib/releases";
 import { DownloadKey } from "./DownloadKey";
+import { CROSS_FILE } from "./evalResults";
 import { HeroReplica } from "./HeroReplica";
 import { RivendellRidges } from "./RivendellRidges";
 
@@ -9,6 +10,14 @@ const DETAIL_CHIP = {
   signatures: "text-foreground bg-foreground/11",
   skeleton: "text-muted-foreground bg-foreground/8",
 } as const;
+
+const less = (x: number) => `${Math.round((1 - x) * 100)}%`;
+
+// The measured win, scoped to where it holds; the index section has the rest.
+const PROOF = [
+  { value: less(CROSS_FILE.ownRepo.cost), label: "cheaper" },
+  { value: less(CROSS_FILE.ownRepo.time), label: "faster" },
+];
 
 function DetailChip({ level, children }: { level: keyof typeof DETAIL_CHIP; children: React.ReactNode }) {
   return (
@@ -54,6 +63,23 @@ export function HeroSection({ release }: { release: Release | null }) {
               </span>
             </p>
           </div>
+          <a
+            href="#index"
+            className="group mt-8 flex max-w-[62ch] flex-wrap items-baseline gap-x-7 gap-y-2 sm:mt-10"
+          >
+            {PROOF.map((p) => (
+              <span key={p.label} className="flex items-baseline gap-2">
+                <span className="text-[34px] leading-none tabular-nums tracking-[-0.02em] text-strong sm:text-[40px]">
+                  {p.value}
+                </span>
+                <span className="text-[17px] text-strong">{p.label}</span>
+              </span>
+            ))}
+            <span className="basis-full text-[14px] text-muted-foreground sm:basis-auto">
+              on cross-file questions in Lirah&apos;s own codebase, with the index.{" "}
+              <span className="whitespace-nowrap text-foreground group-hover:underline">How we measured ↓</span>
+            </span>
+          </a>
           <div className="mt-9 sm:mt-11">
             <DownloadKey release={release} size="xl" />
           </div>
