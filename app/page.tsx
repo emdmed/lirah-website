@@ -3,6 +3,7 @@ import { LedgerProvider } from "@/components/ledger/LedgerProvider";
 import { HeroSection } from "@/components/HeroSection";
 import { AgentsBand } from "@/components/AgentsBand";
 import { ContextSection } from "@/components/ContextSection";
+import { HooksSection } from "@/components/HooksSection";
 import { TokensSection } from "@/components/TokensSection";
 import { WorkspaceSection } from "@/components/WorkspaceSection";
 import { JobsSection } from "@/components/JobsSection";
@@ -27,6 +28,7 @@ export default async function Home() {
         <div data-sheet>
           <AgentsBand />
           <ContextSection />
+          <HooksSection />
           <TokensSection />
           <WorkspaceSection />
           <JobsSection />

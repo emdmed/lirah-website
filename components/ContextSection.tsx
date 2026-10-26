@@ -1,5 +1,4 @@
 import { Pane } from "./instrument/Pane";
-import { KeyChord } from "./instrument/Keycap";
 import { formatTokens } from "./instrument/Meter";
 import { fileByPath } from "./ledger/demoSession";
 import { DetailLevelDemo } from "./DetailLevelDemo";
@@ -21,9 +20,9 @@ const CONTROLS = [
     body: "Change it, read it without touching it, or copy its pattern, like an existing route to model a new one on.",
   },
   {
-    term: <KeyChord keys={["^", "⇧", "P"]} />,
-    title: "Compact Project",
-    body: "Every JS, TS and Python file as a skeleton, so the agent sees the shape of the codebase without reading it.",
+    term: <TermChip prefix="hook">context</TermChip>,
+    title: "Box or terminal",
+    body: "Send from the prompt box, or type straight into Claude Code and Lirah's hook appends what you picked.",
   },
   {
     term: <TermChip prefix="set">auth-flow</TermChip>,

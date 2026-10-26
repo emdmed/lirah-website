@@ -9,7 +9,7 @@ import { formatTokens } from "./instrument/Meter";
 import { useLedger } from "./ledger/LedgerProvider";
 import {
   CONTEXT_MAX,
-  COMPACT_TOKENS,
+  INDEX_HOOK_TOKENS,
   DETAIL_LABEL,
   EXPLORE_ORDER,
   FILES,
@@ -136,10 +136,10 @@ export function HeroReplica() {
                 setScene("explicit");
                 ledger.setCompact(!compact);
               }}
-              title="Compact Project: attach a structural skeleton of every JS/TS/Python file"
+              title="Index: on each prompt the agent gets a fresh project index to grep"
             >
               <Lamp state={explicit && compact ? "on" : "off"} />
-              compact
+              index
               <span className="ins-chord">
                 <Keycap size="sm">^</Keycap>
                 <Keycap size="sm">⇧</Keycap>
@@ -244,7 +244,7 @@ export function HeroReplica() {
                   <p className="mt-2 text-strong">
                     <span className="text-lamp">&gt;</span>{" "}
                     <span className="text-muted-foreground">
-                      [{attached.length} files{compact ? " + skeleton" : ""}]
+                      [{attached.length} files{compact ? " + index" : ""}]
                     </span>{" "}
                     {TASK}
                   </p>
@@ -302,11 +302,11 @@ export function HeroReplica() {
                   {compact && (
                     <li className="ctx-chip">
                       <span className="ctx-mode cursor-default" data-mode="read">
-                        READ
+                        HOOK
                       </span>
-                      <span className="px-1.5 text-foreground">project skeleton</span>
+                      <span className="px-1.5 text-foreground">project index</span>
                       <span className="border-l border-edge px-1.5 text-muted-foreground">
-                        {formatTokens(COMPACT_TOKENS)}
+                        {formatTokens(INDEX_HOOK_TOKENS)}
                       </span>
                     </li>
                   )}

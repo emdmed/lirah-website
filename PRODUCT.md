@@ -16,11 +16,11 @@ The website (lira.dev) explains Lirah and gets the visitor to install it. Lirah 
 
 ## Positioning
 
-Lirah does not wrap or replace the agent. It is the workspace around the real CLI agent running in a real PTY. Its edge is explicit, token-disciplined context (per-file EDIT/READ/COPY intent, signature or skeleton detail levels, Compact Project skeletons, context sets), together with agent-aware tabs, headless jobs and races, plan auto-pilot, and a bubblewrap sandbox. All of it is keyboard-driven.
+Lirah does not wrap or replace the agent. It is the workspace around the real CLI agent running in a real PTY. Its edge is explicit, token-disciplined context (per-file EDIT/READ/COPY intent, signature or skeleton detail levels, context sets), Claude Code hooks that keep a grep-first project index fresh per tab (compaction hook) and append the selected context to prompts typed in the terminal (context hook), together with agent-aware tabs, headless jobs and races, plan auto-pilot, and a bubblewrap sandbox. All of it is keyboard-driven.
 
 ## Operating Context
 
-- Source of product truth: `/home/enrique/projects/nevo-terminal/PRODUCT.md` (feature list) and `/home/enrique/projects/nevo-terminal/DESIGN.md` (the app's visual system). Site copy must match the current app. Do not advertise features the app no longer has (Element Picker, orchestration workflows) or name ones it has renamed (file groups are now context sets).
+- Source of product truth: `/home/enrique/projects/nevo-terminal/PRODUCT.md` (feature list) and `/home/enrique/projects/nevo-terminal/DESIGN.md` (the app's visual system). Site copy must match the current app. Do not advertise features the app no longer has (Element Picker, orchestration workflows, the Compact Project skeleton button, replaced in v0.4.8 by the compaction hook) or name ones it has renamed (file groups are now context sets).
 - Built with Tauri 2, React 19 and xterm.js. Linux is the primary platform (sandbox is Linux-only); macOS and Windows builds exist without the sandbox.
 - Free and open source: https://github.com/emdmed/lirah
 

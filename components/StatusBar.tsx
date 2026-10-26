@@ -12,6 +12,7 @@ import { REPO_URL } from "@/lib/releases";
 // room beside the meter, and they live in the menu.
 const NAV: { href: string; label: string; wide?: boolean }[] = [
   { href: "/#context", label: "context" },
+  { href: "/#index", label: "index" },
   { href: "/#tokens", label: "tokens", wide: true },
   { href: "/#workspace", label: "workspace" },
   { href: "/#jobs", label: "jobs" },

@@ -24,7 +24,7 @@ function Scanner() {
 export function JobsSection() {
   const ledger = useLedger()!;
   const files = Object.keys(ledger.selection).length;
-  const jobTokens = selectionTokens(ledger.selection, ledger.compact);
+  const jobTokens = selectionTokens(ledger.selection, false);
   return (
     <FeatureSection
       id="jobs"
@@ -53,8 +53,8 @@ export function JobsSection() {
                 <span className="text-[12px] text-muted-foreground">3 worktrees</span>
               </div>
               <p className="mt-1 text-[12px] tabular-nums text-muted-foreground">
-                context: your prompt above <span className="text-faint">·</span> {files} files
-                {ledger.compact ? " + skeleton" : ""} <span className="text-faint">·</span> {formatTokens(jobTokens)} each
+                context: your prompt above <span className="text-faint">·</span> {files} files <span className="text-faint">·</span>{" "}
+                {formatTokens(jobTokens)} each
               </p>
               <ul className="mt-3 space-y-2 text-[13px]">
                 <li className="flex items-center gap-3">

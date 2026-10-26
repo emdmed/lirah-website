@@ -29,6 +29,18 @@ const FAQ: { q: string; a: React.ReactNode }[] = [
     ),
   },
   {
+    q: "What do Lirah's hooks add to Claude Code?",
+    a: (
+      <p>
+        Lirah loads a plugin into each Claude Code it starts with <span className="text-foreground">--plugin-dir</span>,
+        so your own hooks and settings stay as they are. Its hooks report the agent&apos;s state to the tab, append the
+        context you picked to prompts typed in the terminal, and, in tabs where you switch it on, point the agent at a
+        fresh project index. The index lives in <span className="text-foreground">.orchestration/</span> and is kept out
+        of git. Each hook can be turned off in settings.
+      </p>
+    ),
+  },
+  {
     q: "What happens if I stop using Lirah?",
     a: (
       <p>

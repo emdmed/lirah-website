@@ -64,8 +64,8 @@ export const CHOSEN: Selection = {
   "tests/auth.test.ts": { mode: "copy", detail: "skel" },
 };
 
-/** Compact Project: a structural skeleton of every JS/TS/Python file. */
-export const COMPACT_TOKENS = 1600;
+/** The index hook's note on each prompt: where the project index is and how to grep it. */
+export const INDEX_HOOK_TOKENS = 180;
 
 /** What an agent left to explore on its own reads, in order, in full. */
 export const EXPLORE_ORDER = [
@@ -90,7 +90,7 @@ export function fileByPath(path: string) {
 }
 
 export function selectionTokens(sel: Selection, compact: boolean) {
-  let sum = compact ? COMPACT_TOKENS : 0;
+  let sum = compact ? INDEX_HOOK_TOKENS : 0;
   for (const [path, a] of Object.entries(sel)) sum += fileByPath(path).tokens[a.detail];
   return sum;
 }
