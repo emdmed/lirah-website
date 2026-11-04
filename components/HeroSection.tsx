@@ -1,7 +1,7 @@
 import type { Release } from "@/lib/releases";
 import { DownloadKey } from "./DownloadKey";
 import { CROSS_FILE } from "./evalResults";
-import { HeroReplica } from "./HeroReplica";
+import { HeroHorizon } from "./HeroHorizon";
 
 // Detail levels as one neutral chip whose fill fades with the amount of the file sent.
 const DETAIL_CHIP = {
@@ -75,9 +75,7 @@ export function HeroSection({ release }: { release: Release | null }) {
         </div>
       </div>
 
-      <div className="relative">
-        <HeroReplica />
-      </div>
+      <HeroHorizon />
     </section>
   );
 }
