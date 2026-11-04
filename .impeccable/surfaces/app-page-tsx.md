@@ -17,7 +17,7 @@ OWN-WORLD: The app's Instrument TUI in its Rivendell theme (user's choice): slat
 
 STORY: The visitor sees that the agent reads too much, watches explicit context shrink it, then sees everything else that lives around the terminal (tabs, jobs, plans, git, sandbox), and installs.
 
-FIRST VIEWPORT: Top: a status bar with the mark, the nav as [labels] and a large meter reading 172k/200k, in its warn zone. Then the headline and the [Download for Linux] key. Below that, a full-width replica: files with EDIT/READ/COPY chips, the terminal, and the prompt. Toggling the chips or [Compact Project] drops the meter to 8.5k, live.
+FIRST VIEWPORT: Horizon. Top: the status bar with the mark, the nav as [labels] and the context meter. Then the headline, "Your agent reads less. / You decide what.", in two columns below it: the pitch with the full text / signatures / skeleton chips on the left, the measured cheaper / faster proof and the [Download for Linux] key on the right. Below, the replica (files with EDIT/READ/COPY chips, the terminal, the prompt) lies tilted back on a gold horizon line, with a canvas code skyline of Lirah's own source standing on that line. Scrolling eases the replica flat over 520px and folds the skyline from full text to signatures to skeleton; the matching chip lights in lamp gold. Below lg or under reduced motion the replica is flat and the skyline snaps between levels without animating.
 
 FORM: Context Ledger, #3 on the ranked list; seed da76b0d1.
 
