@@ -85,8 +85,12 @@ export function CodeSkyline() {
       if (ready) draw(0);
     };
 
+    // The hero's detail chips light from this attribute (CSS in HeroSection).
+    const section = canvas.closest("section");
+    const mark = () => section?.setAttribute("data-level", levelAt(scrollY));
     const onScroll = () => {
       scrollY = window.scrollY;
+      mark();
       kick();
     };
     const io = new IntersectionObserver(([e]) => {
@@ -98,6 +102,7 @@ export function CodeSkyline() {
       }
     });
     const ro = new ResizeObserver(resize);
+    mark();
     resize();
     ro.observe(canvas);
     io.observe(canvas);

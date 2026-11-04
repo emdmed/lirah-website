@@ -5,10 +5,13 @@ import { CodeSkyline } from "./CodeSkyline";
 import { HeroHorizon } from "./HeroHorizon";
 
 // Detail levels as one neutral chip whose fill fades with the amount of the file sent.
+// The chip matching the skyline's fold (section[data-level], set by CodeSkyline) lights in lamp gold.
 const DETAIL_CHIP = {
-  full: "text-strong bg-foreground/14",
-  signatures: "text-foreground bg-foreground/11",
-  skeleton: "text-muted-foreground bg-foreground/8",
+  full: "text-strong bg-foreground/14 [[data-level=full]_&]:bg-lamp [[data-level=full]_&]:text-background",
+  signatures:
+    "text-foreground bg-foreground/11 [[data-level=signatures]_&]:bg-lamp [[data-level=signatures]_&]:text-background",
+  skeleton:
+    "text-muted-foreground bg-foreground/8 [[data-level=skeleton]_&]:bg-lamp [[data-level=skeleton]_&]:text-background",
 } as const;
 
 const less = (x: number) => `${Math.round((1 - x) * 100)}%`;
@@ -21,7 +24,10 @@ const PROOF = [
 
 function DetailChip({ level, children }: { level: keyof typeof DETAIL_CHIP; children: React.ReactNode }) {
   return (
-    <span className={`whitespace-nowrap rounded-[2px] px-1.5 pb-0.5 pt-px text-[0.94em] ${DETAIL_CHIP[level]}`}>
+    <span
+      data-chip={level}
+      className={`whitespace-nowrap rounded-[2px] motion-safe:transition-colors motion-safe:duration-300 motion-safe:ease-[var(--ins-ease-out)] px-1.5 pb-0.5 pt-px text-[0.94em] ${DETAIL_CHIP[level]}`}
+    >
       {children}
     </span>
   );
@@ -29,7 +35,7 @@ function DetailChip({ level, children }: { level: keyof typeof DETAIL_CHIP; chil
 
 export function HeroSection({ release }: { release: Release | null }) {
   return (
-    <section aria-labelledby="hero-title">
+    <section aria-labelledby="hero-title" data-level="full">
       {/* relative z-10: the copy paints over the skyline that rises behind it. */}
       <div className="relative z-10 pb-[clamp(72px,7vw,120px)] pt-12 sm:pt-16">
         <h1
