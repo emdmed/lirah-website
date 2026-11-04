@@ -6,8 +6,8 @@
  * screenshots each frame instead of screen-recording a playback: no dropped frames, no timing
  * drift, and the same bytes of film on every run.
  *
- *   node video/render.mjs --page context.html                # → video/out/lirah-context-4x5.mp4
- *   node video/render.mjs --page context.html --still 6.5    # one frame → video/out/context-still-6.5.png
+ *   node video/render.mjs --page context.html                # → video/out/films/lirah-context-4x5.mp4
+ *   node video/render.mjs --page context.html --still 6.5    # one frame → video/out/stills/context/context-still-6.5.png
  *   node video/render.mjs --page context.html --from 4 --to 9   # a slice, for checking one scene
  *   node video/render.mjs --page context.html --fps 60
  *   node video/render.mjs --serve                            # preview server; open the URL it prints
@@ -31,7 +31,7 @@ const opt = (name, dflt) => {
   return i > -1 ? args[i + 1] : dflt
 }
 
-const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.woff2': 'font/woff2', '.png': 'image/png', '.svg': 'image/svg+xml', '.json': 'application/json' }
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.woff2': 'font/woff2', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.json': 'application/json' }
 function serve(port = 0) {
   const server = createServer((req, res) => {
     const path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^(\.\.[/\\])+/, '')
@@ -68,7 +68,9 @@ const fps = Number(opt('fps', 30))
 const still = opt('still')
 const base = pageFile.replace(/\.html$/, '')
 const outDir = join(here, 'out')
-mkdirSync(outDir, { recursive: true })
+// out/films: finished MP4s and posters · out/stills/<page>: checking stills · out/scratch: slices
+const filmsDir = join(outDir, 'films'), scratchDir = join(outDir, 'scratch')
+for (const d of [filmsDir, scratchDir]) mkdirSync(d, { recursive: true })
 
 const server = await serve()
 const { chromium } = await loadPlaywright()
@@ -87,7 +89,9 @@ const shape = W === H ? '1x1' : H * 4 === W * 5 ? '4x5' : W * 9 === H * 16 ? '16
 async function finish(code = 0) { await browser.close(); server.close(); process.exit(code) }
 
 if (still !== undefined) {
-  const file = opt('out', join(outDir, `${base}-still-${still}.png`))
+  const stillsDir = join(outDir, 'stills', base)
+  mkdirSync(stillsDir, { recursive: true })
+  const file = opt('out', join(stillsDir, `${base}-still-${still}.png`))
   await page.evaluate((t) => window.__render(t), Number(still))
   await page.evaluate(() => window.__ready?.())   // a film over images says when they have decoded
   await page.screenshot({ path: file, clip })
@@ -97,7 +101,7 @@ if (still !== undefined) {
 
 const from = Number(opt('from', 0))
 const to = Math.min(Number(opt('to', duration)), duration)
-const out = opt('out', join(outDir, from === 0 && to === duration ? `lirah-${base}-${shape}.mp4` : `${base}-slice-${from}-${to}.mp4`))
+const out = opt('out', from === 0 && to === duration ? join(filmsDir, `lirah-${base}-${shape}.mp4`) : join(scratchDir, `${base}-slice-${from}-${to}.mp4`))
 const frames = Math.round((to - from) * fps)
 
 // H.264 High, yuv420p, faststart: what LinkedIn, X and every phone play without re-encoding trouble.

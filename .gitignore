@@ -40,5 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# film renders (video/render.mjs)
-/video/out/
+# promo/demo films
+/video/
