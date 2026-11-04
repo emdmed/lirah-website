@@ -1,0 +1,130 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { DEMO_SOURCE } from "./ledger/demoSource";
+
+const H = 180;
+const CW = 10;
+const STEP = 7;
+const KEEP = { full: "fsk", signatures: "sk", skeleton: "k" } as const;
+const ALPHA = { k: 0.85, s: 0.55, f: 0.2 } as const;
+
+const levelAt = (y: number): keyof typeof KEEP => (y < 90 ? "full" : y < 240 ? "signatures" : "skeleton");
+
+// The horizon made of code: each column is one source line set vertically, its height its length.
+// Scrolling folds it like Lirah's detail levels: bodies drop (signatures), then all but exports (skeleton).
+export function CodeSkyline() {
+  const ref = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = ref.current;
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const lines = DEMO_SOURCE.map((l) => {
+      const txt = l.text.trim();
+      return { k: l.level, txt, h: Math.min(22, Math.round(txt.length * 0.33) + 1) };
+    });
+    let cols: { k: "k" | "s" | "f"; txt: string; h: number; cur: number }[] = [];
+    let w = 0;
+    let font = "";
+    let colour = { k: "", s: "", f: "" };
+    let scrollY = window.scrollY;
+    let visible = false;
+    let ready = false;
+    let frame = 0;
+    let prev = 0;
+
+    const draw = (dt: number) => {
+      const keep = KEEP[levelAt(scrollY)];
+      const rate = reduced.matches ? 1 : 1 - Math.exp(-dt * 7);
+      let settled = true;
+      ctx.clearRect(0, 0, w, H);
+      ctx.font = font;
+      ctx.textAlign = "center";
+      cols.forEach((col, i) => {
+        const target = keep.includes(col.k) ? col.h : 0;
+        col.cur += (target - col.cur) * rate;
+        if (Math.abs(target - col.cur) < 0.01) col.cur = target;
+        else settled = false;
+        const n = Math.round(col.cur);
+        ctx.fillStyle = colour[col.k];
+        for (let j = 0; j < n; j++) {
+          ctx.globalAlpha = ALPHA[col.k] * (j === n - 1 ? 0.6 : 1);
+          ctx.fillText(col.txt[j] || "·", 4 + i * CW, H - 6 - j * STEP);
+        }
+      });
+      ctx.globalAlpha = 1;
+      return settled;
+    };
+
+    const tick = (now: number) => {
+      frame = 0;
+      const dt = Math.min(0.05, (now - prev) / 1000);
+      prev = now;
+      if (!draw(dt) && visible) frame = requestAnimationFrame(tick);
+    };
+    const kick = () => {
+      if (!ready || !visible || frame) return;
+      prev = performance.now();
+      frame = requestAnimationFrame(tick);
+    };
+
+    const resize = () => {
+      const dpr = Math.min(2, window.devicePixelRatio || 1);
+      w = canvas.clientWidth;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const css = getComputedStyle(canvas);
+      font = `9px ${css.fontFamily}`;
+      colour = { k: css.getPropertyValue("--ins-lamp"), s: css.getPropertyValue("--foreground"), f: css.getPropertyValue("--foreground") };
+      // Fewer columns on narrow viewports; existing columns keep their fold state.
+      const n = Math.ceil((w - 4) / CW);
+      cols = Array.from({ length: n }, (_, i) => cols[i] ?? { ...lines[i % lines.length], cur: 0 });
+      if (ready) draw(0);
+    };
+
+    const onScroll = () => {
+      scrollY = window.scrollY;
+      kick();
+    };
+    const io = new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      if (visible) kick();
+      else {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    });
+    const ro = new ResizeObserver(resize);
+    resize();
+    ro.observe(canvas);
+    io.observe(canvas);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    let alive = true;
+    document.fonts.ready.then(() => {
+      if (!alive) return;
+      ready = true;
+      resize();
+      // First paint grows the columns from the baseline, or snaps under reduced motion.
+      kick();
+    });
+
+    return () => {
+      alive = false;
+      cancelAnimationFrame(frame);
+      io.disconnect();
+      ro.disconnect();
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={ref}
+      aria-hidden
+      className="pointer-events-none absolute inset-x-0 bottom-0 block h-[180px] w-full font-mono"
+    />
+  );
+}

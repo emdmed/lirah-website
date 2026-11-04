@@ -9,7 +9,7 @@ const FOLD_PX = 520;
 // eases flat over the first 520px of scroll. Scroll writes only --hh-e (eased
 // 0..1); the tilt, lift and line opacity derive from it in CSS.
 // Below lg or under reduced motion the motion-safe/lg variants never apply, so it renders flat.
-export function HeroHorizon() {
+export function HeroHorizon({ children }: { children?: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,8 +38,9 @@ export function HeroHorizon() {
       // Lift into the hero's bottom padding (HeroSection pb clamp) less a 24px gap; more would cover the install command.
       className="relative [--hh-e:0] lg:motion-safe:[perspective:1400px] lg:motion-safe:[transform:translateY(calc((24px-clamp(72px,7vw,120px))*(1-var(--hh-e))))]"
     >
-      {/* The horizon edge: the skyline sits on this anchor later. */}
+      {/* The horizon edge: the skyline (children) sits on this line. */}
       <div data-hero-horizon className="pointer-events-none absolute inset-x-0 top-0 z-10">
+        {children}
         <div className="hidden h-px bg-[linear-gradient(90deg,transparent,var(--ins-lamp)_20%,var(--ins-lamp)_80%,transparent)] opacity-[calc(1-var(--hh-e))] lg:motion-safe:block" />
       </div>
       <div className="origin-top lg:motion-safe:[transform:rotateX(calc(34deg*(1-var(--hh-e))))_scale(calc(.86+.14*var(--hh-e)))]">

@@ -1,6 +1,7 @@
 import type { Release } from "@/lib/releases";
 import { DownloadKey } from "./DownloadKey";
 import { CROSS_FILE } from "./evalResults";
+import { CodeSkyline } from "./CodeSkyline";
 import { HeroHorizon } from "./HeroHorizon";
 
 // Detail levels as one neutral chip whose fill fades with the amount of the file sent.
@@ -29,7 +30,8 @@ function DetailChip({ level, children }: { level: keyof typeof DETAIL_CHIP; chil
 export function HeroSection({ release }: { release: Release | null }) {
   return (
     <section aria-labelledby="hero-title">
-      <div className="pb-[clamp(72px,7vw,120px)] pt-12 sm:pt-16">
+      {/* relative z-10: the copy paints over the skyline that rises behind it. */}
+      <div className="relative z-10 pb-[clamp(72px,7vw,120px)] pt-12 sm:pt-16">
         <h1
           id="hero-title"
           className="-ml-[0.05em] text-[clamp(34px,10.4vw,48px)] leading-[1.06] tracking-[-0.035em] text-strong sm:text-[clamp(40px,6.6vw,88px)] sm:leading-[1.02] sm:tracking-[-0.03em] sm:[text-wrap:nowrap]"
@@ -75,7 +77,9 @@ export function HeroSection({ release }: { release: Release | null }) {
         </div>
       </div>
 
-      <HeroHorizon />
+      <HeroHorizon>
+        <CodeSkyline />
+      </HeroHorizon>
     </section>
   );
 }
