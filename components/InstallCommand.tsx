@@ -31,9 +31,9 @@ export function InstallCommand({ size }: { size: "xl" | "lg" | "panel" }) {
     <div className={`ins-well flex w-full items-stretch ${xl ? "max-w-[min(100%,1000px)] min-h-14" : "max-w-[min(100%,820px)] min-h-11"}`}>
       <code
         ref={codeRef}
-        className={`block min-w-0 flex-1 self-center px-4 py-2.5 leading-[1.55] text-foreground [overflow-wrap:anywhere] ${xl ? "text-[14px] lg:whitespace-nowrap" : "text-[13px]"}`}
+        className={`block min-w-0 flex-1 self-center px-4 py-2.5 leading-[1.55] text-foreground [overflow-wrap:anywhere] ${xl ? "text-[14px]" : "text-[13px]"}`}
       >
-        {/* Wraps instead of scrolling, so the `| bash` at the end is always in view. On a wide hero it fits one line. */}
+        {/* Wraps instead of scrolling, so the `| bash` at the end is always in view. */}
         <span aria-hidden="true" className="mr-3 select-none text-muted-foreground">
           $
         </span>
@@ -43,8 +43,7 @@ export function InstallCommand({ size }: { size: "xl" | "lg" | "panel" }) {
             {part}
             {i < COMMAND_PARTS.length - 1 && (
               <>
-                {/* Chrome breaks at <wbr> even under nowrap, so the hero hides them once the line fits. */}
-                /<wbr className={xl ? "lg:hidden" : undefined} />
+                /<wbr />
               </>
             )}
           </Fragment>
