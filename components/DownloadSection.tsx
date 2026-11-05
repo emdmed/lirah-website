@@ -7,14 +7,12 @@ import { RELEASES_URL, REPO_URL, SOURCE_URL, type Release } from "@/lib/releases
 export function DownloadSection({ release }: { release: Release | null }) {
   return (
     <section aria-labelledby="download-title" className="scroll-mt-20 pt-28 sm:pt-36" id="download">
+      <SectionLabel>download</SectionLabel>
       <div className="grid grid-cols-[minmax(0,1fr)] gap-x-16 gap-y-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-start">
         <div className="min-w-0 space-y-6">
-          <div>
-            <SectionLabel>download</SectionLabel>
-            <h2 id="download-title" className="text-[clamp(24px,2.4vw,30px)] leading-[1.18] tracking-[-0.01em]">
-              Give your agents less to read and more to do.
-            </h2>
-          </div>
+          <h2 id="download-title" className="text-[clamp(24px,2.4vw,30px)] leading-[1.18] tracking-[-0.01em]">
+            Give your agents less to read and more to do.
+          </h2>
           <p className="max-w-[52ch] text-[15px] leading-[1.7]">
             Lirah is a free, open-source workspace for the coding agents you already use. MIT licensed, no account, no
             telemetry.

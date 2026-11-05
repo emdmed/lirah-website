@@ -91,6 +91,7 @@ export function TryIt() {
 }
 
 // The note under a demo: what it's wired to, or that the data is made up.
+// Dashed, the drafting line for an aside, so it reads apart from the pane's content.
 export function PaneNote({ children }: { children: React.ReactNode }) {
-  return <p className="border-t border-edge px-4 py-3 text-[12px] text-muted-foreground">{children}</p>;
+  return <p className="border-t border-dashed border-edge px-4 py-3 text-[12px] text-muted-foreground">{children}</p>;
 }

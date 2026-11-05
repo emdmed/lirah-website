@@ -679,6 +679,21 @@
 [data-sheet] .pane {
   background: transparent;
 }
+/*
+  Section head, Calibrated's strong rail: 3px end stops around a 1.5px rule,
+  the name at 600, the section number (in page order) in a ruled chip.
+*/
+[data-sheet] { counter-reset: sec; }
+.sec-head { counter-increment: sec; font-weight: 600; color: var(--foreground); }
+.sec-stop { flex: none; width: 3px; height: 16px; background: var(--foreground); }
+.sec-rail {
+  flex: 1; min-width: 24px; height: 16px;
+  background:
+    linear-gradient(var(--foreground), var(--foreground)) right center / 3px 100% no-repeat,
+    linear-gradient(var(--ins-edge-strong), var(--ins-edge-strong)) left center / 100% 1.5px no-repeat;
+}
+.sec-num { flex: none; border: 1.5px solid var(--muted-foreground); padding: 3px 6px 2px; }
+.sec-num::before { content: counter(sec, decimal-leading-zero); }
 [data-sheet] .pane::after { border-width: 1px 0 0; border-color: var(--ins-edge); }
 [data-sheet] .pane:is(:hover, :focus-within, [data-live])::after { border-color: var(--ins-edge-focus); }
 
