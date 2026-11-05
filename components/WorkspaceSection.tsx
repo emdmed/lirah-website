@@ -29,10 +29,10 @@ const TABS: {
 
 const TERMINAL_KEYS: { keys: string[][]; action: string }[] = [
   { keys: [["^", "K"]], action: "launch the tab's agent" },
+  { keys: [["alt", "W"]], action: "next workspace" },
   { keys: [["^", "`"]], action: "second terminal" },
   { keys: [["alt", "N"], ["alt", "L"]], action: "nvim, lazygit" },
   { keys: [[":"]], action: "command line" },
-  { keys: [["^", "⇧", "F"]], action: "search scrollback" },
   { keys: [["^", "H"]], action: "every shortcut" },
 ];
 
@@ -47,16 +47,7 @@ export function WorkspaceSection() {
       label="workspace"
       title="One window, an agent per project."
       intro={
-        <>
-          <p>
-            Each project tab has its own terminal, agent and sandbox. Hook plugins for Claude Code and opencode report
-            when an agent is working, needs permission, is waiting on you or is done, and the tab row lights to match.
-          </p>
-          <p className="text-muted-foreground">
-            Nvim and lazygit open full window in the tab&apos;s second terminal, with your own config, while the agent
-            keeps working. Lirah&apos;s shortcuts step aside until you quit.
-          </p>
-        </>
+        <p>Every project tab runs its own agent, and its row lights up when the agent needs you.</p>
       }
     >
       <Pane
@@ -131,9 +122,7 @@ export function WorkspaceSection() {
           </table>
         </div>
         <PaneNote>
-          Pick a tab and the meter at the top switches to it <span className="text-faint">·</span> attach a tab&apos;s
-          last-turn files to another tab&apos;s prompt <span className="text-faint">·</span> desktop notifications when
-          an agent stops for you <span className="text-faint">·</span> demo data
+          Pick a tab to point the status-bar meter at it <span className="text-faint">·</span> demo data
         </PaneNote>
         <KeyStrip keys={TERMINAL_KEYS} />
       </Pane>

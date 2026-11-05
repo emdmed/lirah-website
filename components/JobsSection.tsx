@@ -31,16 +31,7 @@ export function JobsSection() {
       label="jobs and plans"
       title="Work you don't have to watch. You choose what lands."
       intro={
-        <>
-          <p>
-            Start headless runs of any supported agent from a template and your context files, each in its own git
-            worktree if you want. Race several agents on one task, compare what they wrote, and apply the one you want.
-          </p>
-          <p className="text-muted-foreground">
-            For longer work, import a <span className="text-foreground">*_plan.md</span>: Lirah implements it chunk by
-            chunk in the tab&apos;s agent and commits each one.
-          </p>
-        </>
+        <p>Race headless agents in their own worktrees, or let a plan commit itself chunk by chunk. You apply what you want.</p>
       }
     >
       <FeatureSplit>
@@ -97,8 +88,7 @@ export function JobsSection() {
             </ul>
           </div>
           <PaneNote>
-            Read the diff and send notes back first. Applying waits for the TypeScript check to pass and asks before
-            touching a dirty tree.
+            Applying waits for the type check and asks before touching a dirty tree.
           </PaneNote>
         </Pane>
 
@@ -130,8 +120,7 @@ export function JobsSection() {
             </p>
           </div>
           <PaneNote>
-            Check, review, roll back, skip or reorder any chunk. Autopilot stops when the agent asks a question, needs
-            permission or forgets to commit.
+            Autopilot stops when the agent asks a question, needs permission or skips a commit.
           </PaneNote>
         </Pane>
       </FeatureSplit>

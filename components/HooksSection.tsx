@@ -28,20 +28,20 @@ const HOW = [
   {
     term: <TermChip prefix="grep">used-by</TermChip>,
     title: "Finds the right lines first",
-    body: "Each hit names a file and line range, plus every caller and the function it sits in. The agent opens those lines and nothing else.",
+    body: "Each hit names the lines, the callers and the enclosing function.",
   },
   {
     term: <TermChip>.orchestration/</TermChip>,
     title: "Stays current on its own",
-    body: "The index rebuilds when sources change, in the background on big repos, and never lands in git.",
+    body: "Rebuilds when sources change. Never lands in git.",
   },
   {
     term: <KeyChord keys={["^", "⇧", "P"]} />,
     title: "Never in your way",
     body: (
       <>
-        Switch it per tab with the key or <span className="text-foreground">:compact on</span>; it applies on the next
-        prompt. A failing hook never blocks a prompt, and your own hooks still run.
+        Per tab, with the key or <span className="text-foreground">:compact on</span>. A failing hook never blocks a
+        prompt.
       </>
     ),
   },
@@ -61,17 +61,7 @@ export function HooksSection() {
       label="index"
       title="Your agent greps an index instead of reading the repo."
       intro={
-        <>
-          <p>
-            Lirah keeps a symbol index of your project and tells the agent to grep it before opening files, then read
-            only the lines a hit points to. It pays off most on questions that span several files, and we measured
-            it: the results are below.
-          </p>
-          <p className="text-muted-foreground">
-            It runs as a hook on every prompt in each Claude Code session Lirah starts, and can be switched off in
-            settings.
-          </p>
-        </>
+        <p>Lirah keeps a symbol index of your project. The agent greps it, then reads only the lines a hit names.</p>
       }
     >
       <FeatureSplit>
@@ -146,7 +136,7 @@ export function HooksSection() {
             {" → "}
             <span className={on ? "text-ok" : "text-muted-foreground"}>{RANGE_READS.length} line ranges</span>
           </p>
-          <PaneNote>Switch between the two to compare. A demo transcript; the measured results are below.</PaneNote>
+          <PaneNote>Demo transcript. Measured results below.</PaneNote>
         </Pane>
 
         <Pane title="how the index works" className="pt-5">

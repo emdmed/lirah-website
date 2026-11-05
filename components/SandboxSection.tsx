@@ -31,17 +31,17 @@ const OPTIONS = [
   {
     term: <TermChip>network</TermChip>,
     title: "Network isolation",
-    body: "One more switch cuts the tab off from the network.",
+    body: "One more switch cuts the network.",
   },
   {
     term: <TermChip>apparmor</TermChip>,
     title: "Set up for you",
-    body: "On Ubuntu 24.04 and later Lirah installs the AppArmor profile bubblewrap needs.",
+    body: "Installs the AppArmor profile on Ubuntu 24.04+.",
   },
   {
     term: <TermChip>retry</TermChip>,
     title: "Never a dead end",
-    body: "If the sandbox can't start, Lirah offers to retry the tab without it.",
+    body: "If it can't start, retry the tab without it.",
   },
 ];
 
@@ -56,14 +56,9 @@ export function SandboxSection() {
       label="sandbox"
       title="Let the agent run, inside a sandbox."
       intro={
-        <>
-          <p>
-            On Linux, each tab can run in a bubblewrap sandbox. The root filesystem is read-only. Your home and the
-            project stay writable, while keys, shell rc files and your git config stay read-only. /tmp is private to the
-            tab.
-          </p>
-          <p className="text-muted-foreground">macOS and Windows builds run without the sandbox.</p>
-        </>
+        <p>On Linux each tab can run in bubblewrap: the system read-only, the project writable, keys and git config locked.{" "}
+          <span className="text-muted-foreground">macOS and Windows run without it.</span>
+        </p>
       }
     >
       <Pane
@@ -110,7 +105,7 @@ export function SandboxSection() {
             </table>
           ))}
         </div>
-        <PaneNote>Switch it off to see what an unsandboxed tab can reach.</PaneNote>
+        <PaneNote>Switch it off to compare.</PaneNote>
       </Pane>
 
       <ul className="mt-10 grid gap-x-10 gap-y-6 sm:grid-cols-3">

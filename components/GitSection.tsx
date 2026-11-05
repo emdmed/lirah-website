@@ -28,13 +28,7 @@ export function GitSection() {
       label="git"
       title="Commits drafted. Merges shown first."
       intro={
-        <>
-          <p>
-            When a change is ready, an agent reads the staged diff and drafts a conventional commit message for you to
-            edit. Merging the branch back lists every git command before any of them runs.
-          </p>
-          <p className="text-muted-foreground">All of it is local git, run on your machine.</p>
-        </>
+        <p>An agent drafts the commit message. A merge lists every git command before it runs.</p>
       }
     >
       <FeatureSplit>
@@ -90,9 +84,6 @@ export function GitSection() {
             <p className="text-[12px] text-muted-foreground">
               on conflict: <span className="text-foreground">git merge --abort</span>, nothing changed
             </p>
-            <p className="text-[12px] text-muted-foreground">
-              Fast-forward or --no-ff. It knows when either branch is checked out in another worktree.
-            </p>
             <div className="flex justify-end">
               <span className="ins-key ins-key-primary ins-key-panel" data-static>
                 merge
@@ -108,7 +99,7 @@ export function GitSection() {
             <p>
               <span className="text-strong">Diff viewer.</span>{" "}
               <span className="text-muted-foreground">
-                Side by side, word level, unchanged regions folded. Step file to file and leave review notes as you read.
+                Side by side, word level, with review notes.
               </span>
             </p>
           </div>

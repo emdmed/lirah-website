@@ -49,16 +49,7 @@ export function TokensSection() {
       label="tokens"
       title="Budgets that catch a runaway session."
       intro={
-        <>
-          <p>
-            Give a project a daily or weekly budget. Lirah warns you at 80% and again at 95%, so a runaway session gets
-            caught before it burns through the rest of the week.
-          </p>
-          <p className="text-muted-foreground">
-            Usage is read from Claude Code&apos;s session files: totals per day and per project over a day, a week or a
-            month, with CSV and JSON export.
-          </p>
-        </>
+        <p>Daily or weekly token budgets per project, with warnings at 80% and 95%.</p>
       }
     >
       {/* The status-bar meter covers one session; this covers the week. */}

@@ -17,17 +17,17 @@ const CONTROLS = [
       </span>
     ),
     title: "Intent per file",
-    body: "Change it, read it without touching it, or copy its pattern, like an existing route to model a new one on.",
+    body: "Change it, read it, or copy its pattern.",
   },
   {
     term: <TermChip prefix="hook">context</TermChip>,
     title: "Box or terminal",
-    body: "Send from the prompt box, or type straight into Claude Code and Lirah's hook appends what you picked.",
+    body: "Type into Claude Code; a hook appends your picks.",
   },
   {
     term: <TermChip prefix="set">auth-flow</TermChip>,
     title: "Context sets",
-    body: "Save a selection by name and load it next time you work on that part of the code.",
+    body: "Save a selection by name, load it later.",
   },
 ];
 
@@ -45,18 +45,12 @@ export function ContextSection() {
       title="Stop paying for files your agent didn't need."
       lead
       intro={
-        <>
-          <p>
-            Left alone, an agent reads whole files to find one function. You pay for every line, and the session
-            compacts away what you told it earlier. In Lirah you pick what it sees, and send big files as signatures
-            instead of every line:{" "}
-            <span className="text-strong">
-              schema.ts goes from {formatTokens(SCHEMA.tokens.full)} tokens to {formatTokens(SCHEMA.tokens.sig)}
-            </span>
-            .
-          </p>
-          <p className="text-muted-foreground">The prompt footer shows the estimate before you send.</p>
-        </>
+        <p>Pick what the agent sees, and send big files as signatures:{" "}
+          <span className="text-strong">
+            schema.ts goes from {formatTokens(SCHEMA.tokens.full)} tokens to {formatTokens(SCHEMA.tokens.sig)}
+          </span>
+          .
+        </p>
       }
     >
       <FeatureSplit>
