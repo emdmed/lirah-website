@@ -3,16 +3,17 @@
 import { useEffect, useRef } from "react";
 import { DEMO_SOURCE } from "./ledger/demoSource";
 
-const H = 180;
-const CW = 10;
-const STEP = 7;
+const H = 280;
+const CW = 12;
+const STEP = 9;
 const KEEP = { full: "fsk", signatures: "sk", skeleton: "k" } as const;
-const ALPHA = { k: 0.85, s: 0.55, f: 0.2 } as const;
+const ALPHA = { k: 0.45, s: 0.55, f: 0.2 } as const;
 
 const levelAt = (y: number): keyof typeof KEEP => (y < 90 ? "full" : y < 240 ? "signatures" : "skeleton");
 
 // The horizon made of code: each column is one source line set vertically, its height its length.
 // Scrolling folds it like Lirah's detail levels: bodies drop (signatures), then all but exports (skeleton).
+// Each column streams its line upward, read top to bottom, at its own pace (static under reduced motion).
 export function CodeSkyline() {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -23,9 +24,11 @@ export function CodeSkyline() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const lines = DEMO_SOURCE.map((l) => {
       const txt = l.text.trim();
-      return { k: l.level, txt, h: Math.min(22, Math.round(txt.length * 0.33) + 1) };
+      return { k: l.level, txt, h: Math.min(30, Math.round(txt.length * 0.6) + 1) };
     });
-    let cols: { k: "k" | "s" | "f"; txt: string; h: number; cur: number }[] = [];
+    // Three spaces between repeats, so each pass reads as a fresh line.
+    const GAP = 3;
+    let cols: { k: "k" | "s" | "f"; txt: string; h: number; cur: number; off: number; speed: number }[] = [];
     let w = 0;
     let font = "";
     let colour = { k: "", s: "", f: "" };
@@ -47,11 +50,19 @@ export function CodeSkyline() {
         col.cur += (target - col.cur) * rate;
         if (Math.abs(target - col.cur) < 0.01) col.cur = target;
         else settled = false;
+        if (!reduced.matches) {
+          col.off += dt * col.speed;
+          settled = false;
+        }
         const n = Math.round(col.cur);
+        const len = col.txt.length + GAP;
+        const head = Math.floor(col.off);
         ctx.fillStyle = colour[col.k];
         for (let j = 0; j < n; j++) {
           ctx.globalAlpha = ALPHA[col.k] * (j === n - 1 ? 0.6 : 1);
-          ctx.fillText(col.txt[j] || "·", 4 + i * CW, H - 6 - j * STEP);
+          // j counts up from the baseline; the top glyph is the earliest character in view.
+          const ch = col.txt[(head + n - 1 - j) % len];
+          if (ch && ch !== " ") ctx.fillText(ch, 4 + i * CW, H - 6 - j * STEP);
         }
       });
       ctx.globalAlpha = 1;
@@ -77,11 +88,11 @@ export function CodeSkyline() {
       canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const css = getComputedStyle(canvas);
-      font = `9px ${css.fontFamily}`;
+      font = `11px ${css.fontFamily}`;
       colour = { k: css.getPropertyValue("--ins-lamp"), s: css.getPropertyValue("--foreground"), f: css.getPropertyValue("--foreground") };
       // Fewer columns on narrow viewports; existing columns keep their fold state.
       const n = Math.ceil((w - 4) / CW);
-      cols = Array.from({ length: n }, (_, i) => cols[i] ?? { ...lines[i % lines.length], cur: 0 });
+      cols = Array.from({ length: n }, (_, i) => cols[i] ?? { ...lines[i % lines.length], cur: 0, off: Math.random() * 40, speed: 2 + Math.random() * 4 });
       if (ready) draw(0);
     };
 
@@ -129,7 +140,8 @@ export function CodeSkyline() {
     <canvas
       ref={ref}
       aria-hidden
-      className="pointer-events-none absolute inset-x-0 bottom-0 block h-[180px] w-full font-mono"
+      // The mask fades the columns out as they rise into the hero copy.
+      className="pointer-events-none absolute inset-x-0 bottom-0 block h-[280px] w-full font-mono [mask-image:linear-gradient(to_top,#000_25%,transparent_78%)]"
     />
   );
 }

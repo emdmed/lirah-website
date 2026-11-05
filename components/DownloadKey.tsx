@@ -31,7 +31,7 @@ export function DownloadKey({
     return (
       <div className={`flex flex-col ${size === "xl" ? "gap-3" : "gap-2"}`}>
         <InstallCommand size={size} />
-        <p className="text-[12px] text-muted-foreground">
+        <p className="text-[12px] text-muted-foreground [text-wrap:balance]">
           Linux <span className="text-faint">·</span>{" "}
           {release && (
             <>
@@ -60,7 +60,7 @@ export function DownloadKey({
       >
         Download for {OS_NAME[os]}
       </a>
-      <p className="text-[12px] text-muted-foreground">
+      <p className="text-[12px] text-muted-foreground [text-wrap:balance]">
         {inst ? (
           <>
             {release!.version} <span className="text-faint">·</span> {inst.format}

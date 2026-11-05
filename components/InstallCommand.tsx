@@ -53,7 +53,7 @@ export function InstallCommand({ size }: { size: "xl" | "lg" | "panel" }) {
         type="button"
         onClick={copy}
         aria-label={copied ? "Install command copied" : "Copy install command"}
-        className={`ins-key shrink-0 ${xl ? "ins-key-xl px-6" : "ins-key-primary px-4 text-[13px]"}`}
+        className={`ins-key shrink-0 ${xl ? "ins-key-xl h-auto px-6" : "ins-key-primary px-4 text-[13px]"}`}
       >
         <span aria-live="polite">{copied ? "copied" : "copy"}</span>
       </button>

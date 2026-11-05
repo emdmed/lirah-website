@@ -8,17 +8,16 @@ import { Meter } from "./instrument/Meter";
 import { CONTEXT_MAX } from "./ledger/demoSession";
 import { REPO_URL } from "@/lib/releases";
 
-// `wide` links join the inline nav only from 2xl; below that the bar has no
-// room beside the meter, and they live in the menu.
-const NAV: { href: string; label: string; wide?: boolean }[] = [
+// `menuOnly` links stay out of the inline nav (the bar has no room beside the meter) and live in the menu.
+const NAV: { href: string; label: string; menuOnly?: boolean }[] = [
   { href: "/#context", label: "context" },
   { href: "/#index", label: "index" },
-  { href: "/#tokens", label: "tokens", wide: true },
+  { href: "/#tokens", label: "tokens", menuOnly: true },
   { href: "/#workspace", label: "workspace" },
   { href: "/#jobs", label: "jobs" },
   { href: "/#git", label: "git" },
   { href: "/#sandbox", label: "sandbox" },
-  { href: "/#faq", label: "faq", wide: true },
+  { href: "/#faq", label: "faq", menuOnly: true },
   { href: "/blog", label: "blog" },
 ];
 
@@ -30,6 +29,16 @@ export function StatusBar() {
   const ledger = useLedger();
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  // The header key goes neutral while the hero's install key is on screen, so only one gold CTA shows.
+  const [heroCta, setHeroCta] = useState(false);
+
+  useEffect(() => {
+    const el = document.getElementById("hero-download");
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setHeroCta(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -56,12 +65,8 @@ export function StatusBar() {
         <span className="ins-sep-star hidden xl:inline-block" aria-hidden="true" />
 
         <nav aria-label="Main" className="hidden items-center gap-0.5 xl:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`ins-key ins-key-panel ${item.wide ? "hidden 2xl:inline-flex" : ""}`}
-            >
+          {NAV.filter((item) => !item.menuOnly).map((item) => (
+            <Link key={item.href} href={item.href} className="ins-key ins-key-panel">
               [{item.label}]
             </Link>
           ))}
@@ -75,7 +80,7 @@ export function StatusBar() {
               max={CONTEXT_MAX}
               label={`Context window, ${ledger.tab}, demo session`}
               size="lg"
-              className="max-sm:[--meter-w:84px] max-sm:[--meter-fill-h:6px] max-sm:[&_.ins-meter-readout]:text-[15px] sm:[--meter-w:clamp(150px,18vw,300px)] 2xl:[--meter-w:160px]"
+              className="max-sm:[--meter-w:84px] max-sm:[--meter-fill-h:6px] max-sm:[&_.ins-meter-readout]:text-[15px] sm:[--meter-w:clamp(120px,12vw,200px)]"
             />
           </div>
         )}
@@ -85,7 +90,7 @@ export function StatusBar() {
             [github]
           </a>
 
-          <Link href="/#download" className="ins-key ins-key-primary ins-key-panel hidden h-8 px-3 sm:inline-flex">
+          <Link href="/#download" className={`ins-key ins-key-panel hidden h-8 px-3 sm:inline-flex ${heroCta ? "" : "ins-key-primary"}`}>
             download
           </Link>
 

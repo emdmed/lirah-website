@@ -36,8 +36,8 @@ function DetailChip({ level, children }: { level: keyof typeof DETAIL_CHIP; chil
 export function HeroSection({ release }: { release: Release | null }) {
   return (
     <section aria-labelledby="hero-title" data-level="full">
-      {/* relative z-10: the copy paints over the skyline that rises behind it. */}
-      <div className="relative z-10 pb-[clamp(72px,7vw,120px)] pt-12 sm:pt-16">
+      {/* pb keeps the skyline's dense lower part clear of the copy; its faded top rises behind the text. */}
+      <div className="relative z-10 pb-[152px] pt-12 sm:pt-16">
         <h1
           id="hero-title"
           className="-ml-[0.05em] text-[clamp(34px,10.4vw,48px)] leading-[1.06] tracking-[-0.035em] text-strong sm:text-[clamp(40px,6.6vw,88px)] sm:leading-[1.02] sm:tracking-[-0.03em] sm:[text-wrap:nowrap]"
@@ -76,7 +76,7 @@ export function HeroSection({ release }: { release: Release | null }) {
                 <span className="whitespace-nowrap text-foreground group-hover:underline">How we measured ↓</span>
               </span>
             </a>
-            <div className="mt-9 sm:mt-11">
+            <div id="hero-download" className="mt-9 sm:mt-11">
               <DownloadKey release={release} size="xl" />
             </div>
           </div>

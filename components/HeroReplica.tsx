@@ -5,7 +5,9 @@ import { Pane } from "./instrument/Pane";
 import { Lamp } from "./instrument/Lamp";
 import { Keycap } from "./instrument/Keycap";
 import { ContextMoon } from "./instrument/ContextMoon";
-import { formatTokens } from "./instrument/Meter";
+import { Meter, formatTokens } from "./instrument/Meter";
+import { LirahMark } from "./instrument/LirahMark";
+import { GitBranch } from "lucide-react";
 import { useLedger } from "./ledger/LedgerProvider";
 import {
   CONTEXT_MAX,
@@ -27,6 +29,18 @@ function splitPath(path: string) {
   const i = path.lastIndexOf("/");
   return i < 0 ? ["", path] : [path.slice(0, i + 1), path.slice(i + 1)];
 }
+
+// Files grouped under their folder like the app's tree: top folders in demo order, root files last.
+const TOP = [...new Set(FILES.map((f) => (f.path.includes("/") ? f.path.split("/")[0] : "~")))];
+const treeKey = (path: string) => {
+  const dir = splitPath(path)[0];
+  return [TOP.indexOf(dir ? dir.split("/")[0] : "~"), dir] as const;
+};
+const TREE = [...FILES].sort((a, b) => {
+  const [ta, da] = treeKey(a.path);
+  const [tb, db] = treeKey(b.path);
+  return ta - tb || (da === db ? 0 : da < db ? -1 : 1);
+});
 
 function prefersReducedMotion() {
   return typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -81,7 +95,7 @@ export function HeroReplica() {
   return (
     <div className="relative">
       {/* Window rail: what this is, and the two scenes. */}
-      <div className="mb-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 focus-within:!opacity-100 lg:motion-safe:[opacity:clamp(0,calc(var(--hh-e,1)*3-1.5),1)]">
         <div className="flex items-center gap-2.5 text-[13px]">
           <Lamp state={playing ? "on" : "off"} blink={playing} />
           <span className="text-muted-foreground">
@@ -119,6 +133,45 @@ export function HeroReplica() {
         </div>
       </div>
 
+      {/* App bar: the one at the top of the Lirah window. */}
+      <div className="mb-3 flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-edge px-1 pb-2.5 text-[12px] text-muted-foreground">
+        <span className="flex items-center gap-2.5">
+          <LirahMark size={18} lit />
+          <span className="text-warn">+ [1 waiting]</span>
+        </span>
+        <span className="flex items-center gap-2 max-sm:hidden">
+          <span className="ins-legend">ctx</span>
+          <Meter value={tokens} max={CONTEXT_MAX} label="Context window, acme-api, demo session" className="[--meter-w:140px]" />
+        </span>
+        <span className="ml-auto flex items-center gap-4">
+          <span className="max-md:hidden">
+            <span className="text-ok">+</span> claude
+          </span>
+          <button
+            type="button"
+            className="ins-key ins-key-panel"
+            data-latched={(explicit && compact) || undefined}
+            aria-pressed={explicit && compact}
+            onClick={() => {
+              setPlaying(false);
+              setScene("explicit");
+              ledger.setCompact(!compact);
+            }}
+            title="Index: on each prompt the agent gets a fresh project index to grep"
+          >
+            <Lamp state={explicit && compact ? "on" : "off"} />
+            index
+            <span className="ins-chord">
+              <Keycap size="sm">^</Keycap>
+              <Keycap size="sm">⇧</Keycap>
+              <Keycap size="sm">P</Keycap>
+            </span>
+          </button>
+          <span className="ins-legend max-md:hidden">sandbox</span>
+          <span className="ins-legend max-md:hidden">settings</span>
+        </span>
+      </div>
+
       <div className="grid gap-x-3 gap-y-4 lg:h-[500px] lg:grid-cols-[minmax(250px,300px)_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)_240px]">
         {/* [1] FILES */}
         <Pane title="files" index="1" className="order-3 flex min-h-0 flex-col pt-4 lg:order-none" as="aside" aria-label="Files">
@@ -126,36 +179,26 @@ export function HeroReplica() {
             <span className="text-[12px] text-muted-foreground">
               {explicit ? `${attached.length} in prompt` : "click to attach"}
             </span>
-            <button
-              type="button"
-              className="ins-key ins-key-panel"
-              data-latched={(explicit && compact) || undefined}
-              aria-pressed={explicit && compact}
-              onClick={() => {
-                setPlaying(false);
-                setScene("explicit");
-                ledger.setCompact(!compact);
-              }}
-              title="Index: on each prompt the agent gets a fresh project index to grep"
-            >
-              <Lamp state={explicit && compact ? "on" : "off"} />
-              index
-              <span className="ins-chord">
-                <Keycap size="sm">^</Keycap>
-                <Keycap size="sm">⇧</Keycap>
-                <Keycap size="sm">P</Keycap>
-              </span>
-            </button>
+            <span className="text-[12px] tabular-nums text-faint">
+              {FILES.length} of {FILES.length}
+            </span>
           </div>
-          <ul className="min-h-0 flex-1 overflow-y-auto pb-2 text-[12.5px] leading-[24px]">
-            {FILES.map((f) => {
+          <ul className="min-h-0 flex-1 overflow-y-auto pb-2 text-[12.5px] leading-[22px]">
+            {TREE.map((f, i) => {
               const [dir, name] = splitPath(f.path);
+              const newDir = dir && dir !== splitPath(TREE[i - 1]?.path ?? "")[0];
               const att = selection[f.path];
               const inPrompt = explicit && Boolean(att);
               const read = !explicit && EXPLORE_ORDER.indexOf(f.path) < readCount;
               const cost = inPrompt ? f.tokens[att.detail] : read ? f.tokens.full : null;
               return (
                 <li key={f.path}>
+                  {newDir && (
+                    <div className="flex gap-2 px-3 text-muted-foreground" aria-hidden="true">
+                      <span className="w-2 shrink-0 text-faint">▾</span>
+                      {dir}
+                    </div>
+                  )}
                   <button
                     type="button"
                     onClick={() => {
@@ -170,8 +213,8 @@ export function HeroReplica() {
                     <span className={`w-2 shrink-0 ${inPrompt ? "" : "text-lamp"}`} aria-hidden="true">
                       {inPrompt ? "›" : ""}
                     </span>
-                    <span className="min-w-0 flex-1 truncate">
-                      <span className={inPrompt ? "opacity-70" : "text-faint"}>{dir}</span>
+                    <span className={`min-w-0 flex-1 truncate ${dir ? "pl-4" : ""}`}>
+                      <span className="sr-only">{dir}</span>
                       <span className={inPrompt ? "" : "text-foreground"}>{name}</span>
                     </span>
                     <span
@@ -218,7 +261,7 @@ export function HeroReplica() {
                   {EXPLORE_ORDER.slice(0, readCount).map((p) => (
                     <p key={p} className="ins-line-enter flex gap-3">
                       <span className="min-w-0 flex-1 truncate">
-                        <span className="text-ok">●</span> Read(<span className="text-foreground">{p}</span>)
+                        <span className="text-ok">●</span> <span className="text-strong">Read</span>(<span className="text-foreground">{p}</span>)
                       </span>
                       <span className="tabular-nums text-warn">{formatTokens(fileByPath(p).tokens.full)}</span>
                     </p>
@@ -248,17 +291,25 @@ export function HeroReplica() {
                     </span>{" "}
                     {TASK}
                   </p>
-                  <p className="ins-line-enter mt-1 text-foreground">● Update(src/middleware/auth.ts)</p>
-                  <p className="ins-line-enter pl-4" style={{ color: "var(--git-added)" }}>
-                    + const next = await rotateRefreshToken(session)
+                  <p className="ins-line-enter mt-1 text-foreground">
+                    <span className="text-ok">●</span> <span className="text-strong">Update</span>(src/middleware/auth.ts)
                   </p>
-                  <p className="ins-line-enter pl-4" style={{ color: "var(--git-added)" }}>
-                    + res.cookie(&quot;refresh&quot;, next.token, cookieOpts)
+                  <p className="ins-line-enter pl-4 text-muted-foreground">
+                    ⎿ Updated <span className="text-foreground">src/middleware/auth.ts</span> (+2 −1)
                   </p>
-                  <p className="ins-line-enter pl-4" style={{ color: "var(--git-deleted)" }}>
-                    - res.cookie(&quot;refresh&quot;, session.refresh, cookieOpts)
+                  <div className="ins-line-enter ml-8 tabular-nums">
+                    <DiffRow n={41} text="if (session.expiresSoon()) {" />
+                    <DiffRow n={42} kind="-" text='  res.cookie("refresh", session.refresh, cookieOpts)' />
+                    <DiffRow n={42} kind="+" text="  const next = await rotateRefreshToken(session)" />
+                    <DiffRow n={43} kind="+" text='  res.cookie("refresh", next.token, cookieOpts)' />
+                    <DiffRow n={44} text="}" />
+                  </div>
+                  <p className="ins-line-enter mt-2 text-foreground">
+                    <span className="text-ok">●</span> <span className="text-strong">Update</span>(src/lib/token.ts)
                   </p>
-                  <p className="ins-line-enter mt-1 text-foreground">● Update(src/lib/token.ts)</p>
+                  <p className="ins-line-enter pl-4 text-muted-foreground">
+                    ⎿ Updated <span className="text-foreground">src/lib/token.ts</span> (+6)
+                  </p>
                   <p className="ins-line-enter mt-2 text-muted-foreground">
                     {formatTokens(tokens)} of context. No files read outside the prompt.
                   </p>
@@ -267,7 +318,19 @@ export function HeroReplica() {
             </div>
           </Pane>
 
-          <Pane title="prompt" index="3" className="pt-4" aria-label="Prompt">
+          <Pane
+            title="context"
+            index="3"
+            className="pt-4"
+            aria-label="Context"
+            trailing={
+              <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground max-sm:hidden">
+                type prompts in
+                <span className="border border-edge px-1.5">terminal</span>
+                <span className="border border-lamp px-1.5 text-lamp">prompt box</span>
+              </span>
+            }
+          >
             <div className="px-3 pb-3">
               {explicit ? (
                 <ul className="mb-2 flex flex-wrap gap-1.5" aria-label="Context attached to the prompt">
@@ -337,7 +400,7 @@ export function HeroReplica() {
         {/* [4] WORKSPACE */}
         <Pane title="workspace" index="4" className="hidden min-h-0 flex-col pt-4 xl:flex" as="aside" aria-label="Workspace">
           <div className="flex gap-0.5 px-2 pb-2">
-            {["tabs", "jobs", "plans", "agents"].map((t, i) => (
+            {["tabs 3", "jobs", "plans", "tasks"].map((t, i) => (
               <span key={t} className="ins-key ins-key-panel" data-static data-latched={i === 0 || undefined}>
                 {t}
               </span>
@@ -349,11 +412,12 @@ export function HeroReplica() {
               ratio={tokens / CONTEXT_MAX}
               lamp={<Lamp state="on" blink label="working" />}
               branch="feat/token-rotation"
-              note={explicit ? "auth.ts · token.ts" : "reading…"}
+              status={explicit ? <Diff added={8} removed={1} /> : "clean"}
+              note={explicit ? "edited 2 · 3 cmds · now" : `read ${readCount} · now`}
               active
             />
-            <TabRow name="acme-web" ratio={0.41} lamp={<Lamp state="warn" label="waiting on you" />} branch="main" note="waiting on you" />
-            <TabRow name="infra" ratio={0.12} lamp={<Lamp state="ok" label="done" />} branch="ops/tf-1.9" note="done · 3 files" />
+            <TabRow name="acme-web" ratio={0.41} lamp={<Lamp state="warn" label="waiting on you" />} branch="main" status={<Diff added={14} removed={3} />} note="waiting on you" />
+            <TabRow name="infra" ratio={0.12} lamp={<Lamp state="ok" label="done" />} branch="ops/tf-1.9" status="clean" note="plan complete · 9m ago" />
           </ul>
           <div className="mt-auto flex items-center justify-between px-3 pb-3 text-[12px] text-muted-foreground">
             <span>[1 waiting]</span>
@@ -377,6 +441,7 @@ function TabRow({
   ratio,
   lamp,
   branch,
+  status,
   note,
   active,
 }: {
@@ -384,6 +449,7 @@ function TabRow({
   ratio: number;
   lamp: React.ReactNode;
   branch: string;
+  status: React.ReactNode;
   note: string;
   active?: boolean;
 }) {
@@ -398,10 +464,40 @@ function TabRow({
         </span>
         <ContextMoon ratio={ratio} />
         <span className="flex-1 truncate text-foreground">{name}</span>
+        <span className="text-[11px] text-muted-foreground tabular-nums">{status}</span>
         {lamp}
       </div>
-      <div className="mt-0.5 truncate pl-[38px] text-[11.5px] text-muted-foreground">{branch}</div>
-      <div className="truncate pl-[38px] text-[11.5px] text-foreground">{note}</div>
+      <div className="mt-0.5 flex items-center gap-1 truncate pl-[38px] text-[11.5px] text-muted-foreground">
+        <GitBranch size={11} aria-hidden="true" />
+        {branch}
+      </div>
+      <div className="truncate pl-[38px] text-[11.5px] text-muted-foreground">{note}</div>
     </li>
+  );
+}
+
+function Diff({ added, removed }: { added: number; removed: number }) {
+  return (
+    <>
+      <span style={{ color: "var(--git-deleted)" }}>-{removed}</span>{" "}
+      <span style={{ color: "var(--git-added)" }}>+{added}</span>
+    </>
+  );
+}
+
+// One line of an agent's edit, drawn like Claude Code's diff: number, sign, full-row tint.
+function DiffRow({ n, kind, text }: { n: number; kind?: "+" | "-"; text: string }) {
+  const tint = kind === "+" ? "var(--git-added)" : kind === "-" ? "var(--git-deleted)" : undefined;
+  return (
+    <p
+      className="flex gap-2 whitespace-pre pr-2"
+      style={tint ? { background: `color-mix(in srgb, ${tint} 22%, transparent)`, color: "var(--fg-strong)" } : undefined}
+    >
+      <span className="w-6 shrink-0 text-right text-muted-foreground">{n}</span>
+      <span className="w-2 shrink-0" style={tint ? { color: tint } : undefined}>
+        {kind ?? " "}
+      </span>
+      <span className="min-w-0 truncate">{text}</span>
+    </p>
   );
 }
