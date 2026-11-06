@@ -123,7 +123,7 @@ function BodyMark({ b, i }: { b: Body; i: number }) {
           )}
         </g>
         {/* a generous hit area for the hover, invisible */}
-        <circle r="18" fill="transparent" />
+        <circle className="hit" r="18" fill="transparent" />
       </a>
     </g>
   );

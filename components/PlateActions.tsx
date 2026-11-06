@@ -7,18 +7,45 @@ import { warp } from "./orreryWarp";
 import { BODIES, CX, CY, FLAT, FLAT_RANGE, ORBITS, PERIOD, SANDBOX, YAW_RANGE, at, f, planeTransform, pose } from "./orreryGeom";
 
 // Linux goes to the install script below; macOS and Windows get the latest installer.
-// A phone has nothing to install: the hero points at the install chapter, which then says so.
+// A phone has nothing to install: it sends the link to the visitor's desktop instead.
 export function PlateDownload({ release, anchor }: { release: Release | null; anchor?: boolean }) {
   const os = useDetectedOS();
   const phone = useIsPhone();
   const inst = primaryInstaller(release, os);
-  if (phone)
-    return anchor ? <a className="btn solid" href="#install">Install on your desktop</a> : <p className="src">Open lira.dev on your desktop to install.</p>;
+  if (phone) return <SendLink />;
   if (os === "linux" || !inst) {
     const href = anchor ? "#install" : (release?.url ?? "https://github.com/emdmed/lirah/releases/latest");
     return <a className="btn solid" href={href}>{anchor ? `Install on ${OS_NAME[os]} ↓` : `Download for ${OS_NAME[os]}`}</a>;
   }
   return <a className="btn solid" href={inst.url}>Download for {OS_NAME[os]}</a>;
+}
+
+// The share sheet where there is one (AirDrop, mail, chat to yourself), else the link is copied.
+function SendLink() {
+  const [label, setLabel] = useState("Send to my desktop");
+  async function send() {
+    const url = `${location.origin}/#install`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Lirah", text: "Lirah: a workspace for CLI coding agents", url });
+        return;
+      } catch (e) {
+        if ((e as DOMException).name === "AbortError") return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setLabel("Link copied");
+    } catch {
+      setLabel("Open lira.dev on your desktop");
+    }
+    setTimeout(() => setLabel("Send to my desktop"), 2400);
+  }
+  return (
+    <button type="button" className="btn solid" onClick={send}>
+      <span aria-live="polite">{label}</span>
+    </button>
+  );
 }
 
 export function CopyCommand() {

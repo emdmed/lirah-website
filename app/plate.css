@@ -123,7 +123,7 @@
   & .how { margin-top: 20px; font: 12px var(--f-mono); color: var(--muted); }
   & .how a { color: var(--ink); }
   & .get { margin-top: 44px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
-  & .get span { font-size: 14px; color: var(--muted); }
+  & .get > span { font-size: 14px; color: var(--muted); }
   & .plate-cap { margin: 0 var(--gut); padding-top: 14px; }
 
   /* agents ticker: slow, pauses on hover, still under reduced motion */
@@ -535,5 +535,25 @@
   }
   @media (max-width: 480px) {
     & .figs { grid-template-columns: 1fr 1fr; column-gap: 20px; }
+  }
+  @media (max-width: 860px) {
+    /* the orrery's drawing ends well above 320px; the rest was empty sky pushing the action off screen */
+    & .plate .art { height: 260px; }
+    & .plate .sky { --dim: linear-gradient(180deg, #000 240px, rgba(0, 0, 0, .12) 300px); }
+    /* on a phone the action belongs in the first screen; the figures follow right under it */
+    & .plate .col { padding-top: 0; }
+    & .plate .col > .get { order: 1; margin-top: 28px; }
+    & .plate .col > .figs { order: 2; margin-top: 40px; }
+    & .plate .col > .how { order: 3; }
+    & .get .btn { width: 100%; justify-content: center; min-height: 48px; }
+    & .install .btn { width: 100%; justify-content: center; min-height: 48px; }
+  }
+  @media (max-width: 860px) and (pointer: coarse) {
+    & .plate .art .hit { r: 64px; }
+    & footer nav a, & footer .wm, & .bar .wm { display: inline-flex; align-items: center; min-height: 44px; }
+    & .app .cap span:last-child::after { content: " · swipe to pan"; }
+  }
+  @media (max-width: 360px) {
+    & .plate h1 { font-size: 38px; }
   }
 }
