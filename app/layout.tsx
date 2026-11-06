@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Grenze_Gotisch } from "next/font/google";
+import { Geist_Mono, Grenze_Gotisch, Hanken_Grotesk, Spectral } from "next/font/google";
 import "./globals.css";
 
 // The app's faces: Typestar OCR for content, Departure Mono (MIT) for
@@ -25,6 +25,27 @@ const grenzeGotisch = Grenze_Gotisch({
 
 const description =
   "Lirah is a desktop workspace for CLI coding agents. Claude Code or opencode runs in a real terminal; around it you choose which files the agent sees, how it uses each one, and what that costs in tokens. Free and open source.";
+
+// The landing page's faces (Measured Plate): Spectral Light for display and
+// figures, Hanken Grotesk for text, Geist Mono for measures and code.
+const spectral = Spectral({
+  variable: "--font-spectral",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
+});
+
+const hanken = Hanken_Grotesk({
+  variable: "--font-hanken",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://lira.dev"),
@@ -54,7 +75,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#131a1d",
+  themeColor: "#101719",
 };
 
 export default function RootLayout({
@@ -63,7 +84,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${typestar.variable} ${departure.variable} ${grenzeGotisch.variable}`}>
+    <html lang="en" className={`${typestar.variable} ${departure.variable} ${grenzeGotisch.variable} ${spectral.variable} ${hanken.variable} ${geistMono.variable}`}>
       <body>{children}</body>
     </html>
   );

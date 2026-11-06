@@ -7,18 +7,18 @@ related_targets: ["components/HeroSection.tsx"]
 
 # Surface: landing page (app/page.tsx)
 
-Mode: Persuade. Visitor: a developer who runs CLI agents and is deciding whether to install Lirah. Action: download the installer for their OS (latest GitHub release). Proof: a live replica of the Instrument TUI with labeled demo data, plus the creator's own testimonial. Constraints: copy matches the current app (nevo-terminal/PRODUCT.md); no invented metrics; the blog shares globals.css.
+Mode: Persuade. Visitor: a developer who runs CLI agents and is deciding whether to install Lirah. Action: download the installer for their OS (latest GitHub release). Proof: the measured evals (24% cheaper, 16% faster on Lirah's own codebase, 48 runs), real app screenshots, the creator's own testimonial. Constraints: copy matches the current app (nevo-terminal/PRODUCT.md); no invented metrics; the blog shares globals.css. Palette pinned by the user: Serrit (slate #141b1e, parchment #e8e2d0, gold leaf #dcb662).
 
 ## Direction contract
 
-THESIS: The page is one context window. The sticky status-bar meter is the page's spine, and every section changes what the agent sees. This refuses the category's default of a centred hero over a screenshot and a three-up feature grid.
+THESIS: The saving is engraved, not claimed. Lirah's proof (cost and time per question) is drawn as measurements on an engraved night plate, refusing the category's centred hero over a screenshot.
 
-OWN-WORLD: The app's Instrument TUI in its Rivendell theme (user's choice): slate gutter, panes hsl(200 20% 12%), parchment text, gold-leaf lamp #dcb662, hairline edges, zero radius, no shadows. Panes have Departure Mono 11px legends set into the border ([1] FILES). Body text is Typestar OCR. Lamps are four-point stars and glow only for live state. Keycaps mark keys. The Ithil lyre and the Grenze Gotisch wordmark appear once.
+OWN-WORLD: Serrit slate, parchment ink, gold leaf only on the terminal sun and the "with Lirah" lines. Spectral Light display and figures, Hanken Grotesk text, Geist Mono for measures and code. Hairline rules, zero radius, no shadows. Grenze wordmark and lyre once.
 
-STORY: The visitor sees that the agent reads too much, watches explicit context shrink it, then sees everything else that lives around the terminal (tabs, jobs, plans, git, sandbox), and installs.
+STORY: The visitor reads that the agent reads less, sees it measured, then walks six numbered chapters and installs.
 
-FIRST VIEWPORT: Horizon. Top: the status bar with the mark, the nav as [labels] and the context meter. Then the headline, "Your agent reads less. / You decide what.", in two columns below it: the pitch with the full text / signatures / skeleton chips on the left, the measured cheaper / faster proof and the [Download for Linux] key on the right. Below, the replica (files with EDIT/READ/COPY chips, the terminal, the prompt) lies tilted back on a gold horizon line, with a canvas code skyline of Lirah's own source standing on that line. Scrolling eases the replica flat over 520px and folds the skyline from full text to signatures to skeleton; the matching chip lights in lamp gold. Below lg or under reduced motion the replica is flat and the skyline snaps between levels without animating.
+FIRST VIEWPORT: Left column: two-line headline, pitch, 24% and 16% each with one gold measure line, method line, OS-aware download button, one muted line. Right ~70%: Plate I, an orrery of the workspace drawn in code (components/Orrery.tsx) in the atlas style of mylatestwork.dev: hairline sky, dust, dotted meridians, the terminal as a gold sun, Context, Index, Git, Jobs, Plans and project tabs on orbits, a dashed Sandbox ring with a tick scale, contour land. Chosen by the user 2026-11-06 over "star chart of a repo" and "survey map"; replaces the Imladris engraving, which did not say what Lirah does.
 
-FORM: Context Ledger, #3 on the ranked list; seed da76b0d1.
+FORM: Measured Plate (proposal D: B's plate hero + A's numbered grid), user-steered fusion; seed 21108a51.
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
