@@ -1,7 +1,8 @@
 import "./plate.css";
 import { CROSS_FILE, EVALS_MODEL, EVALS_URL } from "@/components/evalResults";
-import { CopyCommand, OrreryMotion, PlateDownload } from "@/components/PlateActions";
+import { CopyCommand, OrreryMorph, OrreryMotion, PlateDownload } from "@/components/PlateActions";
 import { Orrery, OrrerySky } from "@/components/Orrery";
+import { AppMock } from "@/components/AppMock";
 import { Hit, Locator, Tabs, Merge, PlanTrack, Race, Rings } from "@/components/ChapterFigs";
 import { REPO_URL, getLatestRelease } from "@/lib/releases";
 
@@ -150,12 +151,12 @@ export default async function Home() {
           <section className="app" aria-label="The app">
             <figure>
               <div className="frame">
-                {/* eslint-disable-next-line @next/next/no-img-element -- callouts are positioned in % of this exact frame */}
-                <img src="/plate/app.jpg" width={1200} height={505} loading="lazy" alt="Lirah: files pane, terminal running Claude Code, context chips and workspace tabs" />
-                <span className="co" style={{ "--x": "7%", "--y": "30%" } as React.CSSProperties}><span>1 · Files<em>pick what the agent sees</em></span></span>
-                <span className="co" style={{ "--x": "33%", "--y": "19%" } as React.CSSProperties}><span>2 · Terminal<em>the real CLI, unchanged</em></span></span>
-                <span className="co b" style={{ "--x": "56%", "--y": "76%" } as React.CSSProperties}><span>3 · Context<em>edit, read or copy, per file</em></span></span>
-                <span className="co l" style={{ "--x": "93%", "--y": "21%" } as React.CSSProperties}><span>4 · Workspace<em>an agent per project tab</em></span></span>
+                <AppMock />
+                <span className="co" style={{ "--x": "7%", "--y": "30%" } as React.CSSProperties}><span><b>1</b>Files<em>pick what the agent sees</em></span></span>
+                <span className="co" style={{ "--x": "33%", "--y": "19%" } as React.CSSProperties}><span><b>2</b>Terminal<em>the real CLI, unchanged</em></span></span>
+                <span className="co b" style={{ "--x": "56%", "--y": "76%" } as React.CSSProperties}><span><b>3</b>Context<em>edit, read or copy, per file</em></span></span>
+                <span className="co l" style={{ "--x": "93%", "--y": "21%" } as React.CSSProperties}><span><b>4</b>Workspace<em>an agent per project tab</em></span></span>
+                <OrreryMorph />
               </div>
               <figcaption className="cap">
                 <span><b>Plate II</b> · the full app, Rivendell theme, one task in flight</span>

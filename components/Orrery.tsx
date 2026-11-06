@@ -201,14 +201,16 @@ export function Orrery({ className }: { className?: string }) {
         strokeDasharray="1 4"
         opacity=".5"
       />
-      <g stroke="var(--gold)" fill="none">
-        <circle cx={CX} cy={CY} r="38" strokeWidth=".6" strokeDasharray="1 3" />
-        <circle cx={CX} cy={CY} r="26" strokeWidth=".8" fill="var(--deep)" />
-        <path d={`M${CX - 56} ${CY}H${CX - 30}M${CX + 30} ${CY}H${CX + 56}M${CX} ${CY - 50}V${CY - 30}M${CX} ${CY + 30}V${CY + 50}`} strokeWidth=".8" />
+      <g data-sun-g>
+        <g stroke="var(--gold)" fill="none">
+          <circle cx={CX} cy={CY} r="38" strokeWidth=".6" strokeDasharray="1 3" />
+          <circle data-sun cx={CX} cy={CY} r="26" strokeWidth=".8" fill="var(--deep)" />
+          <path d={`M${CX - 56} ${CY}H${CX - 30}M${CX + 30} ${CY}H${CX + 56}M${CX} ${CY - 50}V${CY - 30}M${CX} ${CY + 30}V${CY + 50}`} strokeWidth=".8" />
+        </g>
+        <svg x={CX - 17} y={CY - 18} width="34" height="34" fill="var(--gold)" stroke="var(--gold)" aria-hidden="true">
+          <use href="#lyre" />
+        </svg>
       </g>
-      <svg x={CX - 17} y={CY - 18} width="34" height="34" fill="var(--gold)" stroke="var(--gold)" aria-hidden="true">
-        <use href="#lyre" />
-      </svg>
 
       <Orbits near />
       <g data-layer="near">
