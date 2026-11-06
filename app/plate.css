@@ -72,8 +72,13 @@
     --dim: linear-gradient(90deg, #000 calc(50vw - 640px), rgba(0, 0, 0, .12) calc(50vw - 560px), rgba(0, 0, 0, .12) calc(50vw + 20px), #000 calc(50vw + 160px));
     -webkit-mask-image: var(--dim); mask-image: var(--dim); }
   /* the orrery stays on the page grid, with room to spill a little past its right edge */
-  & .plate .art { position: absolute; top: 0; right: max(0px, calc(50vw - 660px - 72px)); width: calc(min(100vw, 1320px) * .74); height: 100%; display: block;
+  /* the orrery shares the text column's box (same 150/72 padding), so the sun sits on the text block's centre line */
+  & .plate .art { position: absolute; top: 150px; height: calc(100% - 222px); right: max(0px, calc(50vw - 660px - 72px)); width: calc(min(100vw, 1320px) * .74); display: block;
     -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 18%); mask-image: linear-gradient(90deg, transparent 0%, #000 18%); }
+  /* wide screens have margin to spare: a larger orrery that spills further right */
+  @media (min-width: 1600px) {
+    & .plate .art { right: max(0px, calc(50vw - 660px - 140px)); width: calc(min(100vw, 1320px) * .86); }
+  }
   /* the plate sinks into the page instead of ending on an edge */
   & .plate::after { content: ""; position: absolute; inset: auto 0 0; height: 16%; background: linear-gradient(transparent, var(--deep)); pointer-events: none; }
   & .plate .col { position: relative; z-index: 1; padding: 150px 0 72px max(var(--gut), calc(50vw - 660px + var(--gut))); max-width: calc(max(var(--gut), 50vw - 660px + var(--gut)) + 660px); display: grid; }
@@ -100,7 +105,7 @@
   & .ticker:hover > div { animation-play-state: paused; }
   & .ticker p { display: flex; gap: 40px; padding-right: 40px; white-space: nowrap; }
   & .ticker b { font-weight: 500; color: var(--ink); }
-  & .ticker i { font-style: normal; color: var(--faint); }
+  & .ticker i { font-style: normal; color: var(--muted); }
 
   /* plate II: the app, with engraved leaders */
   & .app { padding: 92px var(--gut) 0; }
@@ -181,7 +186,7 @@
   & .list li { display: grid; grid-template-columns: 120px minmax(0, 1fr) auto; gap: 20px; padding: 12px 0; border-bottom: 1px solid var(--rule); font-size: 15px; }
   & .list li > span:first-child { font: 12px/1.9 var(--f-mono); color: var(--muted); }
   & .list li em { font: normal 12px/1.9 var(--f-mono); color: var(--muted); text-align: right; }
-  & .list li.on em { color: var(--gold); }
+  & .list li.on em { color: var(--ink-hi); }
   & .list code { color: var(--ink); }
   & .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
 
@@ -241,7 +246,7 @@
     /* at phone scale the mono notes fall below reading size; the names stay */
     & .plate .art .note { display: none; }
     & .plate .sky { --dim: linear-gradient(180deg, #000 300px, rgba(0, 0, 0, .12) 360px); }
-    & .plate .art { position: relative; right: auto; width: 100%; height: 320px;
+    & .plate .art { position: relative; top: auto; right: auto; width: 100%; height: 320px;
       -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 60%, transparent 100%); }
     & .plate .col { padding: 8px 20px 36px; max-width: none; }
     & .figs { column-gap: 28px; }

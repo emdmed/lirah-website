@@ -14,7 +14,7 @@ export function PlateDownload({ release, anchor }: { release: Release | null; an
     return anchor ? <a className="btn solid" href="#install">Install on your desktop</a> : <p className="src">Open lira.dev on your desktop to install.</p>;
   if (os === "linux" || !inst) {
     const href = anchor ? "#install" : (release?.url ?? "https://github.com/emdmed/lirah/releases/latest");
-    return <a className="btn solid" href={href}>Download for {OS_NAME[os]}</a>;
+    return <a className="btn solid" href={href}>{anchor ? `Install on ${OS_NAME[os]} ↓` : `Download for ${OS_NAME[os]}`}</a>;
   }
   return <a className="btn solid" href={inst.url}>Download for {OS_NAME[os]}</a>;
 }

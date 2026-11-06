@@ -110,7 +110,7 @@ export default async function Home() {
                 <br />
                 <i>You</i> decide what.
               </h1>
-              <p className="pitch">Claude Code or opencode runs unchanged in a real terminal. You send it each file as full text, signatures or a skeleton.</p>
+              <p className="pitch">Claude Code or opencode runs unchanged in a real terminal. It greps Lirah&apos;s index instead of reading your repo, and gets the files you pick at the detail you pick.</p>
               <div className="figs">
                 <div className="fg">
                   <b>{pct(ownRepo.cost)}%</b>
@@ -124,7 +124,7 @@ export default async function Home() {
                 </div>
               </div>
               <p className="how">
-                Against Claude Code alone · {CROSS_FILE.runs} runs · <a href="#evals">how we measured</a>
+                Against Claude Code alone, on Lirah&apos;s own codebase · <a href="#evals">how we measured</a>
               </p>
               <div className="get">
                 <PlateDownload release={release} anchor />
@@ -236,7 +236,7 @@ export default async function Home() {
             <h3>Budgets that catch a runaway session.</h3>
             <p className="lede">Daily or weekly token budgets per project, with warnings at 80% and 95%.</p>
             <div className="rows" role="img" aria-label="Tokens used today against each project's daily budget">
-              <div className="row on"><span>acme-api</span><i style={w("82%")} /><em>412k / 500k</em></div>
+              <div className="row"><span>acme-api</span><i style={w("82%")} /><em>412k / 500k</em></div>
               <div className="row"><span>acme-web</span><i style={w("30%")} /><em>118k / 400k</em></div>
               <div className="row warn"><span>acme-db</span><i style={w("97%")} /><em>291k / 300k</em></div>
               <div className="row"><span>infra</span><i style={w("15%")} /><em>22k / 150k</em></div>

@@ -102,9 +102,9 @@ function track(rx: number, deg: number) {
 type Body = { rx: number; deg: number; name?: string; note: string };
 
 const BODIES: Body[] = [
-  { rx: ORBITS[0], deg: 160, name: "Context", note: "EDIT · READ · COPY" },
+  { rx: ORBITS[0], deg: -20, name: "Context", note: "EDIT · READ · COPY" },
   { rx: ORBITS[1], deg: -50, name: "Index", note: "grep-first index" },
-  { rx: ORBITS[2], deg: 15, name: "Git", note: "commits drafted" },
+  { rx: ORBITS[2], deg: 30, name: "Git", note: "commits drafted" },
   { rx: ORBITS[3], deg: -125, name: "Jobs", note: "headless agents" },
   { rx: ORBITS[3], deg: 115, name: "Plans", note: "chunk by chunk" },
   { rx: ORBITS[4], deg: -90, note: "acme-api" },
@@ -118,7 +118,8 @@ export function Orrery({ className }: { className?: string }) {
   return (
     <svg
       className={className}
-      viewBox={`0 0 ${W} ${H}`}
+      // the viewBox is centred on the sun, so the sun sits at the middle of whatever box holds it
+      viewBox={`0 ${CY - H / 2} ${W} ${H}`}
       preserveAspectRatio="xMidYMid slice"
       role="img"
       aria-label="An orrery drawn in fine lines: the Lirah lyre at the centre as the sun, with Context, Index, Git, Jobs, Plans and project tabs orbiting it, inside a ring marked Sandbox."
@@ -142,7 +143,7 @@ export function Orrery({ className }: { className?: string }) {
       {[180, 270].map((deg) => {
         const p = at(SANDBOX + 26, deg);
         return (
-          <text key={deg} x={f(p.x)} y={f(p.y + 4)} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="10" fill="var(--faint)">
+          <text key={deg} x={f(p.x)} y={f(p.y + 4)} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="10" fill="var(--muted)">
             {deg}°
           </text>
         );
@@ -172,6 +173,15 @@ export function Orrery({ className }: { className?: string }) {
         the real CLI, unchanged
       </text>
 
+      {/* the sun: Lirah, drawn under the bodies so their haloed labels pass over it */}
+      <g stroke="var(--gold)" fill="none">
+        <circle cx={CX} cy={CY} r="38" strokeWidth=".6" strokeDasharray="1 3" />
+        <circle cx={CX} cy={CY} r="26" strokeWidth=".8" fill="var(--deep)" />
+        <path d={`M${CX - 56} ${CY}H${CX - 30}M${CX + 30} ${CY}H${CX + 56}M${CX} ${CY - 50}V${CY - 30}M${CX} ${CY + 30}V${CY + 50}`} strokeWidth=".8" />
+      </g>
+      <svg x={CX - 17} y={CY - 18} width="34" height="34" fill="var(--gold)" stroke="var(--gold)" aria-hidden="true">
+        <use href="#lyre" />
+      </svg>
       {BODIES.map((b) => {
         const { d, share } = track(b.rx, b.deg);
         const dur = PERIOD[b.rx];
@@ -201,15 +211,6 @@ export function Orrery({ className }: { className?: string }) {
           </g>
         );
       })}
-      {/* the sun: Lirah, drawn last so no passing body covers it */}
-      <g stroke="var(--gold)" fill="none">
-        <circle cx={CX} cy={CY} r="38" strokeWidth=".6" strokeDasharray="1 3" />
-        <circle cx={CX} cy={CY} r="26" strokeWidth=".8" fill="var(--deep)" />
-        <path d={`M${CX - 56} ${CY}H${CX - 30}M${CX + 30} ${CY}H${CX + 56}M${CX} ${CY - 50}V${CY - 30}M${CX} ${CY + 30}V${CY + 50}`} strokeWidth=".8" />
-      </g>
-      <svg x={CX - 17} y={CY - 18} width="34" height="34" fill="var(--gold)" stroke="var(--gold)" aria-hidden="true">
-        <use href="#lyre" />
-      </svg>
     </svg>
   );
 }
