@@ -2,6 +2,7 @@ import "./plate.css";
 import { CROSS_FILE, EVALS_MODEL, EVALS_URL } from "@/components/evalResults";
 import { CopyCommand, OrreryMotion, PlateDownload } from "@/components/PlateActions";
 import { Orrery, OrrerySky } from "@/components/Orrery";
+import { Hit, Locator, Tabs, Merge, PlanTrack, Race, Rings } from "@/components/ChapterFigs";
 import { REPO_URL, getLatestRelease } from "@/lib/releases";
 
 export const revalidate = 3600;
@@ -58,6 +59,7 @@ function Chapter({ id, no, name, children }: { id: string; no: string; name: str
             {no !== "?" && <small> / 06</small>}
           </b>
           <span>{name}</span>
+          {no !== "?" && <Locator id={id} />}
         </div>
       </div>
       <div className="body">{children}</div>
@@ -210,19 +212,22 @@ export default async function Home() {
           <Chapter id="context" no="01" name="Context">
             <h2 id="context-h">Stop paying for files your agent didn&apos;t need.</h2>
             <p className="lede">Pick what the agent sees, and send big files as signatures. schema.ts goes from 12.6k tokens to 2.1k.</p>
-            <div className="rows" role="img" aria-label="src/db/schema.ts: full text 12.6k tokens, signatures 2.1k, skeleton 0.9k">
-              <div className="row"><span>Full text</span><i style={w("100%")} /><em>12.6k</em></div>
-              <div className="row on"><span>Signatures</span><i style={w("16.7%")} /><em>2.1k</em></div>
-              <div className="row"><span>Skeleton</span><i style={w("7.1%")} /><em>0.9k</em></div>
-            </div>
-            <p className="src">src/db/schema.ts · demo project</p>
+            <figure className="fig">
+              <div className="rows lv" role="img" aria-label="src/db/schema.ts: full text 12.6k tokens, signatures 2.1k, skeleton 0.9k">
+                <div className="row"><span>Full text</span><b><i style={w("100%")} /><em>12.6k</em></b></div>
+                <div className="row on"><span>Signatures</span><b><i style={w("16.7%")} /><em>2.1k<small>83% fewer tokens</small></em></b></div>
+                <div className="row"><span>Skeleton</span><b><i style={w("7.1%")} /><em>0.9k</em></b></div>
+              </div>
+              <figcaption className="cap"><span><b>Fig. 1a</b> · One file at three detail levels</span><span>src/db/schema.ts · demo project</span></figcaption>
+            </figure>
             <div className="notes">
               <div><b>Intent per file</b>Mark each file <code>EDIT</code>, <code>READ</code> or <code>COPY</code>: change it, read it, or copy its pattern.</div>
               <div><b>Box or terminal</b>Type into Claude Code; a hook appends your picks.</div>
               <div><b>Context sets</b>Save a selection by name, load it later.</div>
             </div>
-            <h3>Your agent greps an index instead of reading the repo.</h3>
+            <h3 className="sub" id="index">Your agent greps an index instead of reading the repo.</h3>
             <p className="lede">Lirah keeps a symbol index of your project. The agent greps it, then reads only the lines a hit names.</p>
+            <Hit />
             <div className="notes">
               <div><b>Finds the right lines first</b>Each hit names the lines, the callers and the enclosing function.</div>
               <div><b>Stays current on its own</b>Rebuilds when sources change. Never lands in git.</div>
@@ -233,57 +238,39 @@ export default async function Home() {
           <Chapter id="workspace" no="02" name="Workspace">
             <h2 id="workspace-h">One window, an agent per project.</h2>
             <p className="lede">Every project tab runs its own agent, and its row lights up when the agent needs you.</p>
-            <h3>Budgets that catch a runaway session.</h3>
+            <Tabs />
+            <h3 className="sub">Budgets that catch a runaway session.</h3>
             <p className="lede">Daily or weekly token budgets per project, with warnings at 80% and 95%.</p>
-            <div className="rows" role="img" aria-label="Tokens used today against each project's daily budget">
-              <div className="row"><span>acme-api</span><i style={w("82%")} /><em>412k / 500k</em></div>
-              <div className="row"><span>acme-web</span><i style={w("30%")} /><em>118k / 400k</em></div>
-              <div className="row warn"><span>acme-db</span><i style={w("97%")} /><em>291k / 300k</em></div>
-              <div className="row"><span>infra</span><i style={w("15%")} /><em>22k / 150k</em></div>
-            </div>
-            <p className="src">Tokens used today against each project&apos;s daily budget · demo data</p>
+            <figure className="fig">
+              <div className="rows bud" role="img" aria-label="Tokens used today, with warning marks at 80% and 95% against each project's daily budget">
+                <div className="row"><span>acme-api</span><i style={w("82%")} /><em>412k / 500k</em></div>
+                <div className="row"><span>acme-web</span><i style={w("30%")} /><em>118k / 400k</em></div>
+                <div className="row warn"><span>acme-db</span><i style={w("97%")} /><em>291k / 300k</em></div>
+                <div className="row"><span>infra</span><i style={w("15%")} /><em>22k / 150k</em></div>
+              </div>
+              <figcaption className="cap"><span><b>Fig. 2b</b> · Tokens used today against each daily budget</span><span>marks at 80% and 95% · demo data</span></figcaption>
+            </figure>
           </Chapter>
 
           <Chapter id="jobs" no="03" name="Jobs and plans">
             <h2 id="jobs-h">Work you don&apos;t have to watch. You choose what lands.</h2>
             <p className="lede">Race headless agents in their own worktrees, or let a plan commit itself chunk by chunk. You apply what you want.</p>
             <div className="two">
-              <ul className="list" aria-label="Race: add rate limiting to /login">
-                <li><span>claude</span><span>editing limiter.ts</span><em>running</em></li>
-                <li className="on"><span>codex</span><span>done, ready to compare</span><em>+84 −12</em></li>
-                <li><span>gemini</span><span>conflict in routes/login.ts</span><em>stopped</em></li>
-              </ul>
-              <ul className="list" aria-label="Plan: auth-hardening">
-                <li><span>1–3</span><span>implemented · 3 commits</span><em>done</em></li>
-                <li className="on"><span>4</span><span>rotate refresh tokens on use</span><em>now</em></li>
-                <li><span>5</span><span>revoke sessions on password change</span><em>next</em></li>
-                <li><span>6–7</span><span>add api key scopes · audit log for auth events</span><em>queued</em></li>
-              </ul>
+              <Race />
+              <PlanTrack />
             </div>
-            <p className="src">Autopilot stops when the agent asks a question, needs permission or skips a commit · demo data</p>
           </Chapter>
 
           <Chapter id="git" no="04" name="Git">
             <h2 id="git-h">Commits drafted. Merges shown first.</h2>
             <p className="lede">An agent drafts the commit message. A merge lists every git command before it runs.</p>
-            <ul className="list" aria-label="Auto merge: feat/token-rotation into main">
-              <li className="on"><span>message</span><span>feat(auth): rotate refresh tokens on use</span><em>drafted</em></li>
-              <li><span>1</span><span><code>git checkout main</code></span><em>listed</em></li>
-              <li><span>2</span><span><code>git merge --no-ff feat/token-rotation</code></span><em>listed</em></li>
-              <li><span>3</span><span><code>git branch -d feat/token-rotation</code></span><em>listed</em></li>
-            </ul>
-            <p className="src">Nothing runs until you confirm · Lirah never pushes or pulls · demo data</p>
+            <Merge />
           </Chapter>
 
           <Chapter id="sandbox" no="05" name="Sandbox">
             <h2 id="sandbox-h">Let the agent run, inside a sandbox.</h2>
             <p className="lede">On Linux each tab can run in bubblewrap: the system read-only, the project writable, keys and git config locked. macOS and Windows run without it.</p>
-            <ul className="list" aria-label="Access inside the sandbox">
-              <li><span>read-only</span><span><code>/</code> · <code>~/.ssh</code> · <code>~/.gnupg</code> · <code>~/.gitconfig</code> · shell rc files</span><em>locked</em></li>
-              <li className="on"><span>read-write</span><span><code>~</code> · <code>~/projects/acme-api</code></span><em>open</em></li>
-              <li><span>private</span><span><code>/tmp</code></span><em>per tab</em></li>
-              <li><span>isolated</span><span>pid · ipc · uts namespaces</span><em>own</em></li>
-            </ul>
+            <Rings />
             <div className="notes">
               <div><b>Network isolation</b>One more switch cuts the network.</div>
               <div><b>Ubuntu</b>Installs the AppArmor profile on Ubuntu 24.04+.</div>

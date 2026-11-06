@@ -1,15 +1,11 @@
 // Plate I: an orrery of the workspace, engraved in code in the atlas style of
 // mylatestwork.dev. The terminal is the sun; everything Lirah adds orbits it.
-// Rendered on the server; every line is deterministic so hydration never differs.
+// Rendered on the server at rest; OrreryMotion turns it and tilts it on the client.
+
+import { BODIES, CX, CY, ORBITS, SANDBOX, at, f, planeTransform, pose, type Body } from "./orreryGeom";
 
 const W = 924;
 const H = 900;
-const CX = 530;
-const CY = 392;
-const TILT = (-11 * Math.PI) / 180;
-const FLAT = 0.47; // ry / rx: how far the orbital plane leans back
-
-const f = (n: number) => n.toFixed(1);
 
 function rng(seed: number) {
   return () => {
@@ -19,14 +15,6 @@ function rng(seed: number) {
     t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
-}
-
-/** A point on orbit `rx` at angle `deg` (90 = nearest the viewer), tilted. */
-function at(rx: number, deg: number) {
-  const t = (deg * Math.PI) / 180;
-  const x = rx * Math.cos(t);
-  const y = rx * FLAT * Math.sin(t);
-  return { x: CX + x * Math.cos(TILT) - y * Math.sin(TILT), y: CY + x * Math.sin(TILT) + y * Math.cos(TILT) };
 }
 
 // The full-width backdrop: hairline sky, dust and contour land, like the atlas plate.
@@ -43,7 +31,12 @@ const SKY = (() => {
 
 const DUST = (() => {
   const r = rng(7);
-  return Array.from({ length: 300 }, () => ({ x: r() * SW, y: r() * 720, r: 0.5 + r() * 1.1, o: 0.2 + r() * 0.55 }));
+  return Array.from({ length: 300 }, () => ({
+    x: r() * SW,
+    y: r() * 720,
+    r: 0.5 + r() * 1.1,
+    o: 0.2 + r() * 0.55,
+  }));
 })();
 
 const LAND = Array.from({ length: 26 }, (_, i) => {
@@ -76,104 +69,138 @@ export function OrrerySky({ className }: { className?: string }) {
   );
 }
 
-const ORBITS = [98, 148, 198, 248, 298];
-const SANDBOX = 334;
-
-// The scale on the sandbox ring: a tick every 5°, a long one every 30°.
+// The scale on the sandbox ring, in plane coordinates so it turns with the dial: a tick every 5°, a long one every 30°.
 const TICKS = Array.from({ length: 72 }, (_, i) => {
-  const a = at(SANDBOX, i * 5);
-  const b = at(SANDBOX + (i % 6 ? 6 : 13), i * 5);
-  return `M${f(a.x)} ${f(a.y)}L${f(b.x)} ${f(b.y)}`;
+  const t = (i * 5 * Math.PI) / 180;
+  const a = SANDBOX;
+  const b = SANDBOX + (i % 6 ? 6 : 13);
+  return `M${f(a * Math.cos(t))} ${f(a * Math.sin(t))}L${f(b * Math.cos(t))} ${f(b * Math.sin(t))}`;
 }).join("");
 
-// Inner orbits run faster, as in a real orrery. Seconds per revolution.
-const PERIOD: Record<number, number> = { [ORBITS[0]]: 54, [ORBITS[1]]: 86, [ORBITS[2]]: 124, [ORBITS[3]]: 172, [ORBITS[4]]: 236 };
-
-/** The orbit as a closed polyline in plate coordinates, and the share of it before `deg`. */
-function track(rx: number, deg: number) {
-  const pts = Array.from({ length: 121 }, (_, i) => at(rx, i * 3));
-  const seg = pts.slice(1).map((p, i) => Math.hypot(p.x - pts[i].x, p.y - pts[i].y));
-  const total = seg.reduce((a, b) => a + b, 0);
-  const start = (((deg % 360) + 360) % 360) / 3;
-  const before = seg.slice(0, Math.floor(start)).reduce((a, b) => a + b, 0) + (start % 1) * (seg[Math.floor(start)] ?? 0);
-  return { d: "M" + pts.map((p) => `${f(p.x)} ${f(p.y)}`).join("L") + "Z", share: before / total };
-}
-
-type Body = { rx: number; deg: number; name?: string; note: string };
-
-const BODIES: Body[] = [
-  { rx: ORBITS[0], deg: -20, name: "Context", note: "EDIT · READ · COPY" },
-  { rx: ORBITS[1], deg: -50, name: "Index", note: "grep-first index" },
-  { rx: ORBITS[2], deg: 30, name: "Git", note: "commits drafted" },
-  { rx: ORBITS[3], deg: -125, name: "Jobs", note: "headless agents" },
-  { rx: ORBITS[3], deg: 115, name: "Plans", note: "chunk by chunk" },
-  { rx: ORBITS[4], deg: -90, note: "acme-api" },
-  { rx: ORBITS[4], deg: 165, note: "acme-web" },
-  { rx: ORBITS[4], deg: 45, note: "infra" },
-];
+// Each orbit as its near half and its far half, so the near side can be drawn brighter and over the sun.
+const half = (r: number, near: boolean) => (near ? `M${r} 0A${r} ${r} 0 0 1 ${-r} 0` : `M${-r} 0A${r} ${r} 0 0 1 ${r} 0`);
 
 const halo = { stroke: "var(--deep)", paintOrder: "stroke" } as const;
+const hair = { vectorEffect: "non-scaling-stroke" } as const;
+
+function Orbits({ near }: { near: boolean }) {
+  return (
+    <g data-plane transform={planeTransform()} fill="none" stroke="var(--ink)">
+      {ORBITS.map((r) => (
+        <path key={r} className={`orb ${near ? "n" : "b"}`} data-rx={r} d={half(r, near)} strokeWidth={near ? ".8" : ".5"} style={hair} />
+      ))}
+    </g>
+  );
+}
+
+function BodyMark({ b, i }: { b: Body; i: number }) {
+  const { foot, head, scale } = pose(b.rx, b.deg);
+  return (
+    <g className="bd" data-body={i} data-rx={b.rx} transform={`translate(${f(head.x)} ${f(head.y)})`}>
+      <a href={b.href} aria-label={`${b.name ?? `Project tab ${b.note}`}: ${b.name ? `${b.note}. ` : ""}Go to the section`}>
+        {/* the stem down to the orbit, and the point where it meets the plane */}
+        <path data-stem d={`M0 0L${f(foot.x - head.x)} ${f(foot.y - head.y)}`} stroke="var(--ink)" strokeWidth=".6" opacity=".6" />
+        <circle data-foot cx={f(foot.x - head.x)} cy={f(foot.y - head.y)} r="1.6" fill="var(--ink)" opacity=".7" />
+        <g data-s transform={`scale(${scale.toFixed(3)})`}>
+          <g stroke="var(--ink)" strokeWidth=".7" fill="none">
+            <path d="M-9 0H9M0 -9V9" />
+            <circle r="4.6" fill="var(--deep)" />
+            <circle r="1.8" fill="var(--ink)" stroke="none" />
+          </g>
+          {b.name ? (
+            <>
+              <text x="16" y="-4" fontFamily="var(--f-display)" className="nm" fontStyle="italic" fontWeight="300" fontSize="22" fill="var(--ink-hi)" strokeWidth="5" {...halo}>
+                {b.name}
+              </text>
+              <text x="16" y="12" className="note" fontFamily="var(--f-mono)" fontSize="10.5" fill="var(--muted)" strokeWidth="4" {...halo}>
+                {b.note}
+              </text>
+            </>
+          ) : (
+            <text x="16" y="4" className="note tab" fontFamily="var(--f-mono)" fontSize="10.5" fill="var(--muted)" strokeWidth="4" {...halo}>
+              {b.note}
+            </text>
+          )}
+        </g>
+        {/* a generous hit area for the hover, invisible */}
+        <circle r="18" fill="transparent" />
+      </a>
+    </g>
+  );
+}
 
 export function Orrery({ className }: { className?: string }) {
+  const placed = BODIES.map((b, i) => ({
+    b,
+    i,
+    near: pose(b.rx, b.deg).near >= 0,
+  }));
+  const axis = pose(0, 0);
+  const up = { x: axis.head.x - CX, y: axis.head.y - CY };
   return (
     <svg
       className={className}
       // the viewBox is centred on the sun, so the sun sits at the middle of whatever box holds it
       viewBox={`0 ${CY - H / 2} ${W} ${H}`}
       preserveAspectRatio="xMidYMid slice"
-      role="img"
-      aria-label="An orrery drawn in fine lines: the Lirah lyre at the centre as the sun, with Context, Index, Git, Jobs, Plans and project tabs orbiting it, inside a ring marked Sandbox."
+      role="group"
+      aria-label="An orrery drawn in fine lines: the Lirah lyre at the centre as the sun, with Context, Index, Git, Jobs, Plans and project tabs orbiting it, inside a dashed outer ring. Each body links to its section."
     >
-      {/* faint meridians from the sun, as on a chart's graticule */}
-      <g stroke="var(--ink)" strokeWidth=".5" strokeDasharray="1 5" opacity=".35">
-        {[0, 30, 60, 90, 120, 150].map((deg) => {
-          const a = at(SANDBOX + 40, deg);
-          const b = at(SANDBOX + 40, deg + 180);
-          return <path key={deg} d={`M${f(a.x)} ${f(a.y)}L${f(b.x)} ${f(b.y)}`} />;
-        })}
+      {/* the dial: meridians, the sandbox ring and its scale, all on the plane so they turn together */}
+      <g data-dial transform={planeTransform()} fill="none" stroke="var(--ink)">
+        <g strokeWidth=".5" strokeDasharray="1 5" opacity=".35">
+          {[0, 30, 60, 90, 120, 150].map((deg) => {
+            const t = (deg * Math.PI) / 180;
+            const r = SANDBOX + 40;
+            return <path key={deg} d={`M${f(r * Math.cos(t))} ${f(r * Math.sin(t))}L${f(-r * Math.cos(t))} ${f(-r * Math.sin(t))}`} style={hair} />;
+          })}
+        </g>
+        <circle r={SANDBOX} strokeWidth=".7" strokeDasharray="6 4" opacity=".7" style={hair} />
+        <path d={TICKS} strokeWidth=".5" opacity=".45" style={hair} />
       </g>
-
-      <g transform={`rotate(${f((TILT * 180) / Math.PI)} ${CX} ${CY})`} fill="none" stroke="var(--ink)">
-        {ORBITS.map((rx) => (
-          <ellipse key={rx} cx={CX} cy={CY} rx={rx} ry={f(rx * FLAT)} strokeWidth=".6" opacity=".5" />
-        ))}
-        <ellipse cx={CX} cy={CY} rx={SANDBOX} ry={f(SANDBOX * FLAT)} strokeWidth=".7" strokeDasharray="6 4" opacity=".7" />
-      </g>
-      <path d={TICKS} stroke="var(--ink)" strokeWidth=".5" opacity=".45" />
       {[180, 270].map((deg) => {
         const p = at(SANDBOX + 26, deg);
         return (
-          <text key={deg} x={f(p.x)} y={f(p.y + 4)} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="10" fill="var(--muted)">
+          <text key={deg} data-deg={deg} aria-hidden="true" x={f(p.x)} y={f(p.y + 4)} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="10" fill="var(--muted)">
             {deg}°
           </text>
         );
       })}
-      {(() => {
-        const p = at(SANDBOX, 90);
-        return (
-          <text x={f(p.x)} y={f(p.y + 26)} textAnchor="middle" fontFamily="var(--f-mono)" fontSize="11" className="note" letterSpacing=".06em" fill="var(--muted)">
-            SANDBOX · BUBBLEWRAP · LINUX
-          </text>
-        );
-      })()}
-      {/* fixed labels sit outside the sandbox ring, clear of every orbit */}
-      <text x="640" y="188" fontFamily="var(--f-display)" className="nm" fontStyle="italic" fontWeight="300" fontSize="22" fill="var(--ink-hi)">
-        Workspace
-      </text>
-      <text x="640" y="204" className="note" fontFamily="var(--f-mono)" fontSize="10.5" fill="var(--muted)">
-        outer orbit · an agent per project tab
-      </text>
       {/* a leader from the sun out past the ring, as on the atlas callouts */}
       <path d={`M${CX + 22} ${CY + 18}L690 556H698`} fill="none" stroke="var(--ink)" strokeWidth=".5" opacity=".55" />
       <circle cx="698" cy="556" r="2" fill="var(--ink)" />
-      <text x="708" y="562" fontFamily="var(--f-display)" className="nm" fontStyle="italic" fontWeight="300" fontSize="30" fill="var(--ink-hi)">
+      <text aria-hidden="true" x="708" y="562" fontFamily="var(--f-display)" className="nm" fontStyle="italic" fontWeight="300" fontSize="30" fill="var(--ink-hi)">
         Terminal
       </text>
-      <text x="709" y="579" className="note" fontFamily="var(--f-mono)" fontSize="11" fill="var(--muted)">
+      <text aria-hidden="true" x="709" y="579" className="note" fontFamily="var(--f-mono)" fontSize="11" fill="var(--muted)">
         the real CLI, unchanged
       </text>
 
-      {/* the sun: Lirah, drawn under the bodies so their haloed labels pass over it */}
+      <Orbits near={false} />
+      {/* the brass arms of the orrery, from the spindle to the foot of each body */}
+      <g data-arms stroke="var(--ink)" strokeWidth=".5" opacity=".28">
+        {BODIES.map((b, i) => {
+          const { foot } = pose(b.rx, b.deg);
+          return <line key={i} x1={CX} y1={CY} x2={f(foot.x)} y2={f(foot.y)} />;
+        })}
+      </g>
+      <g data-layer="far">
+        {placed
+          .filter((p) => !p.near)
+          .map((p) => (
+            <BodyMark key={p.i} {...p} />
+          ))}
+      </g>
+
+      {/* the sun: Lirah on its spindle, the axis the whole plane turns about */}
+      <path
+        data-axis
+        d={`M${f(CX - up.x * 3.4)} ${f(CY - up.y * 3.4)}L${f(CX + up.x * 3.4)} ${f(CY + up.y * 3.4)}`}
+        stroke="var(--ink)"
+        strokeWidth=".5"
+        strokeDasharray="1 4"
+        opacity=".5"
+      />
       <g stroke="var(--gold)" fill="none">
         <circle cx={CX} cy={CY} r="38" strokeWidth=".6" strokeDasharray="1 3" />
         <circle cx={CX} cy={CY} r="26" strokeWidth=".8" fill="var(--deep)" />
@@ -182,35 +209,15 @@ export function Orrery({ className }: { className?: string }) {
       <svg x={CX - 17} y={CY - 18} width="34" height="34" fill="var(--gold)" stroke="var(--gold)" aria-hidden="true">
         <use href="#lyre" />
       </svg>
-      {BODIES.map((b) => {
-        const { d, share } = track(b.rx, b.deg);
-        const dur = PERIOD[b.rx];
-        return (
-          <g key={`${b.rx}-${b.deg}`}>
-            {/* a negative begin puts each body at its own place on the orbit from the first frame */}
-            <animateMotion path={d} dur={`${dur}s`} begin={`${f(-share * dur)}s`} repeatCount="indefinite" calcMode="paced" />
-            <g stroke="var(--ink)" strokeWidth=".7" fill="none">
-              <path d="M-9 0H9M0 -9V9" />
-              <circle r="4.6" fill="var(--deep)" />
-              <circle r="1.8" fill="var(--ink)" stroke="none" />
-            </g>
-            {b.name ? (
-              <>
-                <text x="16" y="-4" fontFamily="var(--f-display)" className="nm" fontStyle="italic" fontWeight="300" fontSize="22" fill="var(--ink-hi)" strokeWidth="5" {...halo}>
-                  {b.name}
-                </text>
-                <text x="16" y="12" className="note" fontFamily="var(--f-mono)" fontSize="10.5" fill="var(--muted)" strokeWidth="4" {...halo}>
-                  {b.note}
-                </text>
-              </>
-            ) : (
-              <text x="16" y="4" className="note tab" fontFamily="var(--f-mono)" fontSize="10.5" fill="var(--muted)" strokeWidth="4" {...halo}>
-                {b.note}
-              </text>
-            )}
-          </g>
-        );
-      })}
+
+      <Orbits near />
+      <g data-layer="near">
+        {placed
+          .filter((p) => p.near)
+          .map((p) => (
+            <BodyMark key={p.i} {...p} />
+          ))}
+      </g>
     </svg>
   );
 }
