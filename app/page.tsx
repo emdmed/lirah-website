@@ -76,11 +76,11 @@ export default async function Home() {
   return (
     <div className="mp">
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
-        <symbol id="lyre" viewBox="2 1.5 96 96">
-          <path d="M22 8C24 34 12 48 14 64C16 84 32 94 50 94C68 94 84 84 86 64C88 48 76 34 78 8C77 34 70 48 70 60C70 74 62 80 50 80C38 80 30 74 30 60C30 48 23 34 22 8Z" stroke="none" />
-          <path d="M50 5Q51.28 15.08 58 17Q51.28 18.92 50 29Q48.72 18.92 42 17Q48.72 15.08 50 5Z" stroke="none" />
-          <path d="M23.5 32Q50 41 76.5 32" fill="none" strokeWidth="3" strokeLinecap="round" />
-          <path d="M40 35.6L40 78M50 37L50 80M60 35.6L60 78" fill="none" strokeWidth="2.2" strokeLinecap="round" />
+        {/* The bare lyre with one body in its ring; mirrors components/instrument/LirahMark.tsx. */}
+        <symbol id="lyre" viewBox="6 6 88 88">
+          <path transform="translate(50 52) scale(.86) translate(-50 -49.5)" d="M22 8C24 34 12 48 14 64C16 84 32 94 50 94C68 94 84 84 86 64C88 48 76 34 78 8C77 34 70 48 70 60C70 74 62 80 50 80C38 80 30 74 30 60C30 48 23 34 22 8Z" stroke="none" />
+          <circle cx="50" cy="27" r="9.5" fill="none" strokeWidth="2.2" />
+          <circle cx="50" cy="27" r="4.8" stroke="none" />
         </symbol>
       </svg>
 

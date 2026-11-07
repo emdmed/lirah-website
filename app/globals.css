@@ -437,16 +437,19 @@
     clip-path: polygon(50% 0, 62% 42%, 100% 50%, 62% 58%, 50% 100%, 38% 58%, 0 50%, 38% 42%);
   }
 
-  /* The Lirah mark. Lit, it is the session lamp. */
+  /* The Lirah mark. Lit, its body is the session lamp. */
   .ins-mark {
     fill: var(--ins-legend);
     stroke: var(--ins-legend);
     transition: fill var(--ins-cool) var(--ins-ease-out), stroke var(--ins-cool) var(--ins-ease-out), filter var(--ins-cool) var(--ins-ease-out);
   }
 
-  .ins-mark[data-lit] {
+  .ins-mark-body {
+    transition: fill var(--ins-cool) var(--ins-ease-out), filter var(--ins-cool) var(--ins-ease-out);
+  }
+
+  .ins-mark[data-lit] .ins-mark-body {
     fill: var(--ins-lamp);
-    stroke: var(--ins-lamp);
     filter: drop-shadow(0 0 calc(var(--ins-glow) / 2) color-mix(in srgb, var(--ins-lamp) 60%, transparent));
     transition-duration: var(--ins-warm);
   }
