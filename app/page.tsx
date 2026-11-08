@@ -269,15 +269,15 @@ export default async function Home() {
 
           <Chapter id="jobs" no="03" name="Plans and jobs">
             <h2 id="jobs-h">A plan in chunks, one commit each.</h2>
-            <p className="lede">Have the agent plan a task, then split the plan into chunks. Every chunk ends in its own commit, and your review notes go back to the agent as the fix prompt.</p>
+            <p className="lede">From plan to reviewed commits. Split the agent&apos;s plan into chunks; each lands as its own commit, tagged with a <code>Plan-Chunk</code> trailer. Your review notes go back as the fix prompt, and any chunk rolls back on its own.</p>
             <div className="two">
               <PlanTrack />
               <Race />
             </div>
             <div className="notes">
               <div><b>Idea to merged</b>Each plan shows its stage, links its pull request through <code>gh</code>, and closes its task once the commits reach the base branch.</div>
-              <div><b>Auto-pilot</b>Runs the chunks unattended in its own tab and stops on a question, a permission prompt or a missing commit.</div>
-              <div><b>Jobs and races</b>Headless agents in their own worktrees. Read each diff, send notes back, apply the one you want.</div>
+              <div><b>Auto-pilot</b>Works through the chunks on the plan&apos;s own branch and worktrees, and stops on a question, a permission prompt or a missing commit. Review the whole plan&apos;s diff before it merges.</div>
+              <div><b>Jobs and races</b>Headless agents, each in its own worktree. Lirah warns when two jobs touch the same files. Read each diff, send notes back, apply the one you want.</div>
             </div>
           </Chapter>
 
@@ -288,7 +288,7 @@ export default async function Home() {
           </Chapter>
 
           <Chapter id="sandbox" no="05" name="Sandbox">
-            <h2 id="sandbox-h">Let the agent run, inside a sandbox.</h2>
+            <h2 id="sandbox-h">Know what the agent can touch.</h2>
             <p className="lede">On Linux each tab can run in bubblewrap: the system read-only, the project writable, keys and git config locked. macOS and Windows run without it.</p>
             <Rings />
             <div className="notes">
@@ -302,6 +302,8 @@ export default async function Home() {
             <h2 id="faq-h">Questions before you install.</h2>
             <div className="faq">
               <div><h3>Does Lirah replace or wrap my agent?</h3><p>No. It starts the agent&apos;s own CLI in a real terminal, with your config, login and plan. Lirah never calls a model API itself: commit messages, plan chunks and the feature map go through your own CLI.</p></div>
+              <div><h3>Does Lirah check the agent&apos;s work?</h3><p>No. A finished chunk is a commit, not proof it works. Lirah shows you the diff, the files and the cost; the judgement stays yours.</p></div>
+              <div><h3>Can the agent drive Lirah?</h3><p>Through the <code>lirah</code> command, yes. Anything sensitive (sandbox, hooks, running or applying jobs) asks you in the app first, and you can switch agent control off.</p></div>
               <div><h3>Which agents and platforms does it support?</h3><p>Claude Code and opencode run in tabs; Codex, Gemini, Cursor and Amp run as background jobs. Any other CLI that reports its state over OSC 7501 gets the same tab status. Linux first; macOS and Windows work without the sandbox.</p></div>
               <div><h3>Does anything leave my machine?</h3><p>Lirah itself sends an update check to GitHub&apos;s API, with none of your data, and asks <code>gh</code> for a plan&apos;s pull request if you have it installed. No telemetry, and Lirah never pushes or pulls.</p></div>
               <div><h3>Is it free?</h3><p>Yes. MIT licensed, no account, source at <a href={REPO_URL}>github.com/emdmed/lirah</a>. You still pay for your agent plan.</p></div>
