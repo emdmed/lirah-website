@@ -13,7 +13,7 @@ Mode: Persuade. Visitor: a developer who runs CLI agents and is deciding whether
 
 THESIS: The saving is engraved, not claimed. Lirah's proof (cost and time per question) is drawn as measurements on an engraved night plate, refusing the category's centred hero over a screenshot.
 
-OWN-WORLD: Serrit slate, parchment ink, gold leaf only on the terminal sun and the "with Lirah" lines. Spectral Light display and figures, Hanken Grotesk text, Geist Mono for measures and code. Hairline rules, zero radius, no shadows. Grenze wordmark and lyre once.
+OWN-WORLD: Serrit slate, parchment ink, gold leaf only on the terminal sun, the "with Lirah" lines and, softened toward parchment, the hero's italic word. Spectral Light display and figures, Hanken Grotesk text, Geist Mono for measures and code. Hairline rules, zero radius, no shadows. Grenze wordmark and lyre once.
 
 STORY: The visitor reads that the agent reads less, sees it measured, then walks six numbered chapters and installs.
 

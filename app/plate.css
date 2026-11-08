@@ -1,5 +1,5 @@
 /* Measured Plate: the landing page's own world. Everything sits under .mp so the
-   blog keeps globals.css untouched. Serrit palette; gold only where the saving is. */
+   blog keeps globals.css untouched. Serrit palette; gold only where the saving is, and on the one word the hero leans on. */
 @keyframes mp-measure { from { width: 100%; } }
 @keyframes mp-tick { to { transform: translateX(-50%); } }
 @property --wipe { syntax: "<length>"; inherits: false; initial-value: -200px; }
@@ -110,9 +110,9 @@
   /* the plate sinks into the page instead of ending on an edge */
   & .plate::after { content: ""; position: absolute; inset: auto 0 0; height: 16%; background: linear-gradient(transparent, var(--deep)); pointer-events: none; }
   & .plate .col { position: relative; z-index: 1; padding: 150px 0 72px max(var(--gut), calc(50vw - 660px + var(--gut))); max-width: calc(max(var(--gut), 50vw - 660px + var(--gut)) + 660px); display: grid; }
-  & .plate h1 { font: 300 clamp(44px, 5.2vw, 68px)/1.02 var(--f-display); letter-spacing: -.02em; color: var(--ink-hi); }
-  & .plate h1 i { font-style: italic; }
-  & .pitch { margin-top: 24px; font-size: 18px; color: var(--ink-2); max-width: 40ch; }
+  & .plate h1 { font: 300 clamp(44px, 4.6vw, 62px)/1.02 var(--f-display); letter-spacing: -.02em; color: var(--ink-hi); }
+  & .plate h1 i { font-style: italic; font-weight: 400; color: color-mix(in oklab, var(--gold) 72%, var(--ink-hi)); } /* gold leaf, not paint: the sun stays the brightest gold */
+  & .pitch { margin-top: 24px; font-size: 18px; color: var(--ink-2); max-width: 44ch; text-wrap: pretty; }
   & .figs { margin-top: 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 210px)); column-gap: 48px; }
   & .fg b { display: block; font: 300 clamp(56px, 5vw, 72px)/.9 var(--f-display); letter-spacing: -.03em; color: var(--ink-hi); font-variant-numeric: tabular-nums; }
   & .fg > span { display: block; margin: 10px 0 14px; font-size: 15px; color: var(--ink-2); }
@@ -553,7 +553,8 @@
     & footer nav a, & footer .wm, & .bar .wm { display: inline-flex; align-items: center; min-height: 44px; }
     & .app .cap span:last-child::after { content: " · swipe to pan"; }
   }
-  @media (max-width: 360px) {
-    & .plate h1 { font-size: 38px; }
+  /* sized so "Agents write the code." stays on one line */
+  @media (max-width: 430px) {
+    & .plate h1 { font-size: 34px; }
   }
 }

@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Developers who run CLI coding agents (Claude Code, opencode, and headless Codex, Gemini, Cursor, Amp) every day: terminal-native power users, plus developers newly exploring agents. On this site they are evaluating whether Lirah is worth installing, usually arriving from GitHub, a blog post, or a link shared by another developer. Personas: `user-persona.md`; marketing notes: `marketing.md`.
+Developers who run CLI coding agents (Claude Code, opencode, and headless Codex, Gemini, Cursor, Amp) every day: senior, terminal-native engineers who plan, review and track agent work rather than vibecode. On this site they are evaluating whether Lirah is worth installing, usually arriving from GitHub, a blog post, or a link shared by another developer. Personas: `user-persona.md`; marketing notes: `marketing.md`.
 
 ## Product Purpose
 

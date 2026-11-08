@@ -94,7 +94,7 @@ export default async function Home() {
           <nav aria-label="Main">
             <a href="#context">Context</a>
             <a href="#workspace">Workspace</a>
-            <a href="#jobs">Jobs</a>
+            <a href="#jobs">Plans</a>
             <a href="#evals">Evals</a>
             <a href="/blog">Blog</a>
             <a href={REPO_URL}>GitHub</a>
@@ -109,11 +109,11 @@ export default async function Home() {
             <OrreryMotion />
             <div className="col">
               <h1 id="hero-h">
-                Your agent reads less.
+                Agents write the code.
                 <br />
-                <i>You</i> decide what.
+                You keep the <i>engineering</i>.
               </h1>
-              <p className="pitch">Claude Code or opencode runs unchanged in a real terminal. It greps Lirah&apos;s index instead of reading your repo, and gets the files you pick at the detail you pick.</p>
+              <p className="pitch">Plan the feature, choose what the agent reads, review every diff before it lands. Claude Code or opencode runs unchanged in a real terminal; Lirah tracks the plan, the context and the cost around it.</p>
               <div className="figs">
                 <div className="fg">
                   <b>{pct(ownRepo.cost)}%</b>
@@ -223,25 +223,32 @@ export default async function Home() {
             </figure>
             <div className="notes">
               <div><b>Intent per file</b>Mark each file <code>EDIT</code>, <code>READ</code> or <code>COPY</code>: change it, read it, or copy its pattern.</div>
-              <div><b>Box or terminal</b>Type into Claude Code; a hook appends your picks.</div>
+              <div><b>Prompt box or terminal</b>Type in either. In Claude Code, a hook appends your picks to the prompt.</div>
               <div><b>Context sets</b>Save a selection by name, load it later.</div>
             </div>
             <h3 className="sub" id="index">Your agent greps an index instead of reading the repo.</h3>
-            <p className="lede">Lirah keeps a symbol index of your project. The agent greps it, then reads only the lines a hit names.</p>
+            <p className="lede">Lirah keeps a symbol index for each tab. A hit names the file and line range, so the agent opens those lines and skips the rest.</p>
             <Hit />
             <div className="notes">
-              <div><b>Finds the right lines first</b>Each hit names the lines, the callers and the enclosing function.</div>
-              <div><b>Stays current on its own</b>Rebuilds when sources change. Never lands in git.</div>
-              <div><b>Never in your way</b>Per tab, with the key or <code>:compact</code> on. A failing hook never blocks a prompt.</div>
+              <div><b>Callers included</b>A hit also lists who imports the symbol and the enclosing function, so the agent skips the confirming read.</div>
+              <div><b>Feature map</b><code>:features build</code> has Claude map each feature to its files. Name a feature in a prompt and its files come along.</div>
+              <div><b>Rebuilt on change</b>Both refresh when sources change and stay out of git. If the hook fails, the prompt still goes through.</div>
             </div>
           </Chapter>
 
           <Chapter id="workspace" no="02" name="Workspace">
             <h2 id="workspace-h">One window, an agent per project.</h2>
-            <p className="lede">Every project tab runs its own agent, and its row lights up when the agent needs you.</p>
+            <p className="lede">Each project tab runs its own agent. Its row shows what the agent is doing and the plan it is on, and lights up when it is your turn.</p>
             <Tabs />
+            <h3 className="sub">One agent can hand work to the others.</h3>
+            <p className="lede">Each workspace has a workspace terminal. Its agent sends prompts to the other tabs with <code>lirah tabs send</code> and collects the replies with <code>lirah tabs wait</code>.</p>
+            <div className="notes">
+              <div><b>Workspaces</b>Named groups of tabs. Alt+W switches; tabs in the others keep running.</div>
+              <div><b>Read and steer</b><code>lirah tabs read</code> prints a tab&apos;s screen. <code>keys</code> and <code>interrupt</code> act on it, never on a permission prompt.</div>
+              <div><b>Survives restarts</b>Each tab resumes its last Claude conversation.</div>
+            </div>
             <h3 className="sub">Budgets that catch a runaway session.</h3>
-            <p className="lede">Daily or weekly token budgets per project, with warnings at 80% and 95%.</p>
+            <p className="lede">Daily or weekly token budgets per project. Lirah warns at 80%, and at 95% of the daily budget it pauses sending.</p>
             <figure className="fig">
               <div className="rows bud" role="img" aria-label="Tokens used today, with warning marks at 80% and 95% against each project's daily budget">
                 <div className="row"><span>acme-api</span><i style={w("82%")} /><em>412k / 500k</em></div>
@@ -253,18 +260,23 @@ export default async function Home() {
             </figure>
           </Chapter>
 
-          <Chapter id="jobs" no="03" name="Jobs and plans">
-            <h2 id="jobs-h">Work you don&apos;t have to watch. You choose what lands.</h2>
-            <p className="lede">Race headless agents in their own worktrees, or let a plan commit itself chunk by chunk. You apply what you want.</p>
+          <Chapter id="jobs" no="03" name="Plans and jobs">
+            <h2 id="jobs-h">A plan in chunks, one commit each.</h2>
+            <p className="lede">Have the agent plan a task, then split the plan into chunks. Every chunk ends in its own commit, and your review notes go back to the agent as the fix prompt.</p>
             <div className="two">
-              <Race />
               <PlanTrack />
+              <Race />
+            </div>
+            <div className="notes">
+              <div><b>Idea to merged</b>Each plan shows its stage, links its pull request through <code>gh</code>, and closes its task once the commits reach the base branch.</div>
+              <div><b>Auto-pilot</b>Runs the chunks unattended in its own tab and stops on a question, a permission prompt or a missing commit.</div>
+              <div><b>Jobs and races</b>Headless agents in their own worktrees. Read each diff, send notes back, apply the one you want.</div>
             </div>
           </Chapter>
 
           <Chapter id="git" no="04" name="Git">
-            <h2 id="git-h">Commits drafted. Merges shown first.</h2>
-            <p className="lede">An agent drafts the commit message. A merge lists every git command before it runs.</p>
+            <h2 id="git-h">Read the diff, then commit.</h2>
+            <p className="lede">An agent drafts the commit message in the background, and the tab lights a commit lamp when it is ready. You check the files and the diff, then commit. A merge lists every git command first and rolls back if it conflicts.</p>
             <Merge />
           </Chapter>
 
@@ -275,16 +287,16 @@ export default async function Home() {
             <div className="notes">
               <div><b>Network isolation</b>One more switch cuts the network.</div>
               <div><b>Ubuntu</b>Installs the AppArmor profile on Ubuntu 24.04+.</div>
-              <div><b>Never a dead end</b>If it can&apos;t start, retry the tab without it.</div>
+              <div><b>Fallback</b>If the sandbox can&apos;t start, retry the tab without it.</div>
             </div>
           </Chapter>
 
           <Chapter id="faq" no="?" name="Questions">
             <h2 id="faq-h">Questions before you install.</h2>
             <div className="faq">
-              <div><h3>Does Lirah replace or wrap my agent?</h3><p>No. It starts the agent&apos;s own CLI in a real terminal, with your config, login and plan. Lirah never calls a model API itself.</p></div>
-              <div><h3>Which agents and platforms does it support?</h3><p>Claude Code and opencode run in tabs; Codex, Gemini, Cursor and Amp run as background jobs. Linux first; macOS and Windows work without the sandbox.</p></div>
-              <div><h3>Does anything leave my machine?</h3><p>Only an update check to GitHub&apos;s API, with none of your data. No telemetry, and Lirah never pushes or pulls.</p></div>
+              <div><h3>Does Lirah replace or wrap my agent?</h3><p>No. It starts the agent&apos;s own CLI in a real terminal, with your config, login and plan. Lirah never calls a model API itself: commit messages, plan chunks and the feature map go through your own CLI.</p></div>
+              <div><h3>Which agents and platforms does it support?</h3><p>Claude Code and opencode run in tabs; Codex, Gemini, Cursor and Amp run as background jobs. Any other CLI that reports its state over OSC 7501 gets the same tab status. Linux first; macOS and Windows work without the sandbox.</p></div>
+              <div><h3>Does anything leave my machine?</h3><p>Lirah itself sends an update check to GitHub&apos;s API, with none of your data, and asks <code>gh</code> for a plan&apos;s pull request if you have it installed. No telemetry, and Lirah never pushes or pulls.</p></div>
               <div><h3>Is it free?</h3><p>Yes. MIT licensed, no account, source at <a href={REPO_URL}>github.com/emdmed/lirah</a>. You still pay for your agent plan.</p></div>
               <div><h3>What happens if I stop using Lirah?</h3><p>Nothing to migrate. The agents are the same CLIs, and every commit is ordinary local git.</p></div>
               <div><h3>Why not tmux and my editor?</h3><p>Keep them; nvim and lazygit open in the second terminal. Lirah adds what a multiplexer can&apos;t see: what the agent reads, how full its context is, whether it&apos;s waiting on you, and jobs and plans.</p></div>
