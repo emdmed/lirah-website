@@ -58,9 +58,9 @@
 
   /* bar */
   & .bar { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px var(--gut); }
-  & .wm { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  & .wm { display: flex; align-items: baseline; gap: 12px; text-decoration: none; }
   & .wm b { font: 600 28px/1 var(--f-mark); color: var(--ink-hi); }
-  & .wm svg { width: 22px; height: 22px; fill: var(--ink-hi); stroke: var(--ink-hi); }
+  & .wm svg { align-self: center; width: 22px; height: 22px; fill: var(--ink-hi); stroke: var(--ink-hi); }
   & .wm small { font-size: 13px; color: var(--muted); padding-left: 14px; margin-left: 2px; border-left: 1px solid var(--rule); }
   & .bar nav { display: flex; align-items: center; gap: 26px; font-size: 14px; color: var(--muted); }
   & .bar nav a { text-decoration: none; }
