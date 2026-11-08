@@ -334,7 +334,7 @@ export default async function Home() {
             <Lyre />
             <b>Lirah</b>
           </a>
-          <span>© 2026 Lirah contributors · MIT</span>
+          <span>© 2026 Lirah contributors · MIT · Made by <a href="https://mylatestwork.dev/">Enrique MD</a></span>
           <nav aria-label="Footer">
             <a href={REPO_URL}>GitHub</a>
             <a href="/blog">Blog</a>

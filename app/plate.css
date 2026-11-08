@@ -469,6 +469,7 @@
   & footer .wm b { font-size: 22px; }
   & footer .wm svg { width: 18px; height: 18px; }
   & footer nav { display: flex; gap: 24px; }
+  & footer span a { color: var(--ink, inherit); text-decoration: underline; text-underline-offset: 3px; }
 
   @media (prefers-reduced-motion: reduce) {
     & .ln.on i, & .ticker > div, & .m::before, & .m::after { animation: none; }

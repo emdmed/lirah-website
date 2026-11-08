@@ -51,6 +51,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://lira.dev"),
   title: "Lirah: a workspace for CLI coding agents",
   description,
+  authors: [{ name: "Enrique MD", url: "https://mylatestwork.dev/" }],
+  creator: "Enrique MD",
   keywords: [
     "Claude Code",
     "opencode",
