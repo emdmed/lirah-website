@@ -29,7 +29,7 @@ const TICKER = (
   <>
     <span>In the terminal</span><b>Claude Code</b><b>opencode</b><i>/</i>
     <span>As headless jobs</span><b>Codex</b><b>Gemini</b><b>Cursor</b><b>Amp</b><i>/</i>
-    <span>Your own CLI, login and plan</span><i>/</i><span>No account</span><i>/</i><span>MIT licensed</span><i>/</i>
+    <span>Your own CLI, login and plan</span><i>/</i><span>Keyboard first</span><i>/</i><span>No account</span><i>/</i><span>MIT licensed</span><i>/</i>
   </>
 );
 
@@ -258,6 +258,13 @@ export default async function Home() {
               </div>
               <figcaption className="cap"><span><b>Fig. 2b</b> · Tokens used today against each daily budget</span><span>marks at 80% and 95% · demo data</span></figcaption>
             </figure>
+            <h3 className="sub">Run all of it from the keyboard.</h3>
+            <p className="lede">Over 40 shortcuts, and vim keys in the file tree, the tab rows and the plan chunks. Hold Ctrl and a hint bar shows what each key does.</p>
+            <div className="notes">
+              <div><b>nvim and lazygit</b>Alt+N and Alt+L open them inside Lirah, full window, with Lirah&apos;s keys off until you quit.</div>
+              <div><b>Command line</b><code>:</code> runs any command with fuzzy matching and argument completion.</div>
+              <div><b>Every key listed</b>Ctrl+H shows every shortcut, read from the same registry the app uses.</div>
+            </div>
           </Chapter>
 
           <Chapter id="jobs" no="03" name="Plans and jobs">
@@ -299,7 +306,7 @@ export default async function Home() {
               <div><h3>Does anything leave my machine?</h3><p>Lirah itself sends an update check to GitHub&apos;s API, with none of your data, and asks <code>gh</code> for a plan&apos;s pull request if you have it installed. No telemetry, and Lirah never pushes or pulls.</p></div>
               <div><h3>Is it free?</h3><p>Yes. MIT licensed, no account, source at <a href={REPO_URL}>github.com/emdmed/lirah</a>. You still pay for your agent plan.</p></div>
               <div><h3>What happens if I stop using Lirah?</h3><p>Nothing to migrate. The agents are the same CLIs, and every commit is ordinary local git.</p></div>
-              <div><h3>Why not tmux and my editor?</h3><p>Keep them; nvim and lazygit open in the second terminal. Lirah adds what a multiplexer can&apos;t see: what the agent reads, how full its context is, whether it&apos;s waiting on you, and jobs and plans.</p></div>
+              <div><h3>Why not tmux and my editor?</h3><p>Keep them: Alt+N opens nvim and Alt+L opens lazygit inside Lirah. Lirah adds what a multiplexer can&apos;t see: what the agent reads, how full its context is, whether it&apos;s waiting on you, and jobs and plans.</p></div>
             </div>
           </Chapter>
 
