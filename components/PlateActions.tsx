@@ -37,7 +37,7 @@ function SendLink() {
       await navigator.clipboard.writeText(url);
       setLabel("Link copied");
     } catch {
-      setLabel("Open lira.dev on your desktop");
+      setLabel("Open lirah.dev on your desktop");
     }
     setTimeout(() => setLabel("Send to my desktop"), 2400);
   }

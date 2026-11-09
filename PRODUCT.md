@@ -12,7 +12,7 @@ Developers who run CLI coding agents (Claude Code, opencode, and headless Codex,
 
 ## Product Purpose
 
-The website (lira.dev) explains Lirah and gets the visitor to install it. Lirah is a native desktop workspace for CLI coding agents: it keeps the terminal at the centre and builds around it what an agent session needs, namely file context, prompts, git, token budgets, background jobs and multi-step plans. Success means a visitor understands that within a few seconds, then downloads the installer for their OS. The blog (`/blog`) supports discovery.
+The website (lirah.dev) explains Lirah and gets the visitor to install it. Lirah is a native desktop workspace for CLI coding agents: it keeps the terminal at the centre and builds around it what an agent session needs, namely file context, prompts, git, token budgets, background jobs and multi-step plans. Success means a visitor understands that within a few seconds, then downloads the installer for their OS. The blog (`/blog`) supports discovery.
 
 ## Positioning
 
@@ -28,7 +28,7 @@ Lirah does not wrap or replace the agent. It is the workspace around the real CL
 
 - Downloads: GitHub releases ship installers for every platform (as of v0.4.3: Linux `.AppImage`, `.deb` and `.rpm` for x86_64 only, and `.dmg` for x64 and aarch64; v0.4.3 ships no Windows installer and no `checksums.sha256`). The primary action detects the visitor's OS. On Linux it is the install script (`curl -fsSL https://raw.githubusercontent.com/emdmed/lirah/main/scripts/install.sh | bash`, from nevo-terminal `scripts/install.sh`), which picks .deb, .rpm or AppImage by distro and builds from source on Arch, where the AppImage has EGL issues. On macOS and Windows it offers the latest release's installer. On a phone it sends the link to the visitor's desktop. Other formats and build-from-source are secondary.
 - Next.js 16 app router, Tailwind 4. Blog at `app/blog` uses MDX and shares `app/globals.css`.
-- Domain: https://lira.dev (metadataBase).
+- Domain: https://lirah.dev (metadataBase).
 
 ## Brand Commitments
 

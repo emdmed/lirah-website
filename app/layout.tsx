@@ -50,7 +50,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://lira.dev"),
+  metadataBase: new URL("https://lirah.dev"),
   title: "Lirah: a workspace for CLI coding agents",
   description,
   authors: [{ name: "Enrique MD", url: "https://mylatestwork.dev/" }],
