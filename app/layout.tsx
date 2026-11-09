@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Grenze_Gotisch, Hanken_Grotesk, Spectral } from "next/font/google";
@@ -89,7 +90,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${typestar.variable} ${departure.variable} ${grenzeGotisch.variable} ${spectral.variable} ${hanken.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
