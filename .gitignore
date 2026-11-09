@@ -42,3 +42,6 @@ next-env.d.ts
 
 # promo/demo films
 /video/
+
+# local Claude Code skills/config
+/.claude/

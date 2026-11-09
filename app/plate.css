@@ -57,7 +57,9 @@
   & .btn.sm { padding: 9px 14px; font-size: 14px; font-weight: 500; }
 
   /* bar */
-  & .bar { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px var(--gut); }
+  & .bar { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 12px var(--gut); }
+  /* full-bleed backdrop so the sticky bar reads over the hero and the sections */
+  & .bar::before { content: ""; position: absolute; inset: 0 calc(50% - 50vw); z-index: -1; background: color-mix(in srgb, var(--deep) 82%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rule); }
   & .wm { display: flex; align-items: baseline; gap: 12px; text-decoration: none; }
   & .wm b { font: 600 28px/1 var(--f-mark); color: var(--ink-hi); }
   & .wm svg { align-self: center; width: 22px; height: 22px; fill: var(--ink-hi); stroke: var(--ink-hi); }
@@ -67,7 +69,7 @@
   & .bar nav a:hover { color: var(--ink); }
 
   /* hero plate */
-  & .plate { position: relative; margin: -86px calc(50% - 50vw) 0; min-height: min(100vh, 980px); display: flex; align-items: center; overflow: hidden; background: var(--deep); }
+  & .plate { position: relative; margin: -58px calc(50% - 50vw) 0; min-height: min(100vh, 980px); display: flex; align-items: center; overflow: hidden; background: var(--deep); }
   /* the engraving sits on the page grid, not the window edge, so it lines up with the bar above */
   /* the sky, dust and land run the full width of the window */
   & .plate .sky { position: absolute; inset: 0; width: 100%; height: 100%; display: block;
@@ -246,7 +248,7 @@
   & .app .cap { margin-top: 82px; }
 
   /* evals: alone vs with Lirah, drawn */
-  & .evals { margin-top: 112px; padding: 40px var(--gut) 0; scroll-margin-top: 24px; }
+  & .evals { margin-top: 112px; padding: 40px var(--gut) 0; scroll-margin-top: 84px; }
   & .evals .head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 56px; align-items: end; }
   & .evals h2 { font: 300 clamp(32px, 3.8vw, 48px)/1.05 var(--f-display); color: var(--ink-hi); max-width: 18ch; letter-spacing: -.015em; }
   & .evals h2 i { font-style: italic; }
@@ -277,7 +279,7 @@
   & .pips i.off, & .pips i.off::after { border-color: var(--muted); }
 
   /* chapters */
-  & .ch { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); margin-top: 120px; scroll-margin-top: 24px; }
+  & .ch { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); margin-top: 120px; scroll-margin-top: 84px; }
   /* the chapter index rides along in its own ruled cell */
   & .ch .no { grid-column: 1 / 4; padding: 36px var(--gut) 0; }
   & .ch .no > div { position: sticky; top: 28px; }
@@ -502,7 +504,7 @@
     & .bar .btn { display: none; }
     /* the numeral alone; a label line above each h2 would read as an eyebrow */
     & .ch .no span { display: none; }
-    & .plate { display: block; min-height: 0; margin-top: -72px; }
+    & .plate { display: block; min-height: 0; margin-top: -52px; }
     & .plate::after { display: none; }
     /* at phone scale the mono notes fall below reading size; the names stay */
     & .plate .art .note { display: none; }
