@@ -27,7 +27,7 @@ export function Figure({ name, children }: { name: string; children?: React.Reac
         svg.setAttribute("width", String(f.w));
         svg.setAttribute("height", String(f.h));
         svg.setAttribute("viewBox", `0 0 ${f.w} ${f.h}`);
-        svg.style.maxWidth = f.w + "px";
+        svg.style.maxWidth = Math.round(f.w * 1.3) + "px";
         C.draw(svg, f.markup, f.label);
       }),
     );
@@ -41,4 +41,12 @@ export function Figure({ name, children }: { name: string; children?: React.Reac
 }
 
 /** The answer strip: the reader's questions, one line each, before the sections. */
-export const Answers = ({ children }: { children: React.ReactNode }) => <dl className="answers">{children}</dl>;
+export const Answers = ({ children }: { children: React.ReactNode }) => <dl className="answers" aria-label="In short">{children}</dl>;
+
+/** A code listing labelled like a figure: "LISTING n · label" over the block. */
+export const Listing = ({ label, children }: { label: string; children: React.ReactNode }) => (
+  <figure className="listing">
+    <figcaption>{label}</figcaption>
+    {children}
+  </figure>
+);

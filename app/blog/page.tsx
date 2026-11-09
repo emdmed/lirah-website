@@ -22,7 +22,7 @@ export default function BlogIndex() {
   const posts = getAllPosts();
 
   return (
-    <main>
+    <main id="content" tabIndex={-1}>
       <section className="bplate" aria-labelledby="blog-h">
         <OrrerySky className="sky" />
         <div className="bhead">

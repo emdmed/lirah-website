@@ -6,6 +6,7 @@ export default function BlogLayout({ children }: { children: React.ReactNode }) 
   return (
     <div className="mp blog">
       <LyreSymbol />
+      <a className="skip" href="#content">Skip to content</a>
       <div className="page">
         <PlateBar />
         {children}

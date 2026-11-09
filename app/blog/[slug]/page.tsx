@@ -3,6 +3,7 @@ import Link from "next/link";
 import { OrrerySky } from "@/components/Orrery";
 import { getAllPosts, getOutline, getPostBySlug, readingMinutes } from "@/lib/blog";
 import { MDXRemote } from "@/components/MDXRemote";
+import { Outline } from "@/components/blog/Outline";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -30,7 +31,7 @@ export default async function BlogPost({ params }: Props) {
   const deck = rest.join(": ");
 
   return (
-    <main>
+    <main id="content" tabIndex={-1}>
       <section className="bplate post-plate" aria-labelledby="post-h">
         <OrrerySky className="sky" />
         <div className="bhead">
@@ -48,15 +49,7 @@ export default async function BlogPost({ params }: Props) {
             <div><dt>Posted</dt><dd><time dateTime={post.meta.date}>{post.meta.date}</time></dd></div>
             <div><dt>Reading</dt><dd>{readingMinutes(post.content)} min</dd></div>
           </dl>
-          {outline.length > 1 && (
-            <nav aria-label="In this post">
-              <ol>
-                {outline.map((h) => (
-                  <li key={h.id}><a href={`#${h.id}`}>{h.title}</a></li>
-                ))}
-              </ol>
-            </nav>
-          )}
+          {outline.length > 1 && <Outline items={outline} />}
         </aside>
         <article className="post">
           <MDXRemote source={post.content} />

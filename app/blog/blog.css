@@ -45,14 +45,30 @@
   /* the rail: facts and the outline, riding along like the home page's chapter index */
   & .rail { grid-column: 1 / 4; position: sticky; top: 90px; padding-top: 40px; display: grid; gap: 36px; }
   & .rail dl { margin: 0; display: grid; gap: 14px; }
-  & .rail dl div { display: flex; justify-content: space-between; gap: 12px; max-width: 220px; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+  & .rail dl div { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
   & .rail dt { font: 11px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
   & .rail dd { margin: 0; font: 13px var(--f-mono); color: var(--ink); font-variant-numeric: tabular-nums; }
-  & .rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; max-width: 240px; }
-  & .rail ol a { display: block; padding: 5px 0; font-size: 14px; line-height: 1.35; color: var(--muted); text-decoration: none; text-wrap: pretty; }
-  & .rail ol a:hover { color: var(--ink-hi); }
+  & .rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  & .toc-fold { display: none; }
+  & .rail ol a { display: block; padding: 5px 0; font-size: 14px; line-height: 1.35; color: var(--muted); text-decoration: none; text-underline-offset: 3px; text-wrap: pretty; position: relative; }
+  & .rail ol a:hover { color: var(--ink-hi); text-decoration: underline; text-decoration-color: var(--faint); }
+  /* the section in view: bright ink and a gold tick in the gutter, like a lit lamp on the rail */
+  & .rail ol a[aria-current] { color: var(--ink-hi); }
+  & .rail ol a[aria-current]::before { content: ""; position: absolute; left: -14px; top: 50%; width: 6px; height: 1px; background: var(--gold); }
+  & .skip { position: absolute; left: var(--gut); top: 8px; z-index: 100; padding: 8px 14px; background: var(--slate); border: 1px solid var(--gold); font: 13px var(--f-mono); color: var(--ink-hi); transform: translateY(-200%); }
+  & .skip:focus { transform: none; }
+  & main:focus { outline: none; }
   & .post h2 { scroll-margin-top: 90px; }
-  & .post { grid-column: 4 / 13; padding: 40px 0 0 48px; max-width: calc(68ch + 48px); font-size: 17px; line-height: 1.7; color: var(--ink); }
+  & .post { grid-column: 4 / 13; padding: 40px 0 0 48px; font-size: 17px; line-height: 1.7; color: var(--ink); }
+  /* prose keeps its measure; code blocks take the whole column so long lines don't wrap */
+  /* two tracks: prose keeps its 68ch measure; drawings and code take the whole column */
+  & .post > :not(pre, .cal-fig, .listing, h2) { max-width: 68ch; }
+  & .post { counter-reset: listing; }
+  & .listing { margin: 2.2em 0; counter-increment: listing; }
+  & .listing figcaption { display: block; text-align: left; padding: 0 0 10px; font: 11px/1.4 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  & .listing figcaption::before { content: "Listing " counter(listing) "  ·  "; color: var(--ink-2); }
+  & .listing pre { margin: 0; }
+  & .post .listing + h2, & .post pre + h2, & .post .cal-fig + h2 { margin-top: 1.4em; }
   & .post > h1:first-child { display: none; } /* the title is already the plate's */
   & .post p, & .post ul, & .post ol, & .post pre, & .post blockquote { margin: 0 0 1.25em; }
   & .post h2 { margin: 2em 0 .7em; padding-top: 24px; border-top: 1px solid var(--rule); font: 300 clamp(28px, 2.6vw, 34px)/1.12 var(--f-display); letter-spacing: -.01em; color: var(--ink-hi); }
@@ -66,7 +82,7 @@
   & .post li::marker { color: var(--faint); }
   & .post ol li::marker { font: 13px var(--f-mono); color: var(--muted); }
   & .post :not(pre) > code { padding: .12em .38em; background: var(--raise); color: var(--ink-hi); font-size: .82em; }
-  & .post pre { padding: 18px 20px; overflow-x: auto; background: var(--slate); border: 1px solid var(--rule); font: 13px/1.6 var(--f-mono); color: var(--ink-2); scrollbar-color: var(--faint) transparent; }
+  & .post pre { padding: 18px 20px; overflow-x: auto; background: var(--slate); border: 1px solid var(--rule); font: 14px/1.6 var(--f-mono); color: var(--ink-2); scrollbar-color: var(--faint) transparent; }
   & .post pre code { font-size: inherit; }
   & .post blockquote { padding-left: 20px; border-left: 1px solid var(--faint); font: italic 300 20px/1.5 var(--f-display); color: var(--ink-2); }
   & .post hr { margin: 3em 0; border: 0; border-top: 1px solid var(--rule); }
@@ -105,7 +121,19 @@
     & .post-plate .back { display: inline-block; margin-bottom: 24px; }
     & .post-plate .bhead h1 { padding-left: 0; }
     & .rail { position: static; grid-column: 1 / -1; padding-top: 20px; }
-    & .rail nav { display: none; }
+    & .rail .toc-rail { display: none; }
+    & .toc-fold { display: block; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+    & .toc-fold summary { padding: 12px 0; cursor: pointer; font: 12px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); list-style-position: inside; }
+    & .toc-fold summary span { color: var(--muted); }
+    & .toc-fold ol { padding-bottom: 12px; }
+    & .toc-fold ol a { padding: 9px 0; }
+    & .rail ol a[aria-current]::before { display: none; }
+    & .post pre { font-size: 13px; }
+    & .listing figcaption { padding-inline: 0; }
+    /* figures scroll sideways on a phone: fade the right edge until the reader reaches it */
+    @supports (animation-timeline: scroll()) {
+      & .cal-scroll { --fade: 40px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - var(--fade)), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - var(--fade)), transparent); animation: cal-unfade linear both; animation-timeline: scroll(self inline); }
+    }
     & .rail dl { display: flex; gap: 24px; }
     & .rail dl div { border: 0; padding: 0; gap: 8px; }
     & .post { grid-column: 1 / -1; padding: 28px 0 0; font-size: 16.5px; }
@@ -115,3 +143,6 @@
     & .entry::after, & .star { transition: none; }
   }
 }
+
+@property --fade { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@keyframes cal-unfade { from { --fade: 40px; } 95% { --fade: 40px; } to { --fade: 0px; } }

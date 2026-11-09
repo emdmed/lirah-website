@@ -41,26 +41,34 @@ Three hooks do the work:
 
 Each file's result is cached by path, modification time and size, so only the first build pays for the whole repo. Times are from my laptop, for the whole repo:
 
-<Figure name="rebuild">The prompt hook gives a rebuild 6 seconds. **A one-file rebuild uses 2% of that.** Past 6 s the build finishes in the background and the hook says *"refreshing in the background (large project); it may miss the newest edits"*.</Figure>
+<Figure name="rebuild">The prompt hook gives a rebuild 6 seconds. **A one-file rebuild uses 2% of that.**</Figure>
+
+If a build runs past 6 s, it finishes in the background and the hook tells the agent so: *"refreshing in the background (large project); it may miss the newest edits"*.
 
 The index lives at `.orchestration/tools/compacted_*.md`. The hook adds `.orchestration/` to `.git/info/exclude`, so it never shows up in your diffs.
 
 Here is what the prompt hook added to the agent's context for the prompt *"The context moon on tab rows fills too early. Check the warn threshold."* (trimmed):
 
+<Listing label="prompt hook · added context">
+
 ```
 <compaction-hook>
 COMPACTION: refreshed → .orchestration/tools/compacted_nt_2026-11-09_19-54-57.md
-Before reading source, grep the compaction artifact for the task's identifiers
-and Read only the lines its hits point to. A guard holds back source reads
-until you do (files the prompt names are open already).
-GREP: grep -i -E 'term1|term2' .orchestration/tools/compacted_nt_….md — use up
-to 8 specific identifiers or domain words from the task …
+Before reading source, grep the compaction artifact for the task's identifiers and Read only
+the lines its hits point to. A guard holds back source reads until you do (files the prompt
+names are open already).
+GREP: grep -i -E 'term1|term2' .orchestration/tools/compacted_nt_….md — use up to 8 specific
+identifiers or domain words from the task …
 </compaction-hook>
 ```
+
+</Listing>
 
 ## What does one search give the agent?
 
 The February skeleton was written for a model to read top to bottom. The index is written so that a single matching line is useful on its own. Every symbol gets its own line, with its path and line range:
+
+<Listing label="index grep · 4 of 12 lines">
 
 ```
 src/components/instrument/ContextMoon.jsx:9-32: components: ContextMoon({ ratio, warnAt = WARN_AT, size = 12, className })+
@@ -68,6 +76,8 @@ src/components/instrument/ContextMoon.jsx:4: const: R
 src/components/instrument/ContextMoon.jsx: used-by: src/features/tabs/TabRow.jsx (ContextMoon:70@Readout)
 src/components/instrument/gauge.js: used-by: src/components/instrument/ContextMoon.jsx (clamp01:10@ContextMoon, gaugeLevel:11@ContextMoon, WARN_AT:9@ContextMoon)
 ```
+
+</Listing>
 
 That is part of the output of `grep -i -E 'ContextMoon|gaugeLevel'`. The full output was 12 lines and 1,382 bytes, about 350 tokens. From those lines the agent knows the component's signature and its default `warnAt`, every file that renders it and from which function, and that the threshold comes from `WARN_AT` in `gauge.js`. It also knows exactly which lines to open:
 
@@ -93,19 +103,23 @@ Telling an agent to search an index first works some of the time. The guard make
 
 The denial messages tell the agent what to do instead:
 
+<Listing label="guard.js · denial messages">
+
 ```
 Read src/components/instrument/ContextMoon.jsx
 → deny: Grep the compaction index before reading code: grep -i -E 'term1|term2'
-  .orchestration/tools/compacted_nt_….md, with identifiers or domain words from
-  the task. Each hit is path:line to Read. Source opens up after one such grep.
+  .orchestration/tools/compacted_nt_….md, with identifiers or domain words from the task.
+  Each hit is path:line to Read. Source opens up after one such grep.
 
 cat .orchestration/tools/compacted_nt_….md
 → deny: The compaction index is grep-only, so it isn't loaded whole.
 
 grep -i -E 'data|handler' .orchestration/tools/compacted_nt_….md
-→ deny: Index grep for 'data|handler' needs more specific terms: 'data' is too
-  generic, 'handler' is too generic.
+→ deny: Index grep for 'data|handler' needs more specific terms: 'data' is too generic,
+  'handler' is too generic.
 ```
+
+</Listing>
 
 For the allowed grep, the guard rewrites the command to print at most 60 lines of at most 300 characters each, and to say how many lines it dropped.
 

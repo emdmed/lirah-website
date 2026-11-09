@@ -1,6 +1,6 @@
 import { MDXRemote as NextMDXRemote } from "next-mdx-remote/rsc";
 import { slug } from "@/lib/blog";
-import { Answers, Figure } from "@/components/blog/Figure";
+import { Answers, Figure, Listing } from "@/components/blog/Figure";
 
 // Plain text of rendered children, so a heading's id matches the slug the outline builds from the source.
 const text = (n: React.ReactNode): string =>
@@ -10,6 +10,7 @@ const components = {
   h2: ({ children }: { children?: React.ReactNode }) => <h2 id={slug(text(children))}>{children}</h2>,
   Answers,
   Figure,
+  Listing,
 };
 
 export function MDXRemote({ source }: { source: string }) {
