@@ -25,6 +25,9 @@ export default async function BlogPost({ params }: Props) {
   if (!post) notFound();
 
   const outline = getOutline(post.content);
+  // "Title: subtitle" sets the subtitle as a deck under the headline
+  const [head, ...rest] = post.meta.title.split(": ");
+  const deck = rest.join(": ");
 
   return (
     <main>
@@ -32,7 +35,10 @@ export default async function BlogPost({ params }: Props) {
         <OrrerySky className="sky" />
         <div className="bhead">
           <Link href="/blog" className="back">← Blog</Link>
-          <h1 id="post-h">{post.meta.title}</h1>
+          <h1 id="post-h">
+            {head}
+            {deck && <><span className="sr-only">: </span><span className="deck">{deck}</span></>}
+          </h1>
         </div>
       </section>
 
