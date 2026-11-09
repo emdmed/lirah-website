@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Geist_Mono, Grenze_Gotisch, Hanken_Grotesk, Spectral } from "next/font/google";
+import { Grenze_Gotisch, Hanken_Grotesk, Spectral } from "next/font/google";
 import "./globals.css";
 
 // The app's faces: Typestar OCR for content, Departure Mono (MIT) for
@@ -41,10 +41,12 @@ const hanken = Hanken_Grotesk({
   weight: ["400", "500", "600"],
 });
 
-const geistMono = Geist_Mono({
+// Self-hosted: the Google Fonts fetch for Geist Mono broke Vercel builds.
+const geistMono = localFont({
+  src: "./fonts/GeistMono-Variable.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: "100 900",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
