@@ -50,3 +50,22 @@ function parseFrontmatter(raw: string): Record<string, string> {
   }
   return result;
 }
+
+export const slug = (s: string) =>
+  s.toLowerCase().replace(/[`*_"']/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+/** The post's `##` headings, skipping fenced code, for the article outline. */
+export function getOutline(content: string) {
+  let fenced = false;
+  const out: { id: string; title: string }[] = [];
+  for (const line of content.split("\n")) {
+    if (line.startsWith("```")) fenced = !fenced;
+    else if (!fenced && line.startsWith("## ")) {
+      const title = line.slice(3).replace(/[`*_]/g, "").trim();
+      out.push({ id: slug(title), title });
+    }
+  }
+  return out;
+}
+
+export const readingMinutes = (content: string) => Math.max(1, Math.round(content.split(/\s+/).length / 230));

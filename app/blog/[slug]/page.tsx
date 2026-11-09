@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { StatusBar } from "@/components/StatusBar";
-import { Footer } from "@/components/Footer";
-import { getAllPosts, getPostBySlug } from "@/lib/blog";
+import { OrrerySky } from "@/components/Orrery";
+import { getAllPosts, getOutline, getPostBySlug, readingMinutes } from "@/lib/blog";
 import { MDXRemote } from "@/components/MDXRemote";
 
 interface Props {
@@ -25,27 +24,38 @@ export default async function BlogPost({ params }: Props) {
   const post = getPostBySlug(slug);
   if (!post) notFound();
 
+  const outline = getOutline(post.content);
+
   return (
-    <>
-      <StatusBar />
+    <main>
+      <section className="bplate post-plate" aria-labelledby="post-h">
+        <OrrerySky className="sky" />
+        <div className="bhead">
+          <Link href="/blog" className="back">← Blog</Link>
+          <h1 id="post-h">{post.meta.title}</h1>
+        </div>
+      </section>
 
-      <main className="mx-auto max-w-3xl px-4 pt-16 sm:px-6">
-        <Link
-          href="/blog"
-          className="ins-key ins-key-panel mb-8"
-        >
-          [← blog]
-        </Link>
-
-        <time className="ins-legend block">{post.meta.date}</time>
-        <h1 className="mt-3 mb-10 text-[clamp(28px,3.4vw,42px)] leading-[1.12]">{post.meta.title}</h1>
-
-        <article className="prose prose-invert max-w-none text-[15px] prose-headings:font-normal prose-headings:text-strong prose-p:text-foreground prose-a:text-strong prose-a:decoration-dotted prose-a:underline-offset-4 prose-strong:text-strong prose-strong:font-normal prose-li:text-foreground prose-code:text-strong prose-code:before:content-none prose-code:after:content-none prose-pre:rounded-none prose-pre:bg-[var(--ins-glass)] prose-hr:border-edge prose-blockquote:border-edge prose-blockquote:text-muted-foreground prose-h1:hidden">
+      <div className="ruled post-grid">
+        <aside className="rail">
+          <dl>
+            <div><dt>Posted</dt><dd><time dateTime={post.meta.date}>{post.meta.date}</time></dd></div>
+            <div><dt>Reading</dt><dd>{readingMinutes(post.content)} min</dd></div>
+          </dl>
+          {outline.length > 1 && (
+            <nav aria-label="In this post">
+              <ol>
+                {outline.map((h) => (
+                  <li key={h.id}><a href={`#${h.id}`}>{h.title}</a></li>
+                ))}
+              </ol>
+            </nav>
+          )}
+        </aside>
+        <article className="post">
           <MDXRemote source={post.content} />
         </article>
-      </main>
-
-      <Footer />
-    </>
+      </div>
+    </main>
   );
 }

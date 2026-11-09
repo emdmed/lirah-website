@@ -1,0 +1,143 @@
+---
+title: "Project Compaction, Nine Months Later: From a Pasted Skeleton to a Grep-First Index"
+date: "2026-11-09"
+description: "The Compact Project button pasted a whole-project skeleton into the prompt. It is now a per-tab Claude Code hook: an index the agent greps, a guard that makes it look there first, and a feature map. What changed, why, and what it costs on Lirah's own repo."
+---
+
+# Project Compaction, Nine Months Later
+
+In February I wrote about [project compaction](/blog/project-compaction): press a button, parse every JS/TS file with Babel, and paste a skeleton of the whole project into the prompt. It worked on small projects. It stopped working on the project I use it on most, which is Lirah itself.
+
+This post covers what replaced it, with the numbers from running the current engine on Lirah's repo at commit `f6a2daf`.
+
+<Answers>
+<dt>Why did the skeleton go?</dt>
+<dd>On Lirah's own code it came to about 122k tokens, most of a 200k context window, spent before the task began.</dd>
+<dt>What replaced it?</dt>
+<dd>Three Claude Code hooks. One builds an index of every symbol, one points the agent at it on each prompt, and a guard holds back source reads until the agent has searched it.</dd>
+<dt>What does a search cost?</dt>
+<dd>One specific grep of the index returned 12 lines, about 350 tokens, each with the line range to read.</dd>
+<dt>Does it slow prompts down?</dt>
+<dd>A rebuild after one edit took 140 ms. If a build passes 6 seconds, the prompt goes ahead and the build finishes in the background.</dd>
+</Answers>
+
+## Why did the pasted skeleton have to go?
+
+The February version made the skeleton about 70–90% smaller than the source. That ratio still holds. On Lirah's app code (455 files and 69,609 lines in `src/` and `src-tauri/src/`), the index is 4,809 lines, about 17% of the source. Token counts here are characters divided by four, the same estimate the engine uses.
+
+<Figure name="tokens">The ratio is fine; the size isn't. **The whole index takes 61% of a 200k window**, while one search of it takes about 0.2%.</Figure>
+
+A smaller ratio doesn't fix that, because the project keeps growing. The agent shouldn't have to load the whole skeleton at all. So the skeleton became an index that the agent searches.
+
+## What runs now, and when?
+
+Compaction is a set of Claude Code hooks that Lirah installs into its own plugin, under `~/.lirah`. Your Claude Code config is not touched. The hooks are switched on per tab with `Ctrl+Shift+P`, and the switch takes effect on the next prompt, with no agent restart.
+
+Three hooks do the work:
+
+1. **SessionStart** starts building the index in the background, so the first prompt finds it ready.
+2. **UserPromptSubmit** rebuilds the index if any source file changed, then tells the agent where the index is and how to search it.
+3. **PreToolUse** is a guard. It holds back source reads until the agent has searched the index.
+
+Each file's result is cached by path, modification time and size, so only the first build pays for the whole repo. Times are from my laptop, for the whole repo:
+
+<Figure name="rebuild">The prompt hook gives a rebuild 6 seconds. **A one-file rebuild uses 2% of that.** Past 6 s the build finishes in the background and the hook says *"refreshing in the background (large project); it may miss the newest edits"*.</Figure>
+
+The index lives at `.orchestration/tools/compacted_*.md`. The hook adds `.orchestration/` to `.git/info/exclude`, so it never shows up in your diffs.
+
+Here is what the prompt hook added to the agent's context for the prompt *"The context moon on tab rows fills too early. Check the warn threshold."* (trimmed):
+
+```
+<compaction-hook>
+COMPACTION: refreshed → .orchestration/tools/compacted_nt_2026-11-09_19-54-57.md
+Before reading source, grep the compaction artifact for the task's identifiers
+and Read only the lines its hits point to. A guard holds back source reads
+until you do (files the prompt names are open already).
+GREP: grep -i -E 'term1|term2' .orchestration/tools/compacted_nt_….md — use up
+to 8 specific identifiers or domain words from the task …
+</compaction-hook>
+```
+
+## What does one search give the agent?
+
+The February skeleton was written for a model to read top to bottom. The index is written so that a single matching line is useful on its own. Every symbol gets its own line, with its path and line range:
+
+```
+src/components/instrument/ContextMoon.jsx:9-32: components: ContextMoon({ ratio, warnAt = WARN_AT, size = 12, className })+
+src/components/instrument/ContextMoon.jsx:4: const: R
+src/components/instrument/ContextMoon.jsx: used-by: src/features/tabs/TabRow.jsx (ContextMoon:70@Readout)
+src/components/instrument/gauge.js: used-by: src/components/instrument/ContextMoon.jsx (clamp01:10@ContextMoon, gaugeLevel:11@ContextMoon, WARN_AT:9@ContextMoon)
+```
+
+That is part of the output of `grep -i -E 'ContextMoon|gaugeLevel'`. The full output was 12 lines and 1,382 bytes, about 350 tokens. From those lines the agent knows the component's signature and its default `warnAt`, every file that renders it and from which function, and that the threshold comes from `WARN_AT` in `gauge.js`. It also knows exactly which lines to open:
+
+<Figure name="range">The `9-32` in the hit becomes the read: **offset 9, limit 24**, the component and nothing around it.</Figure>
+
+The agent didn't read a source file to learn any of that. What the index records now that it didn't in February:
+
+- **Full signatures:** parameter types, default values and return types.
+- **Class and impl methods:** one `Class.method` line each, with their base types.
+- **`used-by` lines:** for each file, who imports it and which names they use. Imports through `tsconfig`/`jsconfig` path aliases are resolved too. In Lirah's index there are 1,621 of these lines.
+- **Entry points and hubs:** where execution starts (`src/main.jsx`, `src-tauri/src/main.rs`) and the most-imported files (`src/lib/utils.js` is imported by 63 files).
+- **More languages:** JS/TS, Python, C#, Rust and shell scripts, plus `package.json` scripts and dependencies, CSS ids and classes, and the first heading of each Markdown file.
+
+## How does the engine find a symbol's lines?
+
+The February version parsed JS/TS with Babel in the app's frontend. The current engine is [agentic-compaction](https://github.com/emdmed/agentic-compaction) v0.0.11: one Node script with no dependencies that scans each language with its own scanner. It skips strings, comments and regex literals when it counts brackets, and that's how it finds where a symbol ends. It is not a full parser. A symbol whose end it can't find within 5,000 lines gets a start line only.
+
+## What does the guard let through?
+
+Telling an agent to search an index first works some of the time. The guard makes it hold every time. These are the real verdicts from `guard.js`, run against Lirah's repo, in the order an agent would hit them:
+
+<Figure name="guard">Three ways to skip the index are refused. **One specific grep opens source reads for the rest of the prompt**, and its output is capped at 60 lines of 300 characters.</Figure>
+
+The denial messages tell the agent what to do instead:
+
+```
+Read src/components/instrument/ContextMoon.jsx
+→ deny: Grep the compaction index before reading code: grep -i -E 'term1|term2'
+  .orchestration/tools/compacted_nt_….md, with identifiers or domain words from
+  the task. Each hit is path:line to Read. Source opens up after one such grep.
+
+cat .orchestration/tools/compacted_nt_….md
+→ deny: The compaction index is grep-only, so it isn't loaded whole.
+
+grep -i -E 'data|handler' .orchestration/tools/compacted_nt_….md
+→ deny: Index grep for 'data|handler' needs more specific terms: 'data' is too
+  generic, 'handler' is too generic.
+```
+
+For the allowed grep, the guard rewrites the command to print at most 60 lines of at most 300 characters each, and to say how many lines it dropped.
+
+Some reads skip the guard entirely:
+
+- files the prompt names, including a bare name like `ContextMoon.jsx`, which is looked up with `git ls-files`;
+- files the prompt names a feature for (see the next section);
+- config, docs and lockfiles;
+- every read, when you attached files in Lirah's prompt box, because then you've already chosen the context.
+
+A short go-ahead such as "yes" or "continue" doesn't lock the agent again in the middle of a task. If the guard fails for any reason, it lets the call through. If the index doesn't exist yet, the guard stands down, so the agent can't get stuck.
+
+## When does a feature name matter?
+
+Some prompts name a feature rather than a symbol: "the plans pane", "the sandbox settings". For those, the `:features build` palette command asks a read-only agent to map the project's features to their files. It searches the index to do it. Lirah validates the JSON and writes it to `.orchestration/tools/features.json`.
+
+When a prompt names a feature, by its name, id or one of its aliases, the hook passes that feature's files to the agent and opens them past the guard. It handles up to three features and 40 files per prompt.
+
+Updating the map is incremental. It reads what changed in git since the map was built. Deleted and renamed files are fixed locally. Only new files go to the model, together with the feature list and no code. If no files were added, there's no model call.
+
+## What doesn't it do yet?
+
+- **Claude Code only.** The hooks are Claude Code hooks. opencode and the headless CLIs don't get them.
+- **Scanners, not parsers.** Line ranges come from a bracket-counting heuristic. Unusual syntax can produce a wrong end line, and then the agent reads a few lines too many or too few.
+- **The index can lag on large projects.** When a rebuild takes more than 6 seconds, the prompt runs against the previous index.
+- **The guard can cost one call.** An agent that ignores the hint loses a call to the denial before it searches.
+- **No end-to-end measurement yet.** I haven't measured how many tokens a whole task saves compared with an agent that reads freely. The numbers above are the size of the index and the size of one search result. A task-level comparison, with the same prompts run with the hook on and off, is the next post.
+
+## How do I try it?
+
+Open a Claude Code tab in Lirah and press `Ctrl+Shift+P`. Send a prompt, then read the `<compaction-hook>` block in the transcript and the agent's first tool calls. To switch compaction off everywhere, use Settings → Agent → Compaction hook. To switch it off for one project, create `.orchestration/disabled` in that project.
+
+## Sources
+
+Measured on Lirah at commit `f6a2daf` with agentic-compaction v0.0.11, on a Ryzen 5 5500U. The hook's limits are in `src-tauri/src/compaction/hook.js` (6 s build budget, 3 features and 40 files per prompt) and the guard's in `src-tauri/src/compaction/guard.js` (60 lines × 300 characters per grep).

@@ -2,6 +2,7 @@ import "./plate.css";
 import { CROSS_FILE, EVALS_MODEL, EVALS_URL } from "@/components/evalResults";
 import { CopyCommand, OrreryMorph, OrreryMotion, PlateDownload } from "@/components/PlateActions";
 import { Orrery, OrrerySky } from "@/components/Orrery";
+import { LyreSymbol, PlateBar, PlateFooter } from "@/components/PlateChrome";
 import { AppMock } from "@/components/AppMock";
 import { Hit, Locator, Tabs, Merge, PlanTrack, Race, Rings } from "@/components/ChapterFigs";
 import { REPO_URL, getLatestRelease } from "@/lib/releases";
@@ -32,14 +33,6 @@ const TICKER = (
     <span>Your own CLI, login and plan</span><i>/</i><span>Keyboard first</span><i>/</i><span>No account</span><i>/</i><span>MIT licensed</span><i>/</i>
   </>
 );
-
-function Lyre() {
-  return (
-    <svg aria-hidden="true">
-      <use href="#lyre" />
-    </svg>
-  );
-}
 
 function Dim({ ratio }: { ratio: number }) {
   return (
@@ -75,32 +68,10 @@ export default async function Home() {
 
   return (
     <div className="mp">
-      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
-        {/* The bare lyre with one body in its ring; mirrors components/instrument/LirahMark.tsx. */}
-        <symbol id="lyre" viewBox="6 6 88 88">
-          <path transform="translate(50 52) scale(.86) translate(-50 -49.5)" d="M22 8C24 34 12 48 14 64C16 84 32 94 50 94C68 94 84 84 86 64C88 48 76 34 78 8C77 34 70 48 70 60C70 74 62 80 50 80C38 80 30 74 30 60C30 48 23 34 22 8Z" stroke="none" />
-          <circle cx="50" cy="27" r="9.5" fill="none" strokeWidth="2.2" />
-          <circle cx="50" cy="27" r="4.8" stroke="none" />
-        </symbol>
-      </svg>
+      <LyreSymbol />
 
       <div className="page">
-        <header className="bar">
-          <a className="wm" href="#top" aria-label="Lirah home">
-            <Lyre />
-            <b>Lirah</b>
-            <small>A workspace for CLI coding agents</small>
-          </a>
-          <nav aria-label="Main">
-            <a href="#context">Context</a>
-            <a href="#workspace">Workspace</a>
-            <a href="#jobs">Plans</a>
-            <a href="#evals">Evals</a>
-            <a href="/blog">Blog</a>
-            <a href={REPO_URL}>GitHub</a>
-            <a className="btn line sm" href="#install">Download</a>
-          </nav>
-        </header>
+        <PlateBar home />
 
         <main id="top">
           <section className="plate" aria-labelledby="hero-h">
@@ -331,18 +302,7 @@ export default async function Home() {
         <svg className="waves" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
           {WAVES.map((d, i) => <path key={i} d={d} />)}
         </svg>
-        <footer className="ruled">
-          <a className="wm" href="#top" aria-label="Back to top">
-            <Lyre />
-            <b>Lirah</b>
-          </a>
-          <span>© 2026 Lirah contributors · MIT · Made by <a href="https://mylatestwork.dev/">Enrique MD</a></span>
-          <nav aria-label="Footer">
-            <a href={REPO_URL}>GitHub</a>
-            <a href="/blog">Blog</a>
-            <a href="#evals">Evals</a>
-          </nav>
-        </footer>
+        <PlateFooter home />
       </div>
     </div>
   );

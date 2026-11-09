@@ -1,0 +1,116 @@
+/* The blog in the Measured Plate world (plate.css): an engraved sky band over each header,
+   the post list as a ruled atlas catalogue, and the article set on the chapter column. */
+/* the figure kit measures label widths with the root's legend font */
+:root { --font-legend: var(--font-geist-mono), ui-monospace, monospace; }
+.mp.blog {
+  /* the bar's Download button stays on the blog: there is no hero button here to stand in for it */
+  @media (max-width: 860px) { & .bar .btn { display: inline-flex; } }
+
+  /* header band: the hero's sky and contour land, cut short, dimmed behind the text */
+  & .bplate { position: relative; margin: -58px calc(50% - 50vw) 0; min-height: 440px; display: flex; align-items: flex-end; overflow: hidden; background: var(--deep); }
+  & .bplate .sky { position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+    --dim: linear-gradient(90deg, rgba(0, 0, 0, .14) calc(50vw - 100px), #000 calc(50vw + 260px));
+    -webkit-mask-image: var(--dim); mask-image: var(--dim); }
+  & .bplate::after { content: ""; position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(transparent, var(--deep)); pointer-events: none; }
+  & .bhead { position: relative; z-index: 1; width: 100%; max-width: 1320px; margin: 0 auto; padding: 150px var(--gut) 52px; }
+  & .bhead h1 { font: 300 clamp(56px, 7vw, 96px)/.95 var(--f-display); letter-spacing: -.03em; color: var(--ink-hi); }
+  & .bhead .lede { margin-top: 20px; font-size: 18px; color: var(--ink-2); max-width: 44ch; }
+  /* the article header sits on the same 12 columns as the body: back link in the rail, title on the text column */
+  & .post-plate { min-height: 400px; }
+  & .post-plate .bhead { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: baseline; padding-bottom: 56px; }
+  & .post-plate .back { grid-column: 1 / 4; margin: 0; }
+  & .post-plate .bhead h1 { grid-column: 4 / 13; padding-left: 48px; font-size: clamp(36px, 4.2vw, 56px); line-height: 1.05; letter-spacing: -.02em; max-width: 20ch; }
+  & .back { display: inline-block; margin-bottom: 28px; font: 12px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-decoration: none; }
+  & .back:hover { color: var(--ink); }
+  & .bcap { margin: 0 var(--gut); padding: 14px 0 0; }
+
+  /* the catalogue: date in the chapter rail, name and note on the body column */
+  & .entries { list-style: none; margin-top: 48px; margin-bottom: 120px; padding: 0; }
+  & .entry { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); padding: 34px 0 38px; border-bottom: 1px solid var(--rule); text-decoration: none; }
+  /* hover rules a bright hairline along the entry's foot, the way an orrery click lands on a section */
+  & .entry::after { content: ""; position: absolute; inset: auto 0 -1px; height: 1px; background: var(--ink-hi); transform: scaleX(0); transform-origin: left; transition: transform .6s cubic-bezier(.16, 1, .3, 1); }
+  & .entry:hover::after, & .entry:focus-visible::after { transform: scaleX(1); }
+  & .entry time { grid-column: 1 / 4; padding-top: 12px; font: 12px var(--f-mono); letter-spacing: .06em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  & .entry > div { grid-column: 4 / 13; padding-left: 48px; }
+  & .entry h2 { position: relative; font: 300 clamp(26px, 2.6vw, 34px)/1.12 var(--f-display); color: var(--ink); max-width: 30ch; transition: color .3s; }
+  & .entry:hover h2 { color: var(--ink-hi); }
+  & .entry p { margin-top: 12px; font-size: 16px; color: var(--muted); max-width: 62ch; text-wrap: pretty; }
+  & .star { position: absolute; left: -34px; top: .32em; width: 20px; height: 20px; fill: var(--deep); stroke: var(--ink); stroke-width: .9; transition: transform .6s cubic-bezier(.16, 1, .3, 1); }
+  & .star .core { fill: var(--ink); stroke: none; }
+  & .entry:hover .star { transform: rotate(45deg); }
+
+  /* the article: plate prose on the chapter column */
+  & .post-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; margin-bottom: 120px; }
+  /* the rail: facts and the outline, riding along like the home page's chapter index */
+  & .rail { grid-column: 1 / 4; position: sticky; top: 90px; padding-top: 40px; display: grid; gap: 36px; }
+  & .rail dl { margin: 0; display: grid; gap: 14px; }
+  & .rail dl div { display: flex; justify-content: space-between; gap: 12px; max-width: 220px; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+  & .rail dt { font: 11px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  & .rail dd { margin: 0; font: 13px var(--f-mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+  & .rail ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; max-width: 240px; }
+  & .rail ol a { display: block; padding: 5px 0; font-size: 14px; line-height: 1.35; color: var(--muted); text-decoration: none; text-wrap: pretty; }
+  & .rail ol a:hover { color: var(--ink-hi); }
+  & .post h2 { scroll-margin-top: 90px; }
+  & .post { grid-column: 4 / 13; padding: 40px 0 0 48px; max-width: calc(68ch + 48px); font-size: 17px; line-height: 1.7; color: var(--ink); }
+  & .post > h1:first-child { display: none; } /* the title is already the plate's */
+  & .post p, & .post ul, & .post ol, & .post pre, & .post blockquote { margin: 0 0 1.25em; }
+  & .post h2 { margin: 2em 0 .7em; padding-top: 24px; border-top: 1px solid var(--rule); font: 300 clamp(28px, 2.6vw, 34px)/1.12 var(--f-display); letter-spacing: -.01em; color: var(--ink-hi); }
+  & .post h3 { margin: 2em 0 .6em; font: italic 300 24px/1.2 var(--f-display); color: var(--ink-hi); }
+  & .post h4 { margin: 1.8em 0 .5em; font: 600 15px/1.4 var(--f-body); color: var(--ink-hi); }
+  & .post strong { font-weight: 600; color: var(--ink-hi); }
+  & .post ul, & .post ol { padding-left: 1.3em; }
+  & .post ul { list-style: square; }
+  & .post ol { list-style: decimal; }
+  & .post li { margin: .35em 0; padding-left: .3em; }
+  & .post li::marker { color: var(--faint); }
+  & .post ol li::marker { font: 13px var(--f-mono); color: var(--muted); }
+  & .post :not(pre) > code { padding: .12em .38em; background: var(--raise); color: var(--ink-hi); font-size: .82em; }
+  & .post pre { padding: 18px 20px; overflow-x: auto; background: var(--slate); border: 1px solid var(--rule); font: 13px/1.6 var(--f-mono); color: var(--ink-2); scrollbar-color: var(--faint) transparent; }
+  & .post pre code { font-size: inherit; }
+  & .post blockquote { padding-left: 20px; border-left: 1px solid var(--faint); font: italic 300 20px/1.5 var(--f-display); color: var(--ink-2); }
+  & .post hr { margin: 3em 0; border: 0; border-top: 1px solid var(--rule); }
+  & .post img { margin: 2em 0; border: 1px solid var(--rule); }
+
+  /* Calibrated figures (components/blog/figures.ts): the kit's ink tokens on the Serrit palette, gold as the lamp */
+  --fg: var(--ink); --key: var(--muted); --edge: var(--rule); --edge-strong: #43524e;
+  --live: var(--gold); --ok: #9cc08a; --fault: var(--warn); --title: var(--ink-hi);
+  --panel: var(--slate); --raised: var(--raise); --well: var(--deep);
+  --glow: color-mix(in srgb, var(--live) 55%, transparent); --swipe: color-mix(in srgb, var(--live) 16%, transparent);
+  & svg[data-cal] { font: 11px var(--f-mono); font-variant-ligatures: none; font-variant-numeric: tabular-nums; overflow: visible; text-rendering: geometricPrecision; }
+  & .cal-fig { margin: 2.2em 0; padding: 20px 22px 16px; background: var(--slate); border: 1px solid var(--rule); }
+  & .cal-scroll { overflow-x: auto; scrollbar-color: var(--faint) transparent; }
+  & .cal-fig svg { display: block; width: 100%; height: auto; }
+  & .cal-fig figcaption { display: block; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rule); font: 13px/1.55 var(--f-mono); color: var(--muted); text-wrap: pretty; }
+  & .cal-fig figcaption strong { font-weight: 500; color: var(--ink-hi); }
+
+  /* answer strip: the reader's questions, one line each */
+  & .answers { margin: 0 0 2.4em; border-top: 1px solid var(--rule); counter-reset: q; }
+  & .answers dt { counter-increment: q; padding-top: 14px; font: 11px/1.4 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  & .answers dt::before { content: counter(q, decimal-leading-zero) "  "; color: var(--gold); }
+  & .answers dd { margin: 4px 0 0; padding-bottom: 14px; border-bottom: 1px solid var(--rule); color: var(--ink-hi); }
+
+  @media (max-width: 860px) {
+    & .cal-fig { margin-inline: calc(-1 * var(--gut)); padding-inline: var(--gut); border-inline: 0; }
+    & .bplate { min-height: 320px; margin-top: -52px; }
+    & .bplate .sky { --dim: linear-gradient(180deg, #000 30%, rgba(0, 0, 0, .14) 70%); }
+    & .bhead { padding: 120px var(--gut) 36px; }
+    & .entries { margin-top: 40px; }
+    & .entry { padding: 26px 0 30px; }
+    & .entry time, & .entry > div { grid-column: 1 / -1; padding: 0; }
+    & .entry > div { margin-top: 10px; padding-left: 30px; }
+    & .star { left: -30px; width: 18px; height: 18px; }
+    & .post-plate { min-height: 300px; }
+    & .post-plate .bhead { display: block; padding-bottom: 32px; }
+    & .post-plate .back { display: inline-block; margin-bottom: 24px; }
+    & .post-plate .bhead h1 { padding-left: 0; }
+    & .rail { position: static; grid-column: 1 / -1; padding-top: 20px; }
+    & .rail nav { display: none; }
+    & .rail dl { display: flex; gap: 24px; }
+    & .rail dl div { border: 0; padding: 0; gap: 8px; }
+    & .post { grid-column: 1 / -1; padding: 28px 0 0; font-size: 16.5px; }
+    & .post pre { margin-inline: calc(-1 * var(--gut)); border-inline: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    & .entry::after, & .star { transition: none; }
+  }
+}
