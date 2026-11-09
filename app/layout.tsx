@@ -68,13 +68,13 @@ export const metadata: Metadata = {
     title: "Lirah: a workspace for CLI coding agents",
     description,
     type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Lirah" }],
+    images: [{ url: "/og-image.png?v=2", width: 1200, height: 630, alt: "Lirah" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Lirah: a workspace for CLI coding agents",
     description,
-    images: ["/og-image.png"],
+    images: ["/og-image.png?v=2"],
   },
 };
 
