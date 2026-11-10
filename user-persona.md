@@ -6,12 +6,30 @@ All site copy, demos and promos are written for this reader.
 
 > They want to delegate execution without delegating control.
 
-- 30+ years writing software. Has shipped and maintained large systems, and lived with the consequences of its architecture.
+- 10+ years writing software. Has shipped and maintained large systems, and lived with the consequences of their architecture.
 - Runs Claude Code or opencode every day, and headless agents for side work.
 - Still engineers: designs the feature, writes or reviews the plan, scopes what the agent reads, reviews every diff, tracks each piece of work to its commit.
 - Will not vibecode. Treats agent output like a junior's pull request.
 - Keyboard-first, lives in the terminal, skeptical of tools that hide what they do.
 - An early adopter, not a holdout. Their skepticism comes from using agents, not from avoiding them.
+
+## What they use today
+
+tmux, git worktrees and their own shell scripts around the agent. It works, and they built it. Lirah competes with that setup, not with another product, so copy has to answer "why not my own scripts?".
+
+## How they arrive
+
+From GitHub, a blog post or a link another developer shared. They are evaluating, not browsing, and decide in the first screen whether to read on.
+
+## What they ask first
+
+- Is it a wrapper around the agent? No: the real CLI runs in a real PTY.
+- Does it need an account, or phone home? No account, no telemetry in the app.
+- What does it cost? Free, MIT.
+- Does it run on my OS? Linux first; macOS and Windows without the sandbox.
+- What can the agent touch? The sandbox's boundaries, stated plainly.
+
+Answer these near the top, in that plain a form.
 
 ## What they want from Lirah
 
@@ -19,7 +37,7 @@ All site copy, demos and promos are written for this reader.
 - Plans split into chunks and tasks they can track to commits.
 - Parallel agents in their own worktrees, without losing track of who changed what.
 - Jobs and merges they review before anything lands, and can roll back.
-- Cost and context they can measure, per project.
+- Tokens and spend they can measure, per project and per model.
 - Their own CLI, login and config, untouched.
 
 ## What earns their trust
