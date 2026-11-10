@@ -358,6 +358,7 @@
 
   /* chapter figures (components/ChapterFigs.tsx): drawn in the hand of Plate I */
   & .fig { margin: 40px 0 0; }
+  & .fig pre { margin: 0; font: 13px/1.7 var(--f-mono); color: var(--ink-2); overflow-x: auto; }
   & .fig > .cap { margin-top: 16px; padding-top: 10px; border-top: 1px solid var(--rule); }
 
   /* race: lanes from a shared start line toward one finish */

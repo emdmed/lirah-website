@@ -34,8 +34,8 @@ export function PlateBar({ home = false }: { home?: boolean }) {
       </a>
       <nav aria-label="Main">
         <a href={`${p}#context`}>Context</a>
-        <a href={`${p}#workspace`}>Workspace</a>
         <a href={`${p}#jobs`}>Plans</a>
+        <a href={`${p}#workspace`}>Workspace</a>
         <a href={`${p}#evals`}>Evals</a>
         <a href="/blog">Blog</a>
         <a href={REPO_URL}>GitHub</a>

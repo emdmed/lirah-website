@@ -36,9 +36,9 @@ const TICKER = (
 
 function Dim({ ratio }: { ratio: number }) {
   return (
-    <div className="dim" role="img" aria-label={`1.00 alone, ${ratio.toFixed(2)} with Lirah`}>
+    <div className="dim" role="img" aria-label={`1.00 alone, ${ratio.toFixed(2)} with the index`}>
       <div className="ln"><em>alone</em><i /><u>1.00</u></div>
-      <div className="ln on"><em>with Lirah</em><i style={{ "--w": `${ratio * 100}%` } as React.CSSProperties} /><u>{ratio.toFixed(2)}</u></div>
+      <div className="ln on"><em>with index</em><i style={{ "--w": `${ratio * 100}%` } as React.CSSProperties} /><u>{ratio.toFixed(2)}</u></div>
     </div>
   );
 }
@@ -142,14 +142,14 @@ export default async function Home() {
                 Same agent, same questions. <i>With</i> and without the index.
               </h2>
               <p className="method">
-                {CROSS_FILE.tasks} questions that each need 3+ files, 3 runs each way, on a small repo and on Lirah&apos;s own app. Every answer graded against the files it should name. {EVALS_MODEL}. <a href={EVALS_URL}>The evals</a>
+                {CROSS_FILE.tasks} questions that each need 3+ files, 3 runs each way, on a small repo and on Lirah&apos;s own app. The index is the <a href="#index">symbol index</a> Lirah keeps for each tab, which the agent greps instead of reading files. Every answer graded against the files it should name. {EVALS_MODEL}. <a href={EVALS_URL}>The evals</a>
               </p>
             </div>
             <table className="cmp">
               <thead>
                 <tr>
                   <th scope="col">Measure</th>
-                  <th scope="col">Claude Code alone vs with Lirah</th>
+                  <th scope="col">Claude Code alone vs with the index</th>
                   <th scope="col">Change</th>
                 </tr>
               </thead>
@@ -164,7 +164,7 @@ export default async function Home() {
                 <tr>
                   <td>Tasks that got cheaper</td>
                   <td className="dw">
-                    <div className="pips" role="img" aria-label={`${CROSS_FILE.tasksCheaper} of ${CROSS_FILE.tasks} tasks cheaper with Lirah`}>
+                    <div className="pips" role="img" aria-label={`${CROSS_FILE.tasksCheaper} of ${CROSS_FILE.tasks} tasks cheaper with the index`}>
                       {Array.from({ length: CROSS_FILE.tasks }, (_, i) => (
                         <i key={i} className={i < CROSS_FILE.tasksCheaper ? undefined : "off"} />
                       ))}
@@ -174,7 +174,7 @@ export default async function Home() {
                 </tr>
                 <tr>
                   <td>Answers correct</td>
-                  <td className="dw"><span className="mono" style={{ color: "var(--muted)" }}>alone {CROSS_FILE.correct}% · with Lirah {CROSS_FILE.correct}%</span></td>
+                  <td className="dw"><span className="mono" style={{ color: "var(--muted)" }}>alone {CROSS_FILE.correct}% · with the index {CROSS_FILE.correct}%</span></td>
                   <td><b>Same</b><span>every answer right</span></td>
                 </tr>
               </tbody>
@@ -182,15 +182,15 @@ export default async function Home() {
           </section>
 
           <Chapter id="context" no="01" name="Context">
-            <h2 id="context-h">Stop paying for files your agent didn&apos;t need.</h2>
-            <p className="lede">Pick what the agent sees, and send big files as signatures. schema.ts goes from 12.6k tokens to 2.1k.</p>
+            <h2 id="context-h">Send the agent the files it needs, at the detail it needs.</h2>
+            <p className="lede">Pick what the agent sees, and send big files as signatures. In Lirah&apos;s own repo, useAgentControl.js goes from 12.0k tokens to 0.6k.</p>
             <figure className="fig">
-              <div className="rows lv" role="img" aria-label="src/db/schema.ts: full text 12.6k tokens, signatures 2.1k, skeleton 0.9k">
-                <div className="row"><span>Full text</span><b><i style={w("100%")} /><em>12.6k</em></b></div>
-                <div className="row on"><span>Signatures</span><b><i style={w("16.7%")} /><em>2.1k<small>83% fewer tokens</small></em></b></div>
-                <div className="row"><span>Skeleton</span><b><i style={w("7.1%")} /><em>0.9k</em></b></div>
+              <div className="rows lv" role="img" aria-label="useAgentControl.js: full text 12.0k tokens, signatures 0.6k, skeleton 0.2k">
+                <div className="row"><span>Full text</span><b><i style={w("100%")} /><em>12.0k</em></b></div>
+                <div className="row on"><span>Signatures</span><b><i style={w("4.6%")} /><em>0.6k<small>95% fewer tokens</small></em></b></div>
+                <div className="row"><span>Skeleton</span><b><i style={w("1.8%")} /><em>0.2k</em></b></div>
               </div>
-              <figcaption className="cap"><span><b>Fig. 1a</b> · One file at three detail levels</span><span>src/db/schema.ts · demo project</span></figcaption>
+              <figcaption className="cap"><span><b>Fig. 1a</b> · One file at three detail levels</span><span>useAgentControl.js, 827 lines · Lirah&apos;s repo at 207829a · 4 chars per token</span></figcaption>
             </figure>
             <div className="notes">
               <div><b>Intent per file</b>Mark each file <code>EDIT</code>, <code>READ</code> or <code>COPY</code>: change it, read it, or copy its pattern.</div>
@@ -207,7 +207,37 @@ export default async function Home() {
             </div>
           </Chapter>
 
-          <Chapter id="workspace" no="02" name="Workspace">
+          <Chapter id="jobs" no="02" name="Plans and jobs">
+            <h2 id="jobs-h">A plan in chunks, one commit each.</h2>
+            <p className="lede">From plan to reviewed commits. Split the agent&apos;s plan into chunks; each lands as its own commit, tagged with a <code>Plan-Chunk</code> trailer. Your review notes go back as the fix prompt, and any chunk rolls back on its own.</p>
+            <div className="two">
+              <PlanTrack />
+              <Race />
+            </div>
+            <figure className="fig">
+              <pre>{`$ git log --format='%h %s%n  %(trailers:key=Plan-Chunk)'
+12866dc plan(high-priority-bugs-plan): 23 — Jobs: run id on done event (#21)
+  Plan-Chunk: p60csf4/cbwo8mx
+69f1d1b plan(high-priority-bugs-plan): 22 — Settings store: persist with an updater (#25)
+  Plan-Chunk: p60csf4/c8ca7ue
+0ce59e2 plan(high-priority-bugs-plan): 21 — Agent state: permission stickiness and webview reload (#23, #24)
+  Plan-Chunk: p60csf4/cf6zqux`}</pre>
+              <figcaption className="cap"><span><b>Fig. 2c</b> · Three chunks of one plan, as git recorded them</span><span>Lirah&apos;s own repo · plan id / chunk id</span></figcaption>
+            </figure>
+            <div className="notes">
+              <div><b>Idea to merged</b>Each plan shows its stage, links its pull request through <code>gh</code>, and closes its task once the commits reach the base branch.</div>
+              <div><b>Auto-pilot</b>Works through the chunks on the plan&apos;s own branch and worktrees, and stops on a question, a permission prompt or a missing commit. Review the whole plan&apos;s diff before it merges.</div>
+              <div><b>Jobs and races</b>Headless agents, each in its own worktree. Lirah warns when two jobs touch the same files. Read each diff, send notes back, apply the one you want.</div>
+            </div>
+          </Chapter>
+
+          <Chapter id="git" no="03" name="Git">
+            <h2 id="git-h">Read the diff, then commit.</h2>
+            <p className="lede">An agent drafts the commit message in the background, and the tab lights a commit lamp when it is ready. You check the files and the diff, then commit. A merge lists every git command first and rolls back if it conflicts.</p>
+            <Merge />
+          </Chapter>
+
+          <Chapter id="workspace" no="04" name="Workspace">
             <h2 id="workspace-h">One window, an agent per project.</h2>
             <p className="lede">Each project tab runs its own agent. Its row shows what the agent is doing and the plan it is on, and lights up when it is your turn.</p>
             <Tabs />
@@ -227,7 +257,7 @@ export default async function Home() {
                 <div className="row warn"><span>acme-db</span><i style={w("97%")} /><em>291k / 300k</em></div>
                 <div className="row"><span>infra</span><i style={w("15%")} /><em>22k / 150k</em></div>
               </div>
-              <figcaption className="cap"><span><b>Fig. 2b</b> · Tokens used today against each daily budget</span><span>marks at 80% and 95% · demo data</span></figcaption>
+              <figcaption className="cap"><span><b>Fig. 4b</b> · Tokens used today against each daily budget</span><span>marks at 80% and 95% · demo data</span></figcaption>
             </figure>
             <h3 className="sub">Run all of it from the keyboard.</h3>
             <p className="lede">Over 40 shortcuts, and vim keys in the file tree, the tab rows and the plan chunks. Hold Ctrl and a hint bar shows what each key does.</p>
@@ -236,26 +266,6 @@ export default async function Home() {
               <div><b>Command line</b><code>:</code> runs any command with fuzzy matching and argument completion.</div>
               <div><b>Every key listed</b>Ctrl+H shows every shortcut, read from the same registry the app uses.</div>
             </div>
-          </Chapter>
-
-          <Chapter id="jobs" no="03" name="Plans and jobs">
-            <h2 id="jobs-h">A plan in chunks, one commit each.</h2>
-            <p className="lede">From plan to reviewed commits. Split the agent&apos;s plan into chunks; each lands as its own commit, tagged with a <code>Plan-Chunk</code> trailer. Your review notes go back as the fix prompt, and any chunk rolls back on its own.</p>
-            <div className="two">
-              <PlanTrack />
-              <Race />
-            </div>
-            <div className="notes">
-              <div><b>Idea to merged</b>Each plan shows its stage, links its pull request through <code>gh</code>, and closes its task once the commits reach the base branch.</div>
-              <div><b>Auto-pilot</b>Works through the chunks on the plan&apos;s own branch and worktrees, and stops on a question, a permission prompt or a missing commit. Review the whole plan&apos;s diff before it merges.</div>
-              <div><b>Jobs and races</b>Headless agents, each in its own worktree. Lirah warns when two jobs touch the same files. Read each diff, send notes back, apply the one you want.</div>
-            </div>
-          </Chapter>
-
-          <Chapter id="git" no="04" name="Git">
-            <h2 id="git-h">Read the diff, then commit.</h2>
-            <p className="lede">An agent drafts the commit message in the background, and the tab lights a commit lamp when it is ready. You check the files and the diff, then commit. A merge lists every git command first and rolls back if it conflicts.</p>
-            <Merge />
           </Chapter>
 
           <Chapter id="sandbox" no="05" name="Sandbox">
@@ -285,7 +295,7 @@ export default async function Home() {
 
           <Chapter id="install" no="06" name="Install">
             <h2 id="install-h">Install Lirah.</h2>
-            <p className="lede">The script picks .deb, .rpm or AppImage for your distro, and builds from source on Arch.</p>
+            <p className="lede">The script picks .deb, .rpm or AppImage for your distro, and builds from source on Arch. <a href="https://github.com/emdmed/lirah/blob/main/scripts/install.sh">Read the script</a> before you run it.</p>
             <div className="install">
               <div><PlateDownload release={release} /></div>
               <CopyCommand />

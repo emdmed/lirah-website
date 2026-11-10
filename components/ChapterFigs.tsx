@@ -76,7 +76,7 @@ const TABS = [
   { n: 4, p: "infra", a: "opencode", s: "idle" },
 ];
 
-/** Fig. 2a: one row per project tab; the one whose agent needs you is lit and boxed. */
+/** Fig. 4a: one row per project tab; the one whose agent needs you is lit and boxed. */
 export function Tabs() {
   return (
     <figure className="fig tabs">
@@ -91,12 +91,12 @@ export function Tabs() {
           </li>
         ))}
       </ol>
-      <figcaption className="cap"><span><b>Fig. 2a</b> · Four tabs, one agent waiting on you</span><span>demo data</span></figcaption>
+      <figcaption className="cap"><span><b>Fig. 4a</b> · Four tabs, one agent waiting on you</span><span>demo data</span></figcaption>
     </figure>
   );
 }
 
-/** Fig. 3a: three agents race one task from a shared start line. */
+/** Fig. 2b: three agents race one task from a shared start line. */
 export function Race() {
   return (
     <figure className="fig race">
@@ -117,7 +117,7 @@ export function Race() {
           <span>conflict in routes/login.ts<em>stopped</em></span>
         </div>
       </div>
-      <figcaption className="cap"><span><b>Fig. 3a</b> · Race: rate limit /login</span></figcaption>
+      <figcaption className="cap"><span><b>Fig. 2b</b> · Race: rate limit /login</span></figcaption>
     </figure>
   );
 }
@@ -129,7 +129,7 @@ const CHUNKS = [
   { n: "6–7", t: "add api key scopes · audit log for auth events", s: "queued" },
 ];
 
-/** Fig. 3b: a plan committing itself, chunk by chunk, along one track. */
+/** Fig. 2a: a plan committing itself, chunk by chunk, along one track. */
 export function PlanTrack() {
   return (
     <figure className="fig plan" id="plans">
@@ -144,12 +144,12 @@ export function PlanTrack() {
         ))}
       </ol>
       <p className="foot">Autopilot stops when the agent asks a question, needs permission or skips a commit.</p>
-      <figcaption className="cap"><span><b>Fig. 3b</b> · Plan on autopilot</span></figcaption>
+      <figcaption className="cap"><span><b>Fig. 2a</b> · Plan on autopilot</span></figcaption>
     </figure>
   );
 }
 
-/** Fig. 4: the merge drawn as branches, keyed to the commands that act on them. */
+/** Fig. 3: the merge drawn as branches, keyed to the commands that act on them. */
 const STEPS = [
   { cmd: "git checkout main", x: "8%", y: "73.3%" },
   { cmd: "git merge --no-ff feat/token-rotation", x: "83.75%", y: "73.3%" },
@@ -179,7 +179,7 @@ export function Merge() {
         ))}
       </ol>
       <p className="foot">Nothing runs until you confirm. Lirah never pushes or pulls.</p>
-      <figcaption className="cap"><span><b>Fig. 4</b> · Auto merge into main</span><span>demo data</span></figcaption>
+      <figcaption className="cap"><span><b>Fig. 3</b> · Auto merge into main</span><span>demo data</span></figcaption>
     </figure>
   );
 }
