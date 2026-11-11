@@ -21,12 +21,12 @@ Lirah does not wrap or replace the agent. It is the workspace around the real CL
 ## Operating Context
 
 - Source of product truth: `/home/enrique/projects/nevo-terminal/PRODUCT.md` (feature list) and `/home/enrique/projects/nevo-terminal/DESIGN.md` (the app's visual system). Site copy must match the current app. Do not advertise features the app no longer has (Element Picker, orchestration workflows, the Compact Project skeleton button, replaced in v0.4.8 by the compaction hook) or name ones it has renamed (file groups are now context sets).
-- Built with Tauri 2, React 19 and xterm.js. Linux is the primary platform (sandbox is Linux-only); macOS and Windows builds exist without the sandbox.
+- Built with Tauri 2, React 19 and xterm.js. Linux and Windows are fully supported (the sandbox is Linux-only). macOS is coming very soon: releases still carry a `.dmg`, but the site does not offer it.
 - Free and open source: https://github.com/emdmed/lirah
 
 ## Capabilities and Constraints
 
-- Downloads: GitHub releases ship installers for every platform (as of v0.4.3: Linux `.AppImage`, `.deb` and `.rpm` for x86_64 only, and `.dmg` for x64 and aarch64; v0.4.3 ships no Windows installer and no `checksums.sha256`). The primary action detects the visitor's OS. On Linux it is the install script (`curl -fsSL https://raw.githubusercontent.com/emdmed/lirah/main/scripts/install.sh | bash`, from nevo-terminal `scripts/install.sh`), which picks .deb, .rpm or AppImage by distro and builds from source on Arch, where the AppImage has EGL issues. On macOS and Windows it offers the latest release's installer. On a phone it sends the link to the visitor's desktop. Other formats and build-from-source are secondary.
+- Downloads: GitHub releases ship the installers (as of v0.25.2: Linux `.AppImage`, `.deb` and `.rpm` for x86_64, Windows `.exe` and `.msi` for x64, and `checksums.sha256`). The primary action detects the visitor's OS. On Linux it is the install script (`curl -fsSL https://raw.githubusercontent.com/emdmed/lirah/main/scripts/install.sh | bash`, from nevo-terminal `scripts/install.sh`), which picks .deb, .rpm or AppImage by distro and builds from source on Arch, where the AppImage has EGL issues. On Windows it offers the latest release's installer. On macOS it says "coming very soon" and links to the repo. On a phone it sends the link to the visitor's desktop. Other formats and build-from-source are secondary.
 - Next.js 16 app router, Tailwind 4. Blog at `app/blog` uses MDX and shares `app/globals.css`.
 - Domain: https://lirah.dev (metadataBase).
 

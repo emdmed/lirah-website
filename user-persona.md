@@ -26,7 +26,7 @@ From GitHub, a blog post or a link another developer shared. They are evaluating
 - Is it a wrapper around the agent? No: the real CLI runs in a real PTY.
 - Does it need an account, or phone home? No account, no telemetry in the app.
 - What does it cost? Free, MIT.
-- Does it run on my OS? Linux first; macOS and Windows without the sandbox.
+- Does it run on my OS? Linux and Windows, fully supported; the sandbox is Linux only. macOS is coming very soon.
 - What can the agent touch? The sandbox's boundaries, stated plainly.
 
 Answer these near the top, in that plain a form.

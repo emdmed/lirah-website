@@ -44,8 +44,8 @@ Each territory is a claim, the feature behind it, and the proof we can show. Don
 
 State these in copy; the reader trusts a tool that names them.
 
-- Linux is the primary platform. The sandbox is Linux only; macOS and Windows run without it.
-- Linux installers are x86_64 only. macOS has x64 and aarch64; Windows has x64.
+- Linux and Windows are fully supported. The sandbox is Linux only; Windows runs without it. macOS is coming very soon and the site does not offer its installer yet.
+- Linux installers are x86_64 only; Windows has x64.
 - Jobs and auto-pilot run auto-approving agents. The boundary is the worktree and the sandbox, and review happens before the merge.
 - A finished chunk is a commit to review, not correct software.
 

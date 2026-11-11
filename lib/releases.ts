@@ -31,7 +31,7 @@ function classify(name: string): Omit<Installer, "name" | "url" | "size"> | null
   if (name.endsWith(".AppImage")) return { os: "linux", format: "AppImage", arch };
   if (name.endsWith(".deb")) return { os: "linux", format: "deb", arch };
   if (name.endsWith(".rpm")) return { os: "linux", format: "rpm", arch };
-  if (name.endsWith(".dmg")) return { os: "macos", format: "dmg", arch: arch === "arm64" ? "Apple silicon" : "Intel" };
+  // The release still ships a .dmg, but macOS is not supported yet, so the site does not offer it.
   if (name.endsWith("-setup.exe")) return { os: "windows", format: "exe", arch };
   if (name.endsWith(".msi")) return { os: "windows", format: "msi", arch };
   return null;

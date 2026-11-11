@@ -1,18 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { INSTALL_COMMAND, OS_NAME, primaryInstaller, type Release } from "@/lib/releases";
+import { INSTALL_COMMAND, OS_NAME, REPO_URL, primaryInstaller, type Release } from "@/lib/releases";
 import { useDetectedOS, useIsPhone } from "./useDetectedOS";
 import { warp } from "./orreryWarp";
 import { BODIES, CX, CY, FLAT, FLAT_RANGE, ORBITS, PERIOD, SANDBOX, YAW_RANGE, at, f, planeTransform, pose } from "./orreryGeom";
 
-// Linux goes to the install script below; macOS and Windows get the latest installer.
+// Linux goes to the install script below; Windows gets the latest installer; macOS is not out yet.
 // A phone has nothing to install: it sends the link to the visitor's desktop instead.
 export function PlateDownload({ release, anchor }: { release: Release | null; anchor?: boolean }) {
   const os = useDetectedOS();
   const phone = useIsPhone();
   const inst = primaryInstaller(release, os);
   if (phone) return <SendLink />;
+  if (os === "macos") return <a className="btn line" href={REPO_URL}>macOS is coming very soon · follow on GitHub</a>;
   if (os === "linux" || !inst) {
     const href = anchor ? "#install" : (release?.url ?? "https://github.com/emdmed/lirah/releases/latest");
     return <a className="btn solid" href={href}>{anchor ? `Install on ${OS_NAME[os]} ↓` : `Download for ${OS_NAME[os]}`}</a>;

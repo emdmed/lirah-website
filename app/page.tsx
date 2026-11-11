@@ -102,7 +102,7 @@ export default async function Home() {
               </p>
               <div className="get">
                 <PlateDownload release={release} anchor />
-                <span>Linux, macOS and Windows · free and open source</span>
+                <span>Linux and Windows · macOS coming very soon · free and open source</span>
               </div>
             </div>
           </section>
@@ -270,7 +270,7 @@ export default async function Home() {
 
           <Chapter id="sandbox" no="05" name="Sandbox">
             <h2 id="sandbox-h">Know what the agent can touch.</h2>
-            <p className="lede">On Linux each tab can run in bubblewrap: the system read-only, the project writable, keys and git config locked. macOS and Windows run without it.</p>
+            <p className="lede">On Linux each tab can run in bubblewrap: the system read-only, the project writable, keys and git config locked. Windows runs without it.</p>
             <Rings />
             <div className="notes">
               <div><b>Network isolation</b>One more switch cuts the network.</div>
@@ -285,7 +285,7 @@ export default async function Home() {
               <div><h3>Does Lirah replace or wrap my agent?</h3><p>No. It starts the agent&apos;s own CLI in a real terminal, with your config, login and plan. Lirah never calls a model API itself: commit messages, plan chunks and the feature map go through your own CLI.</p></div>
               <div><h3>Does Lirah check the agent&apos;s work?</h3><p>No. A finished chunk is a commit, not proof it works. Lirah shows you the diff, the files and the cost; the judgement stays yours.</p></div>
               <div><h3>Can the agent drive Lirah?</h3><p>Through the <code>lirah</code> command, yes. Anything sensitive (sandbox, hooks, running or applying jobs) asks you in the app first, and you can switch agent control off.</p></div>
-              <div><h3>Which agents and platforms does it support?</h3><p>Claude Code and opencode run in tabs; Codex, Gemini, Cursor and Amp run as background jobs. Any other CLI that reports its state over OSC 7501 gets the same tab status. Linux first; macOS and Windows work without the sandbox.</p></div>
+              <div><h3>Which agents and platforms does it support?</h3><p>Claude Code and opencode run in tabs; Codex, Gemini, Cursor and Amp run as background jobs. Any other CLI that reports its state over OSC 7501 gets the same tab status. Linux and Windows are fully supported; the sandbox is Linux only. macOS is coming very soon.</p></div>
               <div><h3>Does anything leave my machine?</h3><p>Lirah itself sends an update check to GitHub&apos;s API, with none of your data, and asks <code>gh</code> for a plan&apos;s pull request if you have it installed. No telemetry, and Lirah never pushes or pulls.</p></div>
               <div><h3>Is it free?</h3><p>Yes. MIT licensed, no account, source at <a href={REPO_URL}>github.com/emdmed/lirah</a>. You still pay for your agent plan.</p></div>
               <div><h3>What happens if I stop using Lirah?</h3><p>Nothing to migrate. The agents are the same CLIs, and every commit is ordinary local git.</p></div>
@@ -301,7 +301,7 @@ export default async function Home() {
               <CopyCommand />
               <p className="formats">
                 <span>Linux x86_64: .AppImage · .deb · .rpm</span>
-                <span>macOS: .dmg for Intel and Apple silicon</span>
+                <span>macOS: coming very soon</span>
                 <span>Windows x64: .exe · .msi</span>
                 <a href={REPO_URL}>Build from source</a>
               </p>
