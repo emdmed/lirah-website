@@ -43,6 +43,17 @@ export function Figure({ name, children }: { name: string; children?: React.Reac
 /** The answer strip: the reader's questions, one line each, before the sections. */
 export const Answers = ({ children }: { children: React.ReactNode }) => <dl className="answers" aria-label="In short">{children}</dl>;
 
+/** One commit set as a record inside a Listing: hash, subject, then its trailers as key and value.
+    Children are a markdown list, one item per `Decision:` line. */
+export const Commit = ({ sha, scope, subject, chunk, children }: { sha: string; scope: string; subject: string; chunk: string; children?: React.ReactNode }) => (
+  <div className="commit">
+    <span className="sha">{sha}</span>
+    <div className="subject"><span>{scope}</span>{subject}</div>
+    {children}
+    <div className="trailer"><span>Plan-Chunk:</span>{chunk}</div>
+  </div>
+);
+
 /** A code listing labelled like a figure: "LISTING n · label" over the block. */
 export const Listing = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <figure className="listing">

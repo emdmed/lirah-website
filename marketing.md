@@ -26,9 +26,9 @@ Each territory is a claim, the feature behind it, and the proof we can show. Don
 | Territory | Core message | Feature | Proof on hand |
 |---|---|---|---|
 | Control | You decide what agents see and what they do. | Context chips with EDIT/READ/COPY intent, detail levels (full, signatures, skeleton), context sets, context hook | Token counts per detail level in the app; evals (below) |
-| Structure | Break ambitious work into tasks you can track. | Plans split into chunks, task backlog, auto-pilot | Gap: needs a recording of a plan run end to end |
+| Structure | Break ambitious work into tasks you can track. | Plans split into chunks, task backlog, auto-pilot | One real plan run, written up in `/blog/plan-lifecycle` (5 chunks, auto-pilot, 186 s). Still no recording |
 | Oversight | Review the work before it lands. | Commit review dialog, auto merge that shows its git commands first and rolls back on conflict or failed checks, chunk review and roll back | Gap: needs a recording of a review and a rollback |
-| Traceability | Know what was done, by which agent, and where it landed. | One commit per chunk with a `Plan-Chunk` trailer, `Decision:` lines carried forward, jobs in their own worktrees, overlap warnings | Gap: needs a real `git log` from a finished plan |
+| Traceability | Know what was done, by which agent, and where it landed. | One commit per chunk with a `Plan-Chunk` trailer, `Decision:` lines carried forward, jobs in their own worktrees, overlap warnings | Real commits with trailers (first 2 of 5 shown), and the work log's files per chunk, in `/blog/plan-lifecycle` (app commits `cd01483..b408c59`) |
 | Boundaries | Clear lines on what an agent can and cannot touch. | bubblewrap sandbox per tab (read-only root and sensitive dotfiles, private `/tmp`), optional network isolation, agent control asks first | The sandbox's mount list; Linux only, say so |
 | Economics | Measure context and cost per project. | Token dashboard (projects, history, spend by model, CSV/JSON export), live estimate in the prompt pane | Evals (below). No other savings figure exists |
 | Independence | Keep the tools and workflows you already trust. | The real CLI agent in a real PTY, your login and config, no account, no telemetry in the app, MIT | The repo |

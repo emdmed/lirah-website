@@ -1,0 +1,125 @@
+---
+title: "Plans You Can Trace to Commits: Four Choices Behind Lirah's Plan Lifecycle"
+date: "2026-11-11"
+description: "When a coding agent builds a feature, the code arrives fast and its history is thin. Four choices we made in Lirah so the history is in git: one commit per step, decisions in commit messages, a work log, and an auto-pilot that stops. Shown on one real feature from Lirah's own repo."
+---
+
+# Plans You Can Trace to Commits
+
+Lirah is a desktop app for engineers who use CLI coding agents such as Claude Code. The agent runs in a normal terminal inside Lirah, and Lirah adds the parts around it: a task list, plans, git and a log of what the agent did.
+
+When an agent writes a feature for you, the code arrives fast and the history of how it got there is thin. Our focus is that history: what was planned, what was decided, which commit did it and which files changed. This post explains four choices we made for it, each shown on one real feature we built in Lirah's own repo.
+
+<Answers>
+<dt>What problem is this about?</dt>
+<dd>After an agent builds a feature, you should be able to say what was planned, what it decided and which commit did what.</dd>
+<dt>How does Lirah handle it?</dt>
+<dd>It splits a written plan into small steps. The agent makes one commit per step, and writes its decisions into the commit message.</dd>
+<dt>Where does the record live?</dt>
+<dd>In your git history, plus a local log of every prompt and the files it changed.</dd>
+</Answers>
+
+## How a plan works
+
+Four terms, used throughout:
+
+- A **plan** is a Markdown file that describes a feature: the goal, the approach, the files involved. You write it, or the agent writes it and you edit it.
+- A **chunk** is one step of that plan, small enough to review as a single diff. Lirah asks an agent to split the plan into chunks. Each chunk has a goal, the files it expects to touch and a "done when" line.
+- **Auto-pilot** sends the chunks to the agent's terminal one after another, each as its own prompt, and waits for a commit before sending the next.
+- **Review** happens on a chunk's diff. You can send notes back to the agent, which fixes the chunk, or roll the chunk back.
+
+You can also send chunks by hand and review each before the next. A plan can start from an item in Lirah's task list or from a plan file you already have. Either way, the path is the same:
+
+<Figure name="lifecycle">The six steps of a plan, with what the example below left at each. **Filled squares left a record.** The example started from a plan file, so it has no task, and its review left no notes.</Figure>
+
+## The example
+
+The feature is small. Lirah used to send a plan's prompts to whichever terminal tab was open, so two plans could end up talking to the same agent. We wanted each plan to open and keep its own tab.
+
+We wrote that as a plan file. Lirah split it into five chunks: the data model, the logic that opens the tab, the remaining places that send prompts, a button, and the docs. Auto-pilot ran all five on a new git branch, on 2026-11-11. Lirah's id for this plan is `pchunxi`, which appears in the listings and figures below.
+
+## 1. One commit per chunk, named in a trailer
+
+A chunk is the unit you review and the unit you undo, so it gets exactly one commit. The agent makes that commit itself, with a message Lirah gives it. The message ends in a git trailer, a `key: value` line, that names the plan and the chunk: `Plan-Chunk: <plan id>/<chunk id>`. We put the link in git because git is the record you already trust and already back up. Lirah's own plan data can be lost and the history still says which commit belongs to which chunk.
+
+Here are the first two of the five commits from the example. The subjects name Lirah's own functions, which you can skip. Look at the shape: a chunk number in the subject and a `Plan-Chunk` line at the end. The text is the commit message as git stores it, set in columns here so it's easier to read. The `Decision:` lines are covered in choice 2.
+
+<Listing label="git log · first 2 of 5 commits">
+
+<Commit sha="cd01483" scope="plan(plans-give-each-plan-its-own):" subject="1 — Model: plan.tabId and planTabId preference" chunk="pchunxi/c06lxb0">
+
+- plan.tabId is set only in createPlan (PlansContext.jsx); replaceSource leaves it alone, so a re-chunked plan keeps its tab
+
+</Commit>
+
+<Commit sha="dcadd3a" scope="plan(plans-give-each-plan-its-own):" subject="2 — ensurePlanTab and implement/autopilot/resume use it" chunk="pchunxi/cilg1k7">
+
+- ensurePlanTab saves plan.tabId right after addTab, before waiting for Claude, so a timed-out tab is still reused next send
+- usePlanRunActions no longer takes activeTabId; it takes switchTab and updatePlan, and confirmSend(plan, chunk, tabId) switches to the plan's tab before checking it
+- auto-pilot runs confirmSend on the plan's tab after ensurePlanTab (busy / no-agent checks still apply to a reused tab)
+
+</Commit>
+
+</Listing>
+
+`git log --grep='Plan-Chunk: pchunxi'` finds all five. Rolling back a chunk in Lirah runs `git revert` on its commits, so it undoes that chunk and nothing else.
+
+Here is the whole run on one time scale:
+
+<Figure name="run">Each bar is one chunk, from the prompt being sent to its commit. **Five chunks took 186 seconds** and ended in five commits.</Figure>
+
+## 2. Decisions go in the commit message
+
+Auto-pilot has an option to clear the agent's context between chunks, and the example ran with it on. Each chunk then starts with an empty conversation that holds only its own prompt.
+
+We added it for two reasons. A long, detailed plan can run to the end without filling the context window, because no chunk inherits the conversation of the ones before it. And a model works better with a small context: it has less to read past before it reaches the instructions for the chunk in front of it.
+
+The cost is that the agent working on chunk 3 never saw chunks 1 and 2 being written, and doesn't know what was decided there. So each chunk's prompt asks the agent to record the choices a later chunk needs as `Decision:` lines in its commit, and Lirah reads them back into the next prompt.
+
+One from the example, in plain words: chunk 2 decided to save the new tab's id before the agent in it had started, so that a slow start doesn't open a second tab. Chunk 3 began with that sentence in its prompt.
+
+We chose commit messages over a notes file, or over keeping one long conversation, for two reasons. The decisions sit next to the diff that made them, and a reviewer reads them in `git log` without opening Lirah.
+
+<Figure name="carry">Each prompt carries every decision written before it. **The prompt for chunk 5 carried 7 decisions from 4 commits**, to an agent that had seen none of them being made.</Figure>
+
+You can edit a decision in Lirah before the next chunk runs.
+
+## 3. A work log that only records
+
+Separately from plans, Lirah keeps a work log. It has one entry per prompt you or auto-pilot send to Claude Code, in any repo: when it started and ended, the branch, and the files the agent changed while answering it. It is one JSON-lines file per month under `~/.lirah/worklog`, and Lirah only ever appends to it. Two Lirah windows can write at once without overwriting each other, and a crash costs at most the last line.
+
+The log doesn't judge anything. But each chunk lists the files it expects to touch, so comparing the two shows where the agent left the plan.
+
+<Figure name="drift">Three chunks changed exactly the files the plan listed. **Chunks 3 and 5 each changed one file the plan didn't list**, and chunk 5 left two listed ones alone.</Figure>
+
+Both cases have a `Decision:` line that explains them. Chunk 3 edited one extra file because it needed a function that file didn't yet share. Chunk 5 was the docs chunk: the plan expected the outdated sentence in two docs files, and the agent found it in the README.
+
+## 4. Auto-pilot stops when it isn't sure
+
+Auto-pilot runs the agent with its permission prompts switched off, so nobody approves each edit. We made it stop easily in exchange. It pauses when the agent asks a question, when a permission prompt appears anyway, when a chunk ends without a commit, or when Lirah stops hearing from the agent. Every chunk prompt ends with this:
+
+<Listing label="chunk prompt · last lines">
+
+```
+Nobody is watching this run. If you need a decision from the user before you can finish,
+don't guess: stop and end your reply with a line
+PLAN-STATUS: needs-input — <your question>
+If you can't proceed (a failure you can't fix, something missing), end your reply with a line
+PLAN-STATUS: blocked — <reason>
+```
+
+</Listing>
+
+The example run didn't pause. No chunk got review notes and none was rolled back, so this post doesn't show the review side. The plan merged at 08:39 the same morning, and the commits are on `main` in [the repo](https://github.com/emdmed/lirah).
+
+## Limits
+
+- **Closing the window ends the agents.** They don't keep running in a background process.
+- **No pull requests.** Lirah doesn't open them or feed CI failures back to the agent.
+- **The work log is Claude Code only.** It relies on Claude Code's hooks.
+- **A finished chunk is a commit to review.** The 186 seconds are the agent's time. Review time is yours and isn't in that number.
+- **This is one run.** It is a small five-chunk plan in a repo we know well.
+
+## Sources
+
+Lirah v0.25.2, plan `pchunxi`, commits `cd01483..b408c59` on `main`. Chunk times come from the plan's `plan.json`, file lists from `~/.lirah/worklog/2026-11.jsonl`, and decision counts from the five stored chunk prompts. Written by Enrique MD.
