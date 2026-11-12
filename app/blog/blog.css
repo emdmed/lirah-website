@@ -82,6 +82,7 @@
   & .commit .trailer span { color: var(--gold); }
   & .post .listing + h2, & .post pre + h2, & .post .cal-fig + h2 { margin-top: 1.4em; }
   & .post > h1:first-child { display: none; } /* the title is already the plate's */
+  & .post > h1:first-child + p { margin-bottom: 1.4em; max-width: 52ch; font: 300 clamp(22px, 2.1vw, 27px)/1.4 var(--f-display); color: var(--ink-hi); text-wrap: balance; } /* the opening paragraph is the lede */
   & .post p, & .post ul, & .post ol, & .post pre, & .post blockquote { margin: 0 0 1.25em; }
   & .post h2 { margin: 2em 0 .7em; padding-top: 24px; border-top: 1px solid var(--rule); font: 300 clamp(28px, 2.6vw, 34px)/1.12 var(--f-display); letter-spacing: -.01em; color: var(--ink-hi); }
   & .post h3 { margin: 2em 0 .6em; font: italic 300 24px/1.2 var(--f-display); color: var(--ink-hi); }

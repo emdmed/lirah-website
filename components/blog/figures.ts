@@ -83,7 +83,7 @@ export const figures: Record<string, (c: Kit) => Fig> = {
       ['MERGE', 'main', '08:39', 'merge'],
     ];
     const x = (i: number) => 48 + i * 98;
-    let g = K.fig(1, 'plan lifecycle · plan pchunxi · 2026-11-11');
+    let g = K.fig(2, 'plan lifecycle · plan pchunxi · 2026-11-11');
     g += K.line(x(0), 62, x(5), 62, 'e1');
     steps.forEach(([name, l1, l2, node], i) => {
       g += K.t(x(i), 46, name, node === 'todo' ? 'mu' : 'fg', 'middle', 0.5) + K.node(x(i), 62, node);
@@ -97,7 +97,7 @@ export const figures: Record<string, (c: Kit) => Fig> = {
   run: ({ K }) => {
     const R = 560, X = K.scale(L, R, 0, 190);
     const chunks: [number, number, string][] = [[0.6, 24.9, 'cd01483'], [26.8, 81.5, 'dcadd3a'], [83.4, 124.9, '18f8ae9'], [126.7, 163.3, 'bace1ed'], [165.1, 186.3, 'b408c59']];
-    let g = K.fig(2, 'auto-pilot run · 5 chunks · 00:30:21 to 00:33:27');
+    let g = K.fig(1, 'auto-pilot run · 5 chunks · 00:30:21 to 00:33:27');
     g += K.threshold(X(186.3), 32, 76, 'DONE · 186 s', 'end', 'ok');
     g += K.t(88, 72, 'CHUNKS', 'mu', 'end') + K.t(88, 94, 'COMMIT', 'mu', 'end');
     chunks.forEach(([a, b, sha]) => {
