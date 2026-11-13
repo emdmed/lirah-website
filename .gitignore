@@ -45,3 +45,7 @@ next-env.d.ts
 
 # local Claude Code skills/config
 /.claude/
+
+# Lirah plan state
+/plans/
+/lirah/

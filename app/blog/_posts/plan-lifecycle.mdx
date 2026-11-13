@@ -31,6 +31,40 @@ Also, each chunk is committed separately, so we have traceability and we can rev
 
 <Figure name="run">One real plan from Lirah's own repo. Each bar is one chunk, from the prompt being sent to its commit. **Five chunks took 186 seconds** and ended in five commits.</Figure>
 
+## How I make a plan now
+
+I start in a normal Claude Code tab, ask for the change, and end the prompt with "Let's make a Lirah plan for this". The agent loads the Lirah skill and opens planning mode in that same tab.
+
+<Clip src="/blog/plan-lifecycle/1-ask.mp4">The prompt that starts the plan. **Planning mode opens next to the agent**, with the draft as its first step. Played at 2× speed.</Clip>
+
+### Draft
+
+The planning pane lists the parts a plan can have: architecture, UI screens, backend, database, QA, and the plan itself. The agent only writes the ones the change needs.
+
+For this one it read `DESIGN.md`, `PRODUCT.md` and my last design critique, and wrote `ui.md`, `motion.md`, `qa.md` and `plan.md`.
+
+<Clip src="/blog/plan-lifecycle/2-draft.mp4">The agent reads the design docs and writes the draft. **Four parts were written**; the ones this change didn't need stayed empty. Played at 4× speed.</Clip>
+
+Then I read the drafts myself before approving anything.
+
+<Clip src="/blog/plan-lifecycle/3-read.mp4">Reading the drafted files one by one, without leaving Lirah.</Clip>
+
+### Split
+
+When I approve the draft, Lirah joins the files and splits them into chunks. This one came out as 11.
+
+Each chunk has a goal, what it does, the files it touches and how to check it. If something is off I write what should change, the agent edits the draft's files, and I re-chunk.
+
+<Clip src="/blog/plan-lifecycle/4-split.mp4">The approved draft is split into chunks. **11 chunks, each one a commit to be.** Played at 2× speed.</Clip>
+
+### Run
+
+Approving the plan sends it to the plans pane as `pending`. From there I run it on auto-pilot: it opens the plan's own terminal in a worktree, sends one chunk at a time with the context cleared between them, and commits each one before the next.
+
+I get notified when it finishes, needs me, or hits an error.
+
+<Clip src="/blog/plan-lifecycle/5-run.mp4">The plan goes to the plans pane and starts on auto-pilot. **Chunk 1's prompt ends with how to commit it**, including the `Plan-Chunk:` trailer and the `Decision:` lines.</Clip>
+
 ## A lifecycle for each plan
 
 So now each plan has a lifecycle: `planned`, `building`, `implemented`, `merged`.

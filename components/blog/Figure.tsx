@@ -54,6 +54,14 @@ export const Commit = ({ sha, scope, subject, chunk, children }: { sha: string; 
   </div>
 );
 
+/** A screen recording from public/blog/<post>/, framed like a figure. No autoplay; the reader starts it. */
+export const Clip = ({ src, children }: { src: string; children?: React.ReactNode }) => (
+  <figure className="cal-fig clip">
+    <video src={src} controls muted playsInline preload="metadata" />
+    {children && <figcaption>{children}</figcaption>}
+  </figure>
+);
+
 /** A code listing labelled like a figure: "LISTING n · label" over the block. */
 export const Listing = ({ label, children }: { label: string; children: React.ReactNode }) => (
   <figure className="listing">

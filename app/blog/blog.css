@@ -110,6 +110,7 @@
   & .cal-fig { margin: 2.2em 0; padding: 20px 22px 16px; background: var(--slate); border: 1px solid var(--rule); }
   & .cal-scroll { overflow-x: auto; scrollbar-color: var(--faint) transparent; }
   & .cal-fig svg { display: block; width: 100%; height: auto; }
+  & .clip video { display: block; width: 100%; height: auto; background: var(--deep); }
   & .cal-fig figcaption { display: block; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rule); font: 13px/1.55 var(--f-mono); color: var(--muted); text-wrap: pretty; }
   & .cal-fig figcaption strong { font-weight: 500; color: var(--ink-hi); }
 
